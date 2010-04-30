@@ -1,0 +1,303 @@
+<html>
+<head>
+<title>metro mobile</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<script type="text/javascript" language="Javascript">
+// global variable for the minute integers
+var mint;
+
+
+// post processing to update the form
+
+
+function presubmit() {
+  var myDate = new Date();
+  var day;
+  var month;
+  var year;
+  var dwkday;
+  // check the addresses then set them
+  if (document.FormName.origcust.value == "") {
+    if (document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank') {
+      alert('please select or enter a starting address');
+      return false;
+    } else {
+      document.FormName.Orig.value = document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value;
+    }
+  } else {
+    document.FormName.Orig.value = document.FormName.origcust.value;
+  }
+
+  if (document.FormName.destcust.value == "") {
+    if (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank') {
+      alert('please select or enter an ending address');
+      return false;
+    } else {
+      document.FormName.Dest.value = document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value;
+    }
+  } else {
+
+    document.FormName.Dest.value = document.FormName.destcust.value;
+  }
+  //find the next calendar day that matches the requested date
+  switch (document.FormName.daypull.value) {
+  case 'wk':
+    dwkday = 1;
+    break;
+  case 'sat':
+    dwkday = 6;
+    break;
+  case 'sun':
+    dwkday = 0;
+    break;
+  }
+  while (myDate.getDay() != dwkday) {
+    myDate.setDate(myDate.getDate() + 1);
+  }
+  // format it for metro
+  day = myDate.getDate();
+  month = myDate.getMonth() + 1;
+  year = myDate.getFullYear() - 2000;
+  document.FormName.Date.value = month + '/' + day + '/' + year;
+  //split the time up
+  var mySplitResult = document.FormName.fulltime.value.split(" ");
+  document.FormName.hour_time.value = mySplitResult[0];
+  document.FormName.minute_time.value = mySplitResult[1];
+  document.FormName.ampm_time.value = mySplitResult[2];
+  // handle the accessibility pulldown
+  if (document.FormName.atrpull.value == "Y") {
+    document.FormName.atr.checked = true;
+  } else {
+    document.FormName.atr.checked = false;
+  }
+  // submit the form
+  document.Formname.submit();
+  return true;
+}
+
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+/* This script is adapted from a script available at
+The JavaScript Source :: http://javascript.internet.com
+Created by: Francis Cocharrua :: http://scripts.franciscocharrua.com/ */
+
+function Select_Value_Set(SelectName, Value) {
+  eval('SelectObject = document.' + SelectName + ';');
+  for (index = 0; index < SelectObject.length; index++) {
+    if (SelectObject[index].value == Value) {
+      SelectObject.selectedIndex = index;
+    }
+  }
+}
+
+
+// the page loading functions
+
+
+function updatepage() {
+  var now = new Date();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+  var day = now.getDay();
+  var hint = 60 / mint;
+  var arrdep;
+
+  //figure out what time it is and set the time pull down correctly
+  arrdep = readCookie('arrdep');
+  if (arrdep == null) {
+    arrdep = 'A';
+  }
+
+  if (arrdep == 'A') {
+    document.FormName.fulltime.selectedIndex = hour * hint + Math.ceil(minute / mint);
+  } else {
+    document.FormName.fulltime.selectedIndex = hour * hint + Math.floor(minute / mint);
+  }
+
+  //figure out what day of the week it is and set the day pull down correctly
+  switch (day) {
+  case 0:
+    document.FormName.daypull.selectedIndex = 2;
+    break;
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+    document.FormName.daypull.selectedIndex = 0;
+    break;
+  case 6:
+    document.FormName.daypull.selectedIndex = 1;
+    break;
+  }
+
+  // set the preferences
+  Select_Value_Set('FormName.Arr', readCookie('arrdep'));
+  Select_Value_Set('FormName.Walk', readCookie('walk'));
+  Select_Value_Set('FormName.Min', readCookie('mimp'));
+  Select_Value_Set('FormName.atrpull', readCookie('atr'));
+
+  setTimeout("window.scroll(0,1)", 5);
+
+  return true;
+}
+
+
+// Show hide function for extended options 
+
+
+function ShowHide(divId) {
+  if (document.getElementById(divId).style.display == 'none') {
+    document.getElementById(divId).style.display = 'block';
+  }
+  else {
+    document.getElementById(divId).style.display = 'none';
+  }
+}
+
+function showadditional() {
+  ShowHide('optblock');
+  ShowHide('showblock');
+  setTimeout("window.scroll(0,150)", 5);
+}
+
+function hideadditional() {
+  ShowHide('optblock');
+  ShowHide('showblock');
+  setTimeout("window.scroll(0,150)", 5);
+}
+
+// for formating integers with leading zeros
+function FormatInteger(num, length) {
+  return (num / Math.pow(10, length)).toFixed(length).substr(2);
+}
+</script>
+<link href="tripplanner.css" rel="stylesheet" type="text/css" />
+<link rel="apple-touch-icon" href="logo.png" />
+</head><body onLoad="updatepage();">
+
+<div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile</div>
+<div style="margin: 0 10px 0 8px;">
+<form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Post" onsubmit="return presubmit();">
+<input type="hidden" name="action" value="entry">
+<input type="hidden" name="resptype" value="U">
+<input type="hidden" name="Time" value="">
+<input type="hidden" name="destx" value="">
+<input type="hidden" name="desty" value="">
+<input type="hidden" name="destloc" value="">
+<input type="hidden" name="destacode" value="">
+<input type="hidden" name="destlocid" value="0">
+<input type="hidden" name="origx" value="">
+<input type="hidden" name="origy" value="">
+<input type="hidden" name="origloc" value="">
+<input type="hidden" name="origacode" value="">
+<input type="hidden" name="origlocid" value="0">
+<input type="hidden" name="Date">
+<input type="hidden" name="hour_time">
+<input type="hidden" name="minute_time">
+<input type="hidden" name="ampm_time">
+<input type="hidden" name="Orig" value="">
+<input type="hidden" name="Dest" value="">
+<input type="checkbox" style="display: none;" value="Y" name="Atr" />
+
+
+<div style="float: left;">start:</div><div style="float: right;">donate</div><br />
+<select name="origpull" size="1">
+<option value="blank"></option>
+<option value="6th and Yesler">Home (6th and Yesler)</option>
+<option value="1201 Western Ave">Work (1201 Western Ave)</option>
+</select> <br />
+<strong>or</strong> enter a starting address: <br /><input name="origcust" size="25" maxlength="80" /><br />
+
+end:<br />
+<select name="destpull" size="1">
+<option value="blank"></option>
+<option value="6th and Yesler">Home (6th and Yesler)</option>
+<option value="1201 Western Ave">Work (1201 Western Ave)</option>
+</select><br />
+<strong>or</strong> enter an ending address: <br /><input name="destcust" size="25" maxlength="80" /><br />
+
+time:<br />
+<select name="Arr" size="1">
+<option value="A" selected="selected">arrive</option>
+<option value="D">depart</option>
+</select><select name="daypull" size="1">
+<option value="wk">weekday</option>
+<option value="sat">saturday</option>
+<option value="sun">sunday</option>
+<option value="sun">holiday</option>
+</select><select name="fulltime" size="1">
+<script type="text/javascript" language="Javascript">
+// lets fill out the form with the times
+var m;
+var h;
+var merid;
+var ampm = new Array();
+ampm[0] = "am";
+ampm[1] = "pm";
+
+
+if (readCookie('minterval') == null) {
+  mint = 15;
+  } else{
+  mint = Number(readCookie('minterval'));
+}
+
+for (merid = 0; merid < 2; merid = merid + 1) {
+  for (h = 0; h < 12; h = h + 1) {
+    for (m = 0; m < 60; m = m + mint) {
+      if (h == 0) {
+        document.write('<option value="12 ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + FormatInteger(m, 2) + ampm[merid] + '</option>');
+      } else {
+        document.write('<option value="' + FormatInteger(h, 2) + ' ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">' + h + ':' + FormatInteger(m, 2) + ampm[merid] + '</option>');
+      }
+    }
+  }
+}
+</script>
+</select>
+<br /><br /><input type="submit"  name="Submit" value="plan trip">
+
+
+<br /><br />
+
+<div id="showblock" style="DISPLAY: block;"><div style="float: left;"><a onclick ="showadditional();" href="javascript:;" >additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr /></div>
+<div id="optblock" style="DISPLAY: none;">
+<div style="float: left;"><a onclick ="hideadditional();" href="javascript:;" >hide additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr />
+
+maximum walking:<br />
+<select name="Walk">
+<option value=".25"> 0.25 mi</option>
+<option value=".50" selected="selected"> 0.50 mi</option>
+<option value=".75"> 0.75 mi</option>
+<option value="1.0"> 1.00 mi</option>
+</select>
+
+<br />most important:<br /><select name="Min">
+<option value="T" name="Min" selected="selected">fastest way</option>
+<option value="X" name="Min">fewest transfers</option>
+<option value="W" name="Min">minimal walking</option>
+</select>
+
+<br />accessable trip:<br /><select name="atrpull">
+<option value="N" selected="selected">no</option>
+<option value="Y">yes</option>
+</select></div>
+</form>
+<div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
+</div>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>metro mobile: preferences</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<script type="text/javascript" language="Javascript">
+var curload='menu';
+function createCookie(name, value) {
+  document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
+}
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function addaddress() {
+var addloc;
+addloc=Number(readCookie('numaddr'));
+alert(addloc);
+if(addloc==null){
+addloc=0;
+} else {
+addloc=addloc+1;
+}
+alert(addloc);
+createCookie('numaddr',addloc);
+createCookie('addr'+addloc,document.add.address.value);
+createCookie('desc'+addloc,document.add.description.value);
+
+alert('done');
+ return;
+}
+
+
+function saveprefs() {
+  createCookie('arrdep', document.prefs.Arr.value);
+  createCookie('walk', document.prefs.Walk.value);
+  createCookie('mimp', document.prefs.Min.value);
+  createCookie('atr', document.prefs.atrpull.value);
+  createCookie('minterval', document.prefs.minterval.value);
+  document.getElementById('changesaved').style.display = 'block';
+  document.getElementById('notsaved').style.display = 'none';
+  return true;
+}
+
+function hidesave(name) {
+  document.getElementById('changesaved').style.display = 'none';
+  document.getElementById('notsaved').style.display = 'block';
+  return true;
+}
+/* This script is adapted from a script available at
+The JavaScript Source :: http://javascript.internet.com
+Created by: Francis Cocharrua :: http://scripts.franciscocharrua.com/ */
+function Select_Value_Set(SelectName, Value) {
+  eval('SelectObject = document.' + SelectName + ';');
+  for (index = 0; index < SelectObject.length; index++) {
+    if (SelectObject[index].value == Value) {
+      SelectObject.selectedIndex = index;
+    }
+  }
+}
+
+function updatepage() {
+  Select_Value_Set('prefs.Arr', readCookie('arrdep'));
+  Select_Value_Set('prefs.Walk', readCookie('walk'));
+  Select_Value_Set('prefs.Min', readCookie('mimp'));
+  Select_Value_Set('prefs.atrpull', readCookie('atr'));
+  Select_Value_Set('prefs.minterval', readCookie('minterval'));
+  setTimeout("window.scroll(0,1)",5);
+
+}
+function switchpage(loadpage){
+document.getElementById(curload).style.display = 'none';
+document.getElementById(loadpage).style.display = 'block';
+curload=loadpage;
+
+switch (loadpage){
+case 'menu':
+document.title = "metro mobile: preferences";
+break;
+case 'tripdefaults':
+document.title = "metro mobile: trip defaults";
+break;
+case 'add':
+document.title = "metro mobile: add address";
+}
+  setTimeout("window.scroll(0,1)",5);
+}
+function ShowHide(divId) {
+  if (document.getElementById(divId).style.display == 'none') {
+    document.getElementById(divId).style.display = 'block';
+  }
+  else {
+    document.getElementById(divId).style.display = 'none';
+  }
+}
+
+</script>
+<link href="tripplanner.css" rel="stylesheet" type="text/css" />
+<link rel="apple-touch-icon" href="logo.png" />
+</head>
+<body onLoad="updatepage();">
+<!--#include virtual="preferences-menu.html" -->
+<!--#include virtual="preferences-add.html" -->
+<!--#include virtual="preferences-tripdefaults.html" -->
+<!--#include virtual="preferences-cookiecheck.html" -->
+</body>
+</html>
+
+
+
+

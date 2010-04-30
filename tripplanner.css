@@ -1,0 +1,27 @@
+body {
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+select{
+font-size: medium;
+}
+input{
+font-size: small;
+}
+submit{
+font-size: large;
+}
+button{
+font-size: large;
+}
+ul {
+margin: 0px;
+list-style-type:none;
+}
+li {
+padding-top: 5px;
+padding-bottom: 5px;
+margin-left: -20px;
+font-size: x-large;
+}

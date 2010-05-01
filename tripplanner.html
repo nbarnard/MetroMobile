@@ -16,10 +16,16 @@ function presubmit() {
   var month;
   var year;
   var dwkday;
+
+if((document.FormName.origcust.value == "")&&(document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank')&&(document.FormName.destcust.value == "") && (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank') ){
+ShowHide('needstartend');
+return false;
+}
+
   // check the addresses then set them
   if (document.FormName.origcust.value == "") {
     if (document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank') {
-      alert('please select or enter a starting address');
+ ShowHide('needstart');     
       return false;
     } else {
       document.FormName.Orig.value = document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value;
@@ -30,7 +36,7 @@ function presubmit() {
 
   if (document.FormName.destcust.value == "") {
     if (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank') {
-      alert('please select or enter an ending address');
+ShowHide('needend');
       return false;
     } else {
       document.FormName.Dest.value = document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value;
@@ -295,6 +301,16 @@ maximum walking:<br />
 </form>
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
+<div id="needstart" class="modalpage" style="display: none;"><div class="modalpopup">please select or enter a starting address<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('needstart');"></div></div>
+
+<div id="needstartend" class="modalpage" style="display: none;"><div class="modalpopup">
+please select or enter starting and ending addresses<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('needstartend');">
+</div></div> 
+
+<div id="needend" class="modalpage" style="display: none;"><div class="modalpopup">
+please select or enter an ending address<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('needend');">
+</div></div>
+
 </body>
 </html>
 

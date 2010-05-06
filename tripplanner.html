@@ -186,6 +186,36 @@ function hideadditional() {
 function FormatInteger(num, length) {
   return (num / Math.pow(10, length)).toFixed(length).substr(2);
 }
+
+function filltime(){
+// lets fill out the form with the times
+var m;
+var h;
+var merid;
+var ampm = new Array();
+ampm[0] = "am";
+ampm[1] = "pm";
+
+
+if (readCookie('minterval') == null) {
+  mint = 15;
+  } else{
+  mint = Number(readCookie('minterval'));
+}
+
+for (merid = 0; merid < 2; merid = merid + 1) {
+  for (h = 0; h < 12; h = h + 1) {
+    for (m = 0; m < 60; m = m + mint) {
+      if (h == 0) {
+        document.write('<option value="12 ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + FormatInteger(m, 2) + ampm[merid] + '</option>');
+      } else {
+        document.write('<option value="' + FormatInteger(h, 2) + ' ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">' + h + ':' + FormatInteger(m, 2) + ampm[merid] + '</option>');
+      }
+    }
+  }
+}
+}
+
 </script>
 <link href="tripplanner.css" rel="stylesheet" type="text/css" />
 <link rel="apple-touch-icon" href="logo.png" />
@@ -243,32 +273,7 @@ time:<br />
 <option value="sun">holiday</option>
 </select><select name="fulltime" size="1">
 <script type="text/javascript" language="Javascript">
-// lets fill out the form with the times
-var m;
-var h;
-var merid;
-var ampm = new Array();
-ampm[0] = "am";
-ampm[1] = "pm";
-
-
-if (readCookie('minterval') == null) {
-  mint = 15;
-  } else{
-  mint = Number(readCookie('minterval'));
-}
-
-for (merid = 0; merid < 2; merid = merid + 1) {
-  for (h = 0; h < 12; h = h + 1) {
-    for (m = 0; m < 60; m = m + mint) {
-      if (h == 0) {
-        document.write('<option value="12 ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + FormatInteger(m, 2) + ampm[merid] + '</option>');
-      } else {
-        document.write('<option value="' + FormatInteger(h, 2) + ' ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">' + h + ':' + FormatInteger(m, 2) + ampm[merid] + '</option>');
-      }
-    }
-  }
-}
+filltime();
 </script>
 </select>
 <br /><br /><input type="submit"  name="Submit" value="plan trip">

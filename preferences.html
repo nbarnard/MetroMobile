@@ -4,9 +4,47 @@
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <script type="text/javascript" language="Javascript">
 var curload='menu';
+var address=new Array();
+var name=new Array();
+
+function saveCookieArrays() {
+  var temp;
+
+  temp = address.join('`');
+  createCookie('address', temp);
+
+  temp = desc.join('`');
+  createCookie('desc', temp);
+
+}
+function getCookieArrays() {
+  var temp;
+
+  // get address array
+  temp = readCookie('address');
+
+  if (temp == null) {
+    return false;
+  }
+
+  address = temp.split('`');
+
+  // get desc array
+  temp = readCookie('desc');
+
+  if (temp == null) {
+    return false;
+  }
+
+  desc = temp.split('`');
+
+  return true;
+}
+
 function createCookie(name, value) {
   document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
 }
+
 function readCookie(name) {
   var nameEQ = name + "=";
   var ca = document.cookie.split(';');
@@ -19,23 +57,18 @@ function readCookie(name) {
 }
 
 function addaddress() {
-var addloc;
-addloc=Number(readCookie('numaddr'));
-alert(addloc);
-if(addloc==null){
-addloc=0;
+var nextentry;
+// make sure we have the newest cookie
+if(!(getCookieArrays())){
+nextentry=0;
 } else {
-addloc=addloc+1;
-}
-alert(addloc);
-createCookie('numaddr',addloc);
-createCookie('addr'+addloc,document.add.address.value);
-createCookie('desc'+addloc,document.add.description.value);
-
-alert('done');
- return;
+nextentry=address.length;
 }
 
+saveCookieArrays();
+
+alert('cookies saved');
+}
 
 function saveprefs() {
   createCookie('arrdep', document.prefs.Arr.value);

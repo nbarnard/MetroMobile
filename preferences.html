@@ -60,15 +60,29 @@ function addloc() {
 var nextentry;
 
 if((document.add.locloc.value == "")&&(document.add.locname.value == "")){
+alert('both blank');
 // code to say fill out both
+return false;
 }
 
 if(document.add.locloc.value == ""){
+alert('loc blank');
 // code to say fill out location 
+return false;
 }
+
 if(document.add.locname.value == ""){
+alert('name blank');
+return false;
 // code to say fill out name
 }
+
+if((document.add.locname.value.indexOf('`') !== -1) || (document.add.locloc.value.indexOf('`') !== -1)){
+alert('error!');
+return false;
+}
+
+
 
 
 // make sure we have the newest cookie

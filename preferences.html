@@ -4,39 +4,39 @@
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <script type="text/javascript" language="Javascript">
 var curload='menu';
-var address=new Array();
-var name=new Array();
+var locloc=new Array();
+var locname=new Array();
 
 function saveCookieArrays() {
   var temp;
 
-  temp = address.join('`');
-  createCookie('address', temp);
+  temp = locloc.join('`');
+  createCookie('locloc', temp);
 
-  temp = desc.join('`');
-  createCookie('desc', temp);
+  temp = locname.join('`');
+  createCookie('locname', temp);
 
 }
 function getCookieArrays() {
   var temp;
 
-  // get address array
-  temp = readCookie('address');
+  // get location array
+  temp = readCookie('locloc');
 
-  if (temp == null) {
+  if (!temp) {
     return false;
   }
 
-  address = temp.split('`');
+  locloc = temp.split('`');
 
-  // get desc array
-  temp = readCookie('desc');
+  // get locname array
+  temp = readCookie('locname');
 
-  if (temp == null) {
+  if (!temp) {
     return false;
   }
 
-  desc = temp.split('`');
+  locname = temp.split('`');
 
   return true;
 }
@@ -56,18 +56,33 @@ function readCookie(name) {
   return null;
 }
 
-function addaddress() {
+function addloc() {
 var nextentry;
+
+if((document.add.locloc.value == "")&&(document.add.locname.value == "")){
+// code to say fill out both
+}
+
+if(document.add.locloc.value == ""){
+// code to say fill out location 
+}
+if(document.add.locname.value == ""){
+// code to say fill out name
+}
+
+
 // make sure we have the newest cookie
 if(!(getCookieArrays())){
 nextentry=0;
 } else {
-nextentry=address.length;
+nextentry=locloc.length;
 }
+locloc[nextentry]=document.add.locloc.value;
+locname[nextentry]=document.add.locname.value;
 
 saveCookieArrays();
 
-alert('cookies saved');
+ShowHide('addsuccess');
 }
 
 function saveprefs() {
@@ -120,7 +135,7 @@ case 'tripdefaults':
 document.title = "metro mobile: trip defaults";
 break;
 case 'add':
-document.title = "metro mobile: add address";
+document.title = "metro mobile: add location";
 }
   setTimeout("window.scroll(0,1)",5);
 }

@@ -159,6 +159,7 @@ function ShowHide(divId) {
     document.getElementById(divId).style.display = 'none';
   }
 }
+
 function loaddelete() {
 var len;
 var i;
@@ -171,12 +172,31 @@ return false;
 
 len=locname.length;
 
+document.deleteform.list.options.length=0;
+
+
 for(i=0;i<len;i++){
 document.deleteform.list.options[i]=new Option(locname[i]);
 }
 
 }
 
+function deleteverify() {
+document.getElementById('deleteconfirmitem').innerHTML=locname[document.deleteform.list.selectedIndex];
+ShowHide('deleteverify');
+}
+
+function deleteloc() {
+document.getElementById('deleteconfirmeditem').innerHTML=locname[document.deleteform.list.selectedIndex];
+locname.splice(document.deleteform.list.selectedIndex,1);
+locloc.splice(document.deleteform.list.selectedIndex,1);
+
+saveCookieArrays();
+
+ShowHide('deleteverify');
+ShowHide('deleteconfirmed');
+
+}
 
 </script>
 <link href="tripplanner.css" rel="stylesheet" type="text/css" />

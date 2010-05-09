@@ -2,8 +2,13 @@
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: delete location</div>
 <div style="margin: 0 10px 0 8px;">
 <form name="deleteform">
+location to delete:<br />
 <select name="list">
 </select>
+<br />
+<br />
+<input type="button" value="delete location" onClick="deleteverify();">
+
 </form>
 </div></div>
 
@@ -12,3 +17,13 @@ location deleted<br /><br /><input type="button" value="delete another location"
 <input type="button" value="back to preferences" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');switchpage('menu');"> 
 </div></div>
 
+<div id="deleteverify" class="modalpage" style="display: none;"><div class="modalpopup">
+delete &quot;<span id="deleteconfirmitem"></span>&quot;<br /><br /><input type="button" value="delete" class="modalokay" onClick="deleteloc();" >
+<input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteverify');">
+</div></div>
+
+<div id="deleteconfirmed" class="modalpage" style="display: none;"><div class="modalpopup">
+&quot;<span id="deleteconfirmeditem"></span>&quot;<br /><br /> deleted<br /><br />
+<input type="button" value="delete another" class="modalokay" onClick="loaddelete();ShowHide('deleteconfirmed');" ><br /><br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('addsuccess');switchpage('menu');"> 
+</div></div>

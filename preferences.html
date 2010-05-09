@@ -60,21 +60,18 @@ function addloc() {
 var nextentry;
 
 if((document.add.locloc.value == "")&&(document.add.locname.value == "")){
-alert('both blank');
-// code to say fill out both
+ShowHide('blanknameloc');
 return false;
 }
 
 if(document.add.locloc.value == ""){
-alert('loc blank');
-// code to say fill out location 
+ShowHide('blankloc');
 return false;
 }
 
 if(document.add.locname.value == ""){
-alert('name blank');
+ShowHide('blankname');
 return false;
-// code to say fill out name
 }
 
 if((document.add.locname.value.indexOf('`') !== -1) || (document.add.locloc.value.indexOf('`') !== -1)){

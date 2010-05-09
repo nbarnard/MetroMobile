@@ -6,7 +6,7 @@ name:<br />
 <input name="locname" size="25" maxlength="80" /><br />
 location:<br />
 <input name="locloc" size="25" maxlength="80" /><br /><br />
-<input type="button" value="add address" onclick="addloc();" />
+<input type="button" value="add location" onclick="addloc();" />
 </form>
 <div id="addnotsaved" style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
 <div id="addchangesaved" style="DISPLAY: none"><div style="float: left;">trip defaults saved</div><div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div></div>
@@ -16,7 +16,7 @@ location:<br />
 </div>
 </div>
 <div id="addsuccess" class="modalpage" style="display: none;"><div class="modalpopup">
-address added<br /><br /><input type="button" value="add another location" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');"><br /> <br /> 
+location added<br /><br /><input type="button" value="add another location" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');"><br /> <br /> 
 <input type="button" value="back to preferences" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');switchpage('menu');"> 
 </div></div>
 

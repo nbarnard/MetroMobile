@@ -79,9 +79,6 @@ alert('error!');
 return false;
 }
 
-
-
-
 // make sure we have the newest cookie
 if(!(getCookieArrays())){
 nextentry=0;
@@ -131,8 +128,8 @@ function updatepage() {
   Select_Value_Set('prefs.atrpull', readCookie('atr'));
   Select_Value_Set('prefs.minterval', readCookie('minterval'));
   setTimeout("window.scroll(0,1)",5);
-
 }
+
 function switchpage(loadpage){
 document.getElementById(curload).style.display = 'none';
 document.getElementById(loadpage).style.display = 'block';
@@ -147,9 +144,13 @@ document.title = "metro mobile: trip defaults";
 break;
 case 'add':
 document.title = "metro mobile: add location";
+break;
+case 'delete':
+document.title = "metro mobile: delete location";
 }
   setTimeout("window.scroll(0,1)",5);
 }
+
 function ShowHide(divId) {
   if (document.getElementById(divId).style.display == 'none') {
     document.getElementById(divId).style.display = 'block';
@@ -158,6 +159,24 @@ function ShowHide(divId) {
     document.getElementById(divId).style.display = 'none';
   }
 }
+function loaddelete() {
+var len;
+var i;
+
+// make sure we have the newest cookie
+if(!(getCookieArrays())){
+alert('nothing to delete');
+return false;
+}
+
+len=locname.length;
+
+for(i=0;i<len;i++){
+document.deleteform.list.options[i]=new Option(locname[i]);
+}
+
+}
+
 
 </script>
 <link href="tripplanner.css" rel="stylesheet" type="text/css" />
@@ -166,6 +185,7 @@ function ShowHide(divId) {
 <body onLoad="updatepage();">
 <!--#include virtual="preferences-menu.html" -->
 <!--#include virtual="preferences-add.html" -->
+<!--#include virtual="preferences-delete.html" -->
 <!--#include virtual="preferences-tripdefaults.html" -->
 <!--#include virtual="preferences-cookiecheck.html" -->
 </body>

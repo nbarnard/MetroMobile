@@ -60,17 +60,17 @@ function addloc() {
 var nextentry;
 
 if((document.add.locloc.value == "")&&(document.add.locname.value == "")){
-ShowHide('blanknameloc');
+loadgenericmodal('please enter a name and location')'
 return false;
 }
 
 if(document.add.locloc.value == ""){
-ShowHide('blankloc');
+loadgenericmodal('please enter a location');
 return false;
 }
 
 if(document.add.locname.value == ""){
-ShowHide('blankname');
+loadgenericmodal('please enter a name');
 return false;
 }
 

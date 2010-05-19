@@ -12,18 +12,20 @@ location to delete:<br />
 </form>
 </div></div>
 
-<div id="deletesuccess" class="modalpage" style="display: none;"><div class="modalpopup">
-location deleted<br /><br /><input type="button" value="delete another location" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');"><br /> <br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');switchpage('menu');"> 
-</div></div>
 
 <div id="deleteverify" class="modalpage" style="display: none;"><div class="modalpopup">
-delete &quot;<span id="deleteconfirmitem"></span>&quot;<br /><br /><input type="button" value="delete" class="modalokay" onClick="deleteloc();" >
+delete location &quot;<span id="deleteconfirmitem"></span>&quot;?<br /><br /><input type="button" value="delete" class="modalokay" onClick="deleteloc();" >
 <input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteverify');">
 </div></div>
 
-<div id="deleteconfirmed" class="modalpage" style="display: none;"><div class="modalpopup">
-&quot;<span id="deleteconfirmeditem"></span>&quot;<br /><br /> deleted<br /><br />
-<input type="button" value="delete another" class="modalokay" onClick="loaddelete();ShowHide('deleteconfirmed');" ><br /><br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('addsuccess');switchpage('menu');"> 
+<div id="deletesuccess" class="modalpage" style="display: none;"><div class="modalpopup">
+location &quot;<span id="deletesuccessitem"></span>&quot; deleted<br /><br />
+<input type="button" value="delete another" class="modalokay" onClick="loaddelete();ShowHide('deletesuccess');" ><br /><br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deletesuccess');switchpage('menu');"> 
 </div></div>
+
+<div id="deletesuccesslast" class="modalpage" style="display: none;"><div class="modalpopup">
+last location &quot;<span id="deletesuccesslastitem"></span>&quot; deleted<br /><br />
+<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deletesuccesslast');switchpage('menu');"> 
+</div></div>
+

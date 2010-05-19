@@ -166,7 +166,7 @@ var i;
 
 // make sure we have the newest cookie
 if(!(getCookieArrays())){
-alert('nothing to delete');
+loadgenericmodal('there are no locations to delete');
 return false;
 }
 
@@ -179,6 +179,8 @@ for(i=0;i<len;i++){
 document.deleteform.list.options[i]=new Option(locname[i]);
 }
 
+switchpage('delete');
+
 }
 
 function deleteverify() {
@@ -187,14 +189,31 @@ ShowHide('deleteverify');
 }
 
 function deleteloc() {
-document.getElementById('deleteconfirmeditem').innerHTML=locname[document.deleteform.list.selectedIndex];
+var deleteditem;
+
+deleteditem = locname[document.deleteform.list.selectedIndex];
+
 locname.splice(document.deleteform.list.selectedIndex,1);
 locloc.splice(document.deleteform.list.selectedIndex,1);
 
 saveCookieArrays();
 
 ShowHide('deleteverify');
-ShowHide('deleteconfirmed');
+
+// different modals if we deleted the last item.
+if(locname.length == 0)
+{
+document.getElementById('deletesuccesslastitem').innerHTML= deleteditem;
+ShowHide('deletesuccesslast');
+} else {
+document.getElementById('deletesuccessitem').innerHTML= deleteditem;
+ShowHide('deletesuccess');
+}
+}
+
+function loadgenericmodal(modalmessage){
+document.getElementById('generictext').innerHTML=modalmessage;
+ShowHide('genericmodal');
 
 }
 
@@ -208,6 +227,10 @@ ShowHide('deleteconfirmed');
 <!--#include virtual="preferences-delete.html" -->
 <!--#include virtual="preferences-tripdefaults.html" -->
 <!--#include virtual="preferences-cookiecheck.html" -->
+<div id="genericmodal" class="modalpage" style="display: none;"><div class="modalpopup">
+<span id="generictext"></span>
+<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('genericmodal');" />
+
 </body>
 </html>
 

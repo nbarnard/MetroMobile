@@ -18,14 +18,14 @@ function presubmit() {
   var dwkday;
 
 if((document.FormName.origcust.value == "")&&(document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank')&&(document.FormName.destcust.value == "") && (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank') ){
-ShowHide('needstartend');
+loadgenericmodal('please select or enter starting and ending addresses');
 return false;
 }
 
   // check the addresses then set them
   if (document.FormName.origcust.value == "") {
     if (document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank') {
- ShowHide('needstart');     
+loadgenericmodal('please select or enter a starting address');
       return false;
     } else {
       document.FormName.Orig.value = document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value;
@@ -36,7 +36,7 @@ return false;
 
   if (document.FormName.destcust.value == "") {
     if (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank') {
-ShowHide('needend');
+loadgenericmodal('please select or enter an ending address');
       return false;
     } else {
       document.FormName.Dest.value = document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value;
@@ -215,6 +215,12 @@ for (merid = 0; merid < 2; merid = merid + 1) {
   }
 }
 }
+function loadgenericmodal(modalmessage){
+document.getElementById('generictext').innerHTML=modalmessage;
+ShowHide('genericmodal');
+
+}
+
 
 </script>
 <link href="tripplanner.css" rel="stylesheet" type="text/css" />
@@ -306,15 +312,10 @@ maximum walking:<br />
 </form>
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
-<div id="needstart" class="modalpage" style="display: none;"><div class="modalpopup">please select or enter a starting address<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('needstart');"></div></div>
+<div id="genericmodal" class="modalpage" style="display: none;"><div class="modalpopup">
+<span id="generictext"></span>
+<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('genericmodal');" />
 
-<div id="needstartend" class="modalpage" style="display: none;"><div class="modalpopup">
-please select or enter starting and ending addresses<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('needstartend');">
-</div></div> 
-
-<div id="needend" class="modalpage" style="display: none;"><div class="modalpopup">
-please select or enter an ending address<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('needend');">
-</div></div>
 
 </body>
 </html>

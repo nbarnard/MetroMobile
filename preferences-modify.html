@@ -24,11 +24,15 @@ name:<br />
 <input name="locname" size="25" maxlength="80" /><br />
 location:<br />
 <input name="locloc" size="25" maxlength="80" /><br /><br />
-<input type="button" value="add location" onclick="modifyloc();" />
+<input type="button" value="modify location" onclick="modifyloc();" />
 </form>
 <div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
+</div>
+<div id="modifysuccess" class="modalpage" style="display: none;"><div class="modalpopup">
+location modified<br /><br /><input type="button" value="modify another location" class="modalokay" onClick="ShowHide('modifysuccess');loadmodify();"><br /> <br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('modifysuccess');switchpage('menu');"> 
 </div>

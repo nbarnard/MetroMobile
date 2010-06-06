@@ -173,7 +173,13 @@ function ShowHide(divId) {
 }
 
 function modifyloc() {
+locname[document.modifyform.list.selectedIndex] = document.modifylocform.locname.value;
+locloc[document.modifyform.list.selectedIndex] = document.modifylocform.locloc.value;
+
+saveCookieArrays();
+
 ShowHide('modifysuccess');
+
 }
 
 function loadmodify() {

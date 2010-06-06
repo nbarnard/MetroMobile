@@ -97,6 +97,8 @@ locname[nextentry]=document.add.locname.value;
 
 saveCookieArrays();
 
+document.getElementById('addsuccessitem').innerHTML= document.add.locname.value;
+
 ShowHide('addsuccess');
 }
 
@@ -177,6 +179,8 @@ locname[document.modifyform.list.selectedIndex] = document.modifylocform.locname
 locloc[document.modifyform.list.selectedIndex] = document.modifylocform.locloc.value;
 
 saveCookieArrays();
+
+document.getElementById('modifysuccessitem').innerHTML= document.modifylocform.locname.value;
 
 ShowHide('modifysuccess');
 

@@ -6,6 +6,9 @@
 // global variable for the minute integers
 var mint;
 
+// global ariables for location arrays
+var locloc=new Array();
+var locname=new Array();
 
 // post processing to update the form
 
@@ -221,6 +224,47 @@ ShowHide('genericmodal');
 
 }
 
+function getCookieArrays() {
+  var temp;
+
+  // get location array
+  temp = readCookie('locloc');
+
+  if (!temp) {
+    return false;
+  }
+
+  locloc = temp.split('`');
+
+  // get locname array
+  temp = readCookie('locname');
+
+  if (!temp) {
+    return false;
+  }
+
+  locname = temp.split('`');
+
+  return true;
+}
+
+function fillloc(){
+var len;
+var i;
+
+if(!getCookieArrays()){
+alert('load generic locations');
+} 
+
+len=locname.length;
+
+document.write('<option value="blank"></option>');
+
+for(i=0;i<len;i++){
+document.write('<option value="' + locloc[i] +'">' + locname[i] + '</option>');
+}
+
+}
 
 </script>
 <link href="tripplanner.css" rel="stylesheet" type="text/css" />
@@ -254,17 +298,17 @@ ShowHide('genericmodal');
 
 <div style="float: left;">start:</div><div style="float: right;">donate</div><br />
 <select name="origpull" size="1">
-<option value="blank"></option>
-<option value="6th and Yesler">Home (6th and Yesler)</option>
-<option value="1201 Western Ave">Work (1201 Western Ave)</option>
+<script type="text/javascript" language="Javascript">
+fillloc();
+</script>
 </select> <br />
 <strong>or</strong> enter a starting address: <br /><input name="origcust" size="25" maxlength="80" /><br />
 
 end:<br />
 <select name="destpull" size="1">
-<option value="blank"></option>
-<option value="6th and Yesler">Home (6th and Yesler)</option>
-<option value="1201 Western Ave">Work (1201 Western Ave)</option>
+<script type="text/javascript" language="Javascript">
+fillloc();
+</script>
 </select><br />
 <strong>or</strong> enter an ending address: <br /><input name="destcust" size="25" maxlength="80" /><br />
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta name="author" content="The CSS Ninja" />
+	<meta name="keywords" content="CSS, CSS Ninja, The CSS Ninja, Web, xhtml, html, browsers, JavaScript, cascading style sheets" />
+	<meta name="description" content="Location aware web app utilising the Geolocation API to get a users location in the browser" />
+	<meta name="robots" content="all" />
+	<meta name="copyright" content="The CSS Ninja" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" type="text/css" href="_styles.css" media="screen" />
+	
+	<title>Geolocation in the browser | The CSS Ninja</title>
+
+</head>
+<body>
+	
+	<div id="loader">
+		<div class="loader">
+			<img src="data:image/gif;base64,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%3D%3D" alt="Loading web app..." width="31" height="31" />
+			<p>Determing your location...</p>
+		</div>
+	</div>
+	
+	<div id="TCN_Geo"></div>
+
+	<script type="text/javascript" src="http://tile.cloudmade.com/wml/0.2/web-maps-lite.js"></script>
+	<script type="text/javascript">
+		(function(){
+			var mapConfig = new CM.Tiles.CloudMade.Web({key: '0a3918fab1d451f6a1913e9fa0acc270', styleId: 1960}),
+				mapInstance = new CM.Map('TCN_Geo', mapConfig),
+				currentLatLng, cacheLatLng, failedLatLng, updatedLatLng, locationMarker, coordsListener,
+				loaderContainer = document.getElementById("loader");
+			
+			function mapSetup() {
+				if(navigator.geolocation) {
+					// Get current position
+					navigator.geolocation.getCurrentPosition(createMap, handleError); // Request live position
+					
+					window.scrollTo(0,1);
+				} else {
+					loaderContainer.getElementsByTagName("p")[0].textContent = "Browser does not support geolocation object";
+					window.setTimeout(failedError, 1000);
+				}
+			};
+			
+			// Update handlers
+			function createMap(position){
+				currentLatLng = new CM.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				locationMarker = new CM.Marker(currentLatLng);
+
+				loaderContainer.style.display = "none";
+				
+				mapInstance.setCenter(currentLatLng, 15);
+				mapInstance.addOverlay(locationMarker);
+				locationMarker.openInfoWindow("<h3>Your location</h3>");
+				
+				// Inital location found create a watchPosition instance for continuous updates
+				coordsListener = navigator.geolocation.watchPosition(updateLocation, handleError);
+			};
+			function cacheLocation(position){
+				cacheLatLng = new CM.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				locationMarker = new CM.Marker(cacheLatLng);     
+				mapInstance.setCenter(cacheLatLng, 15);
+				mapInstance.addOverlay(locationMarker);
+				locationMarker.openInfoWindow("<h3>Your last known location</h3>");
+			};
+			function updateLocation(position){ // Fires everytime your location changes
+				updatedLatLng = new CM.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				// Moves marker to updated location.
+				locationMarker.setLatLng(updatedLatLng);
+				
+				mapInstance.setCenter(updatedLatLng, 15);
+				locationMarker.openInfoWindow("<h3>Your are here</h3>");
+				window.scrollTo(0,1);
+			};
+			
+			// Error handlers
+			function handleError(error){
+				if(error.code === 1) {
+					//Location services is either disabled or you denied access to your position
+					failedError();
+				} else {
+					//Current location could not be determined, falling back to last known within 10 minutes
+					navigator.geolocation.getCurrentPosition(cacheLocation, cacheError, {maximumAge:600000, timeout:0});
+				}
+				
+				loaderContainer.style.display = "none";
+			};
+			function cacheError(error){
+				//Couldn't get current nor no more than 10 min old cache location, fallback to any cache
+				navigator.geolocation.getCurrentPosition(cacheLocation, failedError, {maximumAge:"Infinite", timeout:0});
+			};
+			function failedError(error){
+				//Failed to find any location, fallback to Apple HQ
+				
+				failedLatLng = new CM.LatLng(37.331689,-122.030731);
+				
+				locationMarker = new CM.Marker(failedLatLng);         
+				mapInstance.setCenter(failedLatLng, 15);
+				mapInstance.addOverlay(locationMarker);
+				locationMarker.openInfoWindow("<h3>Apple HQ</h3>");
+				window.scrollTo(0,1);
+			};
+			
+			mapSetup();
+		})();
+	</script>
+	
+</body>
+</html>

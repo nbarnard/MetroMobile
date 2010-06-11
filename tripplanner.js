@@ -10,7 +10,8 @@ var locname=new Array();
 
 function presubmit() {
   var myDate = new Date();
-  var day;
+  var selectedday;
+  var date;
   var month;
   var year;
   var dwkday;
@@ -43,26 +44,25 @@ loadgenericmodal('please select or enter an ending address');
 
     document.FormName.Dest.value = document.FormName.destcust.value;
   }
-  //find the next calendar day that matches the requested date
-  switch (document.FormName.daypull.value) {
-  case 'wk':
-    dwkday = 1;
-    break;
-  case 'sat':
-    dwkday = 6;
-    break;
-  case 'sun':
-    dwkday = 0;
-    break;
-  }
-  while (myDate.getDay() != dwkday) {
-    myDate.setDate(myDate.getDate() + 1);
-  }
-  // format it for metro
-  day = myDate.getDate();
-  month = myDate.getMonth() + 1;
-  year = myDate.getFullYear() - 2000;
-  document.FormName.Date.value = month + '/' + day + '/' + year;
+
+//lets convert today/tomorrow to actual useful stuff for metro
+date = myDate.getDate();
+month = myDate.getMonth();
+year = myDate.getFullYear() - 2000;
+
+switch(document.FormName.daypull.options[document.FormName.daypull.selectedIndex
+].value){
+case 't':
+document.FormName.Date.value = (month + 1) + '/' + date + '/' + year;
+break;
+case 'm':
+document.FormName.Date.value = (month + 1) + '/' + (date + 1) + '/' + year;
+break;
+default:
+document.FormName.Date.value = document.FormName.daypull.options[document.FormName.daypull.selectedIndex].value;
+break;
+}
+
   //split the time up
   var mySplitResult = document.FormName.fulltime.value.split(" ");
   document.FormName.hour_time.value = mySplitResult[0];
@@ -261,3 +261,44 @@ document.write('<option value="' + locloc[i] +'">' + locname[i] + '</option>');
 }
 
 }
+
+function fillday(){
+var myDate = new Date();
+var day;
+var month;
+var date;
+var year;
+var i;
+var listlen;
+var daynames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
+var monthnames = ['jan', 'feb', 'mar', 'apr', 'nay', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+listlen=readCookie('numdays');
+if(listlen == null){
+listlen = 5;
+}
+
+myDate.setDate(myDate.getDate()+2);
+
+for(i=0;i<listlen;i++){
+month = myDate.getMonth();
+date = myDate.getDate();
+day = myDate.getDay();
+year = myDate.getFullYear() - 2000;
+document.write('<option value="' + (month + 1) + '/' + date + '/' + year + '">' + daynames[day] + ' ' + monthnames[month] + ' ' + date.ordinal() + '</option>');
+
+myDate.setDate(myDate.getDate() + 1);
+}
+
+}
+
+
+
+Number.prototype.ordinal = function () {
+return this + (
+(this % 10 == 1 && this % 100 != 11) ? 'st' :
+(this % 10 == 2 && this % 100 != 12) ? 'nd' :
+(this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th'
+);
+}
+

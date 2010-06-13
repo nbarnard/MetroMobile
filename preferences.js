@@ -273,8 +273,7 @@ deleteloc()
 
 	ShowHide('deleteverify');
 
-	//different modals if we
-		deleted the last item.
+	//different modals if we deleted the last item.
 			if (locname.length == 0) {
 			document.getElementById('deletesuccesslastitem').innerHTML = deleteditem;
 			ShowHide('deletesuccesslast');

@@ -164,8 +164,7 @@ function updatepage()
 }
 
 
-//Show hide function for extended
-	options
+//Show hide function for extended options
 
 
 		function ShowHide(divId) {
@@ -192,8 +191,7 @@ hideadditional()
 	setTimeout("window.scroll(0,150)", 5);
 }
 
-//for formating
-	integers with leading zeros
+//for formating integers with leading zeros
 		function FormatInteger(num, length) {
 	return (num / Math.pow(10, length)).toFixed(length).substr(2);
 	}

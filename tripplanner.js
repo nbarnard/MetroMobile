@@ -120,7 +120,6 @@ function updatepage()
 	var now = new Date();
 	var hour = now.getHours();
 	var minute = now.getMinutes();
-	var day = now.getDay();
 	var hint = 60 / mint;
 	var arrdep;
 
@@ -135,25 +134,8 @@ function updatepage()
 		document.FormName.fulltime.selectedIndex = hour * hint + Math.floor(minute / mint);
 	}
 
-	//figure out what day of the week it is and set the day pull down correctly
-		switch (day) {
-	case 0:
-		document.FormName.daypull.selectedIndex = 2;
-		break;
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-		document.FormName.daypull.selectedIndex = 0;
-		break;
-	case 6:
-		document.FormName.daypull.selectedIndex = 1;
-		break;
-	}
-
 	//set the preferences
-		Select_Value_Set('FormName.Arr', readCookie('arrdep'));
+	Select_Value_Set('FormName.Arr', readCookie('arrdep'));
 	Select_Value_Set('FormName.Walk', readCookie('walk'));
 	Select_Value_Set('FormName.Min', readCookie('mimp'));
 	Select_Value_Set('FormName.atrpull', readCookie('atr'));

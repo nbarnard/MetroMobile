@@ -7,15 +7,10 @@ z-index:200;
 select{
 font-size: medium;
 }
-input{
+input {
 font-size: small;
 }
-submit{
-font-size: large;
-}
-button{
-font-size: large;
-}
+
 ul {
 margin: 0px;
 list-style-type:none;

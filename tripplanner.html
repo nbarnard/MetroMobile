@@ -38,7 +38,7 @@
 
 
 <div style="float: left;">start:</div><div style="float: right;">donate</div><br />
-<select name="origpull" size="1">
+<select name="origpull" onchange="locselect();">
 <script type="text/javascript" language="Javascript">
 fillloc();
 </script>
@@ -46,24 +46,24 @@ fillloc();
 <strong>or</strong> enter a starting address: <br /><input name="origcust" size="25" maxlength="80" /><br />
 
 end:<br />
-<select name="destpull" size="1">
+<select name="destpull" onchange="locselect();">
 <script type="text/javascript" language="Javascript">
 fillloc();
 </script>
 </select><br />
 <strong>or</strong> enter an ending address: <br /><input name="destcust" size="25" maxlength="80" /><br />
 
-<select name="Arr" size="1">
+<select name="Arr">
 <option value="A" selected="selected">arrive</option>
 <option value="D">depart</option>
 </select><br />
-<select name="daypull" size="1">
+<select name="daypull">
 <option value="t" selected="selected">today</option>
 <option value="m">tomorrow</option>
 <script type="text/javascript" language="Javascript">
 fillday();
 </script>
-</select><select name="fulltime" size="1">
+</select><select name="fulltime">
 <script type="text/javascript" language="Javascript">
 filltime();
 </script>

@@ -247,8 +247,9 @@ fillloc()
 	var i;
 
 	if (!getCookieArrays()) {
-		locloc =["Pike Place Market", "Seattle Center South", "Westlake Tunnel Station", "700 Broadway E", "SeaTac Airport", "Bellevue Transit Center", "University of Washington", "E Pine St & Broadway"];
-		locname =["Pike Place Market", "Seattle Center", "Westlake Tunnel Station", "Roy Street Coffee & Tea", "Seattle-Tacoma International Airport", "Bellevue Transit Center", "University of Washington", "Seattle Central Community College"];
+		locloc =["customloc","Aurora Village Transit Center ","Bellevue Transit Center","Seattle Central Library","Green Lake Park","Northgate Transit Center","Overlake Transit Center","Renton Transit Center","700 Broadway E","Seattle Center South","E Pine St & Broadway","SeaTac Airport","University of Wasington","West Seattle Library","Westlake Tunnel Station"];
+		locname =["Customize Locations...","Aurora Transit Ctr","Bellevue Transit Ctr","Downtown Library","Green Lake Park","Northgate Transit Ctr","Overlake Transit Ctr","Renton Transit Ctr","Roy Street Coffee","Seattle Center","Seattle Central College","Sea-Tac Airport","Univ of Washington","West Seattle Library","Westlake Tunnel"];
+
 	}
 	len = locname.length;
 
@@ -301,3 +302,8 @@ Number.prototype.ordinal = function()
 		       (this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th'
 		);
 }
+
+function locselect(){
+ if ((document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'customloc') || (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'customloc')) {
+location.href='preferences.html';
+}}

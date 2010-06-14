@@ -255,6 +255,11 @@ fillloc()
 
 	document.write('<option value="blank"></option>');
 
+	if(geo_position_js.init()){
+	document.write('<option value="curloc">Current Location</option>');
+	}
+
+
 	for (i = 0; i < len; i++) {
 		document.write('<option value="' + locloc[i] + '">' + locname[i] + '</option>');
 	}

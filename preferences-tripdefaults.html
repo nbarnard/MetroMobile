@@ -2,14 +2,12 @@
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: trip defaults</div>
 <div style="margin: 0 10px 0 8px;">
 <form name="prefs" action="javascript:saveprefs();">
-time:<br />
-<select name="Arr" size="1" onchange="hidesave();">
+time:<br /><select name="Arr">
 <option value="A" selected="selected">arrive</option>
 <option value="D">depart</option>
 </select> <br />
 
-time interval:<br />
-<select name="minterval" onchange="hidesave();">
+time interval:<br /><select name="minterval">
 <option value="5">5</option>
 <option value="10">10</option>
 <option value="15" selected="selected">15</option>
@@ -17,28 +15,65 @@ time interval:<br />
 <option value="30">30</option>
 <option value="60">60</option>
 </select><br />
+days displayed:<br /><select name="days">
+<option value="0">2</option>
+<option value="1">3</option>
+<option value="2">4</option>
+<option value="3">5</option>
+<option value="4">6</option>
+<option value="5" selected="selected">7</option>
+<option value="6">8</option>
+<option value="7">9</option>
+<option value="8">10</option>
+<option value="9">11</option>
+<option value="10">12</option>
+<option value="11">13</option>
+<option value="12">14</option>
+<option value="13">15</option>
+<option value="14">16</option>
+<option value="15">17</option>
+<option value="16">18</option>
+<option value="17">19</option>
+<option value="18">20</option>
+<option value="19">21</option>
+<option value="20">22</option>
+<option value="21">23</option>
+<option value="22">24</option>
+<option value="23">25</option>
+<option value="24">26</option>
+<option value="25">27</option>
+<option value="26">28</option>
+<option value="27">29</option>
+<option value="28">30</option>
+<option value="29">31</option>
+</select>
 
-maximum walking:<br /><select name="Walk" onchange="hidesave();">
+<br />maximum walking:<br /><select name="Walk">
 <option value=".25"> 0.25 mi</option>
 <option value=".50" selected="selected"> 0.50 mi</option>
 <option value=".75"> 0.75 mi</option>
 <option value="1.0"> 1.00 mi</option>
 </select>
 
-<br />most important:<br /><select name="Min" onchange="hidesave();">
+<br />most important:<br /><select name="Min">
 <option value="T" selected="selected">fastest way</option>
 <option value="X">fewest transfers</option>
 <option value="W">minimal walking</option>
 </select>
 
-<br />accessable trip:<br /><select name="atrpull" onchange="hidesave();">
+<br />accessable trip:<br /><select name="atrpull">
 <option value="N" selected="selected">no</option>
 <option value="Y">yes</option>
 </select>
 <br /><br /><input type="button" onclick="saveprefs();" value="save trip defaults"></form>
-<div id="notsaved" style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
-<div id="changesaved" style="DISPLAY: none"><div style="float: left;">trip defaults saved</div><div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div></div>
+<div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
 <br /><br /><hr />
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
 </div>
+<div id="prefsuccess" class="modalpage" style="display: none;"><div class="modalpopup">
+trip defaults saved<br /><br />
+<input type="button" value="okay" class="modalokay" onClick="ShowHide('prefsuccess')">
+<br /> <br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('prefsuccess');switchpage('menu');"> 
+</div></div>

@@ -109,22 +109,15 @@ function
 saveprefs()
 {
 	createCookie('arrdep', document.prefs.Arr.value);
+	createCookie('numdays', document.prefs.days.value);
 	createCookie('walk', document.prefs.Walk.value);
 	createCookie('mimp', document.prefs.Min.value);
 	createCookie('atr', document.prefs.atrpull.value);
 	createCookie('minterval', document.prefs.minterval.value);
-	document.getElementById('changesaved').style.display = 'block';
-	document.getElementById('notsaved').style.display = 'none';
+	ShowHide('prefsuccess');
 	return true;
 }
 
-function 
-hidesave(name)
-{
-	document.getElementById('changesaved').style.display = 'none';
-	document.getElementById('notsaved').style.display = 'block';
-	return true;
-}
 /*
  * This script is adapted from a script available at The JavaScript Source ::
  * http://javascript.internet.com Created by: Francis Cocharrua ::
@@ -146,6 +139,7 @@ updatepage()
 {
 	Select_Value_Set('prefs.Arr', readCookie('arrdep'));
 	Select_Value_Set('prefs.Walk', readCookie('walk'));
+	Select_Value_Set('prefs.days', readCookie('numdays'));
 	Select_Value_Set('prefs.Min', readCookie('mimp'));
 	Select_Value_Set('prefs.atrpull', readCookie('atr'));
 	Select_Value_Set('prefs.minterval', readCookie('minterval'));

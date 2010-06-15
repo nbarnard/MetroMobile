@@ -9,6 +9,9 @@ location to delete:<br />
 <br />
 <input type="button" value="delete location" onClick="deleteverify();">
 </form>
+<form action="javascript:ShowHide('deleteallverify');">
+<input type="button" value="delete all locations" onClick="ShowHide('deleteallverify');">
+</form>
 <div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
@@ -32,5 +35,22 @@ location &quot;<span id="deletesuccessitem"></span>&quot; deleted<br /><br />
 <div id="deletesuccesslast" class="modalpage" style="display: none;"><div class="modalpopup">
 last location &quot;<span id="deletesuccesslastitem"></span>&quot; deleted<br /><br />
 <input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deletesuccesslast');switchpage('menu');"> 
+</div></div>
+
+<div id="deleteallverify" class="modalpage" style="display: none;"><div class="modalpopup">
+delete all locations 
+<br /><br /><input type="button" value="delete all locations" class="modalokay" onClick="ShowHide('deleteallverify');ShowHide('deleteallverifyconfirm');" >
+<input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteallverify');">
+</div></div>
+
+<div id="deleteallverifyconfirm" class="modalpage" style="display: none;"><div class="modalpopup">
+<b>really</b> delete <b>all</b> locations 
+<br /><br /><input type="button" value="delete" class="modalokay" onClick="deleteall();" >
+<input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteallverifyconfirm');">
+</div></div>
+
+<div id="deleteallsuccess" class="modalpage" style="display: none;"><div class="modalpopup">
+all locations deleted<br /><br />
+<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deleteallsuccess');switchpage('menu');"> 
 </div></div>
 

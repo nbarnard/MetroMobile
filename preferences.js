@@ -168,7 +168,7 @@ switchpage(loadpage)
 		break;
 	case 'modify':
 	case 'modifyloc':
-		document.title = "metro mobile: modify location";
+		document.title = "metro mobile: edit location";
 		break;
 	}
 	setTimeout("window.scroll(0,1)", 5);
@@ -206,7 +206,7 @@ loadmodify()
 
 	//make sure we have the newest cookie
 		if (!(getCookieArrays())) {
-		loadgenericmodal('there are no locations to modify');
+		loadgenericmodal('there are no locations to edit');
 		return false;
 	}
 	len = locname.length;
@@ -275,6 +275,17 @@ deleteloc()
 			document.getElementById('deletesuccessitem').innerHTML = deleteditem;
 			ShowHide('deletesuccess');
 		}
+}
+
+function deleteall(){
+locname.length=0;
+locloc.length=0;
+
+saveCookieArrays();
+
+ShowHide('deleteallverifyconfirm');
+ShowHide('deleteallsuccess');
+
 }
 
 function 

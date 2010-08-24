@@ -1,14 +1,14 @@
 // global variable for the minute integers
-         var mint;
+         var gvMinuteInterval;
 
 //global ariables for location arrays
-         var locloc = new Array();
-var locname = new Array();
+         var gvLocAddress = new Array();
+var gvLocName = new Array();
 
 //post processing to update the form
 
 
-function presubmit()
+function fnPreSubmit()
 {
 	var myDate = new Date();
 	var selectedday;
@@ -17,32 +17,32 @@ function presubmit()
 	var year;
 	var dwkday;
 
-	if ((document.FormName.origcust.value == "") && (document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank') && (document.FormName.destcust.value == "") && (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank')) {
-		loadgenericmodal('please select or enter starting and ending addresses');
+	if ((document.FormName.nmOriginationCustomText.value == "") && (document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'blank') && (document.FormName.nmDestinationCustomText.value == "") && (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'blank')) {
+		fnLoadModal('please select or enter starting and ending addresses');
 		return false;
 	}
 	//check the addresses then set them
-		if (document.FormName.origcust.value == "") {
-		if (document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'blank') {
-			loadgenericmodal('please select or enter a starting address');
+		if (document.FormName.nmOriginationCustomText.value == "") {
+		if (document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'blank') {
+			fnLoadModal('please select or enter a starting address');
 			return false;
 		} else {
-			document.FormName.Orig.value = document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value;
+			document.FormName.Orig.value = document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value;
 		}
 	} else {
-		document.FormName.Orig.value = document.FormName.origcust.value;
+		document.FormName.Orig.value = document.FormName.nmOriginationCustomText.value;
 	}
 
-	if (document.FormName.destcust.value == "") {
-		if (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'blank') {
-			loadgenericmodal('please select or enter an ending address');
+	if (document.FormName.nmDestinationCustomText.value == "") {
+		if (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'blank') {
+			fnLoadModal('please select or enter an ending address');
 			return false;
 		} else {
-			document.FormName.Dest.value = document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value;
+			document.FormName.Dest.value = document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value;
 		}
 	} else {
 
-		document.FormName.Dest.value = document.FormName.destcust.value;
+		document.FormName.Dest.value = document.FormName.nmDestinationCustomText.value;
 	}
 
 	//lets convert today / tomorrow to actual useful stuff for metro
@@ -50,8 +50,7 @@ function presubmit()
 	month = myDate.getMonth();
 	year = myDate.getFullYear() - 2000;
 
-	switch (document.FormName.daypull.options[document.FormName.daypull.selectedIndex
-						  ].value) {
+	switch (document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value) {
 	case 't':
 		document.FormName.Date.value = (month + 1) + '/' + date + '/' + year;
 		break;
@@ -59,17 +58,17 @@ function presubmit()
 		document.FormName.Date.value = (month + 1) + '/' + (date + 1) + '/' + year;
 		break;
 	default:
-		document.FormName.Date.value = document.FormName.daypull.options[document.FormName.daypull.selectedIndex].value;
+		document.FormName.Date.value = document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value;
 		break;
 	}
 
 	//split the time up
-		var mySplitResult = document.FormName.fulltime.value.split(" ");
+		var mySplitResult = document.FormName.nmTimePull.value.split(" ");
 	document.FormName.hour_time.value = mySplitResult[0];
 	document.FormName.minute_time.value = mySplitResult[1];
 	document.FormName.ampm_time.value = mySplitResult[2];
 	//handle the accessibility pulldown
-		if (document.FormName.atrpull.value == "Y") {
+		if (document.FormName.nmAccessablePull.value == "Y") {
 		document.FormName.atr.checked = true;
 	} else {
 		document.FormName.atr.checked = false;
@@ -80,7 +79,7 @@ function presubmit()
 }
 
 function 
-readCookie(name)
+fnReadCookie(name)
 {
 	var nameEQ = name + "=";
 	var ca = document.cookie.split(';');
@@ -101,7 +100,7 @@ readCookie(name)
  */
 
 function 
-Select_Value_Set(SelectName, Value)
+fnSetSelect(SelectName, Value)
 {
 	eval('SelectObject = document.' + SelectName + ';');
 	for (index = 0; index < SelectObject.length; index++) {
@@ -115,30 +114,30 @@ Select_Value_Set(SelectName, Value)
 //the page loading functions
 
 
-function updatepage()
+function fnUpdatePage()
 {
 	var now = new Date();
 	var hour = now.getHours();
 	var minute = now.getMinutes();
-	var hint = 60 / mint;
+	var hint = 60 / gvMinuteInterval;
 	var arrdep;
 
 	//figure out what time it is and set the time pull down correctly
-		arrdep = readCookie('arrdep');
+		arrdep = fnReadCookie('CkArrDept');
 	if (arrdep == null) {
 		arrdep = 'A';
 	}
 	if (arrdep == 'A') {
-		document.FormName.fulltime.selectedIndex = hour * hint + Math.ceil(minute / mint);
+		document.FormName.nmTimePull.selectedIndex = hour * hint + Math.ceil(minute / gvMinuteInterval);
 	} else {
-		document.FormName.fulltime.selectedIndex = hour * hint + Math.floor(minute / mint);
+		document.FormName.nmTimePull.selectedIndex = hour * hint + Math.floor(minute / gvMinuteInterval);
 	}
 
 	//set the preferences
-	Select_Value_Set('FormName.Arr', readCookie('arrdep'));
-	Select_Value_Set('FormName.Walk', readCookie('walk'));
-	Select_Value_Set('FormName.Min', readCookie('mimp'));
-	Select_Value_Set('FormName.atrpull', readCookie('atr'));
+	fnSetSelect('FormName.Arr', fnReadCookie('CkArrDept'));
+	fnSetSelect('FormName.Walk', fnReadCookie('CkMaximumWalking'));
+	fnSetSelect('FormName.Min', fnReadCookie('CkMostImportant'));
+	fnSetSelect('FormName.nmAccessablePull', fnReadCookie('CkAccessability'));
 
 	setTimeout("window.scroll(0,1)", 5);
 
@@ -149,7 +148,7 @@ function updatepage()
 //Show hide function for extended options
 
 
-		function ShowHide(divId) {
+		function fnShowHide(divId) {
 	if (document.getElementById(divId).style.display == 'none') {
 		document.getElementById(divId).style.display = 'block';
 	} else {
@@ -158,28 +157,28 @@ function updatepage()
 	}
 
 function 
-showadditional()
+fnShowAdditional()
 {
-	ShowHide('optblock');
-	ShowHide('showblock');
+	fnShowHide('idAddtlOpt');
+	fnShowHide('idNoOpt');
 	setTimeout("window.scroll(0,150)", 5);
 }
 
 function 
-hideadditional()
+fnHideAdditional()
 {
-	ShowHide('optblock');
-	ShowHide('showblock');
+	fnShowHide('idAddtlOpt');
+	fnShowHide('idNoOpt');
 	setTimeout("window.scroll(0,150)", 5);
 }
 
 //for formating integers with leading zeros
-		function FormatInteger(num, length) {
+		function fnFormatInteger(num, length) {
 	return (num / Math.pow(10, length)).toFixed(length).substr(2);
 	}
 
 function 
-filltime()
+fnFillTime()
 {
 	//lets fill out the form with the times
 	var m;
@@ -190,68 +189,68 @@ filltime()
 	ampm[1] = "pm";
 
 
-	if (readCookie('minterval') == null) {
-		mint = 15;
+	if (fnReadCookie('CkMinuteInterval') == null) {
+		gvMinuteInterval = 15;
 	} else {
-		mint = Number(readCookie('minterval'));
+		gvMinuteInterval = Number(fnReadCookie('CkMinuteInterval'));
 	}
 
 	for (merid = 0; merid < 2; merid = merid + 1) {
 		for (h = 0; h < 12; h = h + 1) {
-			for (m = 0; m < 60; m = m + mint) {
+			for (m = 0; m < 60; m = m + gvMinuteInterval) {
 				if (h == 0) {
-					document.write('<option value="12 ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + FormatInteger(m, 2) + ampm[merid] + '</option>');
+					document.write('<option value="12 ' + fnFormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + fnFormatInteger(m, 2) + ampm[merid] + '</option>');
 				} else {
-					document.write('<option value="' + FormatInteger(h, 2) + ' ' + FormatInteger(m, 2) + ' ' + ampm[merid] + '">' + h + ':' + FormatInteger(m, 2) + ampm[merid] + '</option>');
+					document.write('<option value="' + fnFormatInteger(h, 2) + ' ' + fnFormatInteger(m, 2) + ' ' + ampm[merid] + '">' + h + ':' + fnFormatInteger(m, 2) + ampm[merid] + '</option>');
 				}
 			}
 		}
 	}
 }
 function 
-loadgenericmodal(modalmessage)
+fnLoadModal(modalmessage)
 {
-	document.getElementById('generictext').innerHTML = modalmessage;
-	ShowHide('genericmodal');
+	document.getElementById('idGenericModalText').innerHTML = modalmessage;
+	fnShowHide('idGenericModal');
 
 }
 
 function 
-getCookieArrays()
+fnLoadCookieArray()
 {
 	var temp;
 
 	//get location array
-		temp = readCookie('locloc');
+		temp = fnReadCookie('CkLocAddresses');
 
 	if (!temp) {
 		return false;
 	}
-	locloc = temp.split('`');
+	gvLocAddress = temp.split('`');
 
 	//get locname array
-		temp = readCookie('locname');
+		temp = fnReadCookie('CkLocName');
 
 	if (!temp) {
 		return false;
 	}
-	locname = temp.split('`');
+	gvLocName = temp.split('`');
 
 	return true;
 }
 
 function 
-fillloc()
+fnFillLoc()
 {
 	var len;
 	var i;
 
-	if (!getCookieArrays()) {
-		locloc =["customloc","Aurora Village Transit Center ","Bellevue Transit Center","Seattle Central Library","Green Lake Park","Northgate Transit Center","Overlake Transit Center","Renton Transit Center","700 Broadway E","Seattle Center South","E Pine St & Broadway","SeaTac Airport","University of Wasington","West Seattle Library","Westlake Tunnel Station"];
-		locname =["Customize Locations...","Aurora Transit Ctr","Bellevue Transit Ctr","Downtown Library","Green Lake Park","Northgate Transit Ctr","Overlake Transit Ctr","Renton Transit Ctr","Roy Street Coffee","Seattle Center","Seattle Central College","Sea-Tac Airport","Univ of Washington","West Seattle Library","Westlake Tunnel"];
+	if (!fnLoadCookieArray()) {
+		gvLocAddress =["customloc","Aurora Village Transit Center ","Bellevue Transit Center","Seattle Central Library","Green Lake Park","Northgate Transit Center","Overlake Transit Center","Renton Transit Center","700 Broadway E","Seattle Center South","E Pine St & Broadway","SeaTac Airport","University of Wasington","West Seattle Library","Westlake Tunnel Station"];
+		gvLocName =["Customize Locations...","Aurora Transit Ctr","Bellevue Transit Ctr","Downtown Library","Green Lake Park","Northgate Transit Ctr","Overlake Transit Ctr","Renton Transit Ctr","Roy Street Coffee","Seattle Center","Seattle Central College","Sea-Tac Airport","Univ of Washington","West Seattle Library","Westlake Tunnel"];
 
 	}
-	len = locname.length;
+	len = gvLocName.length;
 
 	document.write('<option value="blank"></option>');
 
@@ -261,13 +260,13 @@ fillloc()
 
 
 	for (i = 0; i < len; i++) {
-		document.write('<option value="' + locloc[i] + '">' + locname[i] + '</option>');
+		document.write('<option value="' + gvLocAddress[i] + '">' + gvLocName[i] + '</option>');
 	}
 
 }
 
 function 
-fillday()
+fnFillDay()
 {
 	var myDate = new Date();
 	var day;
@@ -279,7 +278,7 @@ fillday()
 	var daynames =['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 	var monthnames =['jan', 'feb', 'mar', 'apr', 'nay', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-	listlen = readCookie('numdays');
+	listlen = fnReadCookie('CkDaystoDisplay');
 	if (listlen == null) {
 		listlen = 5;
 	}
@@ -308,7 +307,7 @@ Number.prototype.ordinal = function()
 		);
 }
 
-function locselect(){
- if ((document.FormName.origpull.options[document.FormName.origpull.selectedIndex].value == 'customloc') || (document.FormName.destpull.options[document.FormName.destpull.selectedIndex].value == 'customloc')) {
+function fnLocSelect(){
+ if ((document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'customloc') || (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'customloc')) {
 location.href='preferences.html';
 }}

@@ -1,18 +1,18 @@
-<div id="delete" style="DISPLAY: none; z-index: 2;">
+<div id="idDeleteMain" style="DISPLAY: none; z-index: 2;">
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: delete location</div>
 <div style="margin: 0 10px 0 8px;">
-<form name="deleteform" action="javascript:deleteverify();">
+<form name="nmDeleteForm" action="javascript:fnDeleteVerify();">
 location to delete:<br />
-<select name="list">
+<select name="nmLocList">
 </select>
 <br />
 <br />
-<input type="button" value="delete location" onClick="deleteverify();">
+<input type="button" value="delete location" onClick="fnDeleteVerify();">
 </form>
-<form action="javascript:ShowHide('deleteallverify');">
-<input type="button" value="delete all locations" onClick="ShowHide('deleteallverify');">
+<form action="javascript:fnShowHide('idDeleteAllConfirmModal');">
+<input type="button" value="delete all locations" onClick="fnShowHide('idDeleteAllConfirmModal');">
 </form>
-<div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
+<div style="float: right;"><a href="javascript:;" onclick="fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
@@ -21,36 +21,36 @@ location to delete:<br />
 </div>
 
 
-<div id="deleteverify" class="modalpage" style="display: none;"><div class="modalpopup">
-delete location &quot;<span id="deleteconfirmitem"></span>&quot;?<br /><br /><input type="button" value="delete" class="modalokay" onClick="deleteloc();" >
-<input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteverify');">
+<div id="idDeleteConfirmModal" class="modalpage" style="display: none;"><div class="modalpopup">
+delete location &quot;<span id="idDeleteConfirmItem"></span>&quot;?<br /><br /><input type="button" value="delete" class="modalokay" onClick="fnDeleteLoc();" >
+<input type="button" value="cancel" class="modalokay" onClick="fnShowHide('idDeleteConfirmModal');">
 </div></div>
 
-<div id="deletesuccess" class="modalpage" style="display: none;"><div class="modalpopup">
-location &quot;<span id="deletesuccessitem"></span>&quot; deleted<br /><br />
-<input type="button" value="delete another" class="modalokay" onClick="loaddelete();ShowHide('deletesuccess');" ><br /><br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deletesuccess');switchpage('menu');"> 
+<div id="idDeleteSuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
+location &quot;<span id="idDeleteSuccessItem"></span>&quot; deleted<br /><br />
+<input type="button" value="delete another" class="modalokay" onClick="fnLoadDelete();fnShowHide('idDeleteSuccessModal');" ><br /><br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idDeleteSuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>
 
-<div id="deletesuccesslast" class="modalpage" style="display: none;"><div class="modalpopup">
-last location &quot;<span id="deletesuccesslastitem"></span>&quot; deleted<br /><br />
-<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deletesuccesslast');switchpage('menu');"> 
+<div id="idDeleteSuccessLastModal" class="modalpage" style="display: none;"><div class="modalpopup">
+last location &quot;<span id="idDeleteSuccessLastItem"></span>&quot; deleted<br /><br />
+<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idDeleteSuccessLastModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>
 
-<div id="deleteallverify" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idDeleteAllConfirmModal" class="modalpage" style="display: none;"><div class="modalpopup">
 delete all locations 
-<br /><br /><input type="button" value="delete all locations" class="modalokay" onClick="ShowHide('deleteallverify');ShowHide('deleteallverifyconfirm');" >
-<input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteallverify');">
+<br /><br /><input type="button" value="delete all locations" class="modalokay" onClick="fnShowHide('idDeleteAllConfirmModal');fnShowHide('idDeleteAllFinalConfirmModal');" >
+<input type="button" value="cancel" class="modalokay" onClick="fnShowHide('idDeleteAllConfirmModal');">
 </div></div>
 
-<div id="deleteallverifyconfirm" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idDeleteAllFinalConfirmModal" class="modalpage" style="display: none;"><div class="modalpopup">
 <b>really</b> delete <b>all</b> locations 
-<br /><br /><input type="button" value="delete" class="modalokay" onClick="deleteall();" >
-<input type="button" value="cancel" class="modalokay" onClick="ShowHide('deleteallverifyconfirm');">
+<br /><br /><input type="button" value="delete" class="modalokay" onClick="fnDeleteAll();" >
+<input type="button" value="cancel" class="modalokay" onClick="fnShowHide('idDeleteAllFinalConfirmModal');">
 </div></div>
 
-<div id="deleteallsuccess" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idDeleteAllSuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
 all locations deleted<br /><br />
-<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('deleteallsuccess');switchpage('menu');"> 
+<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idDeleteAllSuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>
 

@@ -10,11 +10,11 @@
 <!--#include virtual="geo.js" -->
 </script>
 <link rel="apple-touch-icon" href="logo.png" />
-</head><body onLoad="updatepage();">
+</head><body onLoad="fnUpdatePage();">
 
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile</div>
 <div style="margin: 0 10px 0 8px;">
-<form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Post" onsubmit="return presubmit();">
+<form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Post" onsubmit="return fnPreSubmit();">
 <input type="hidden" name="action" value="entry">
 <input type="hidden" name="resptype" value="U">
 <input type="hidden" name="Time" value="">
@@ -38,34 +38,34 @@
 
 
 <div style="float: left;">start:</div><div style="float: right;">donate</div><br />
-<select name="origpull" onchange="locselect();">
+<select name="nmOriginationPull" onchange="fnLocSelect();">
 <script type="text/javascript" language="Javascript">
-fillloc();
+fnFillLoc();
 </script>
 </select> <br />
-<strong>or</strong> enter a starting address: <br /><input name="origcust" size="25" maxlength="80" /><br />
+<strong>or</strong> enter a starting address: <br /><input name="nmOriginationCustomText" size="25" maxlength="80" /><br />
 
 end:<br />
-<select name="destpull" onchange="locselect();">
+<select name="nmDestinationPull" onchange="fnLocSelect();">
 <script type="text/javascript" language="Javascript">
-fillloc();
+fnFillLoc();
 </script>
 </select><br />
-<strong>or</strong> enter an ending address: <br /><input name="destcust" size="25" maxlength="80" /><br />
+<strong>or</strong> enter an ending address: <br /><input name="nmDestinationCustomText" size="25" maxlength="80" /><br />
 
 <select name="Arr">
 <option value="A" selected="selected">arrive</option>
 <option value="D">depart</option>
 </select><br />
-<select name="daypull">
+<select name="nmDayPull">
 <option value="t" selected="selected">today</option>
 <option value="m">tomorrow</option>
 <script type="text/javascript" language="Javascript">
-fillday();
+fnFillDay();
 </script>
-</select><select name="fulltime">
+</select><select name="nmTimePull">
 <script type="text/javascript" language="Javascript">
-filltime();
+fnFillTime();
 </script>
 </select>
 <br /><input type="submit" name="Submit" value="plan trip" style="font-size:medium">
@@ -73,9 +73,9 @@ filltime();
 
 <br /><br />
 
-<div id="showblock" style="DISPLAY: block;"><div style="float: left;"><a onclick ="showadditional();" href="javascript:;" >additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr /></div>
-<div id="optblock" style="DISPLAY: none;">
-<div style="float: left;"><a onclick ="hideadditional();" href="javascript:;" >hide additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr />
+<div id="idNoOpt" style="DISPLAY: block;"><div style="float: left;"><a onclick ="fnShowAdditional();" href="javascript:;" >additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr /></div>
+<div id="idAddtlOpt" style="DISPLAY: none;">
+<div style="float: left;"><a onclick ="fnHideAdditional();" href="javascript:;" >hide additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr />
 
 maximum walking: 
 <select name="Walk">
@@ -91,16 +91,16 @@ maximum walking:
 <option value="W">minimal walking</option>
 </select>
 
-<br />accessable trip: <select name="atrpull">
+<br />accessable trip: <select name="nmAccessablePull">
 <option value="N" selected="selected">no</option>
 <option value="Y">yes</option>
 </select></div>
 </form>
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
-<div id="genericmodal" class="modalpage" style="display: none;"><div class="modalpopup">
-<span id="generictext"></span>
-<br /><br /><input type="button" value="okay" class="modalokay" onClick="ShowHide('genericmodal');" />
+<div id="idGenericModal" class="modalpage" style="display: none;"><div class="modalpopup">
+<span id="idGenericModalText"></span>
+<br /><br /><input type="button" value="okay" class="modalokay" onClick="fnShowHide('idGenericModal');" />
 </div>
 </body>
 </html>

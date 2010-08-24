@@ -1,20 +1,20 @@
-<div id="add" style="DISPLAY: none; z-index: 2;">
+<div id="idAddMain" style="DISPLAY: none; z-index: 2;">
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: add location</div>
 <div style="margin: 0 10px 0 8px;">
-<form name="add" action="javascript:addloc();">
+<form name="nmAddForm" action="javascript:fnAddLoc();">
 name:<br />
-<input name="locname" size="25" maxlength="80" /><br />
+<input name="nmLocName" size="25" maxlength="80" /><br />
 location:<br />
-<input name="locloc" size="25" maxlength="80" /><br /><br />
-<input type="button" value="add location" onclick="addloc();" />
+<input name="nmLocAddress" size="25" maxlength="80" /><br /><br />
+<input type="button" value="add location" onclick="fnAddLoc();" />
 </form>
-<div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
+<div style="float: right;"><a href="javascript:;" onclick="fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
 </div>
-<div id="addsuccess" class="modalpage" style="display: none;"><div class="modalpopup">
-location &quot;<span id="addsuccessitem"></span>&quot; added<br /><br /><input type="button" value="add another location" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');"><br /> <br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="document.add.locloc.value='';document.add.locname.value='';ShowHide('addsuccess');switchpage('menu');"> 
+<div id="idAddSuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
+location &quot;<span id="idAddSuccessItem"></span>&quot; added<br /><br /><input type="button" value="add another location" class="modalokay" onClick="document.nmAddForm.nmLocAddress.value='';document.nmAddForm.nmLocName.value='';fnShowHide('idAddSuccessModal');"><br /> <br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="document.nmAddForm.nmLocAddress.value='';document.nmAddForm.nmLocName.value='';fnShowHide('idAddSuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>

@@ -1,13 +1,13 @@
-<div id="tripdefaults" style="DISPLAY: none;z-index: 2;">
+<div id="idTripDefaults" style="DISPLAY: none;z-index: 2;">
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: trip defaults</div>
 <div style="margin: 0 10px 0 8px;">
-<form name="prefs" action="javascript:saveprefs();">
-time:<br /><select name="Arr">
+<form name="nmPrefsForm" action="javascript:fnSavePrefs();">
+time:<br /><select name="nmArriveDepart">
 <option value="A" selected="selected">arrive</option>
 <option value="D">depart</option>
 </select> <br />
 
-time interval:<br /><select name="minterval">
+time interval:<br /><select name="nmMinuteInterval">
 <option value="5">5</option>
 <option value="10">10</option>
 <option value="15" selected="selected">15</option>
@@ -15,7 +15,7 @@ time interval:<br /><select name="minterval">
 <option value="30">30</option>
 <option value="60">60</option>
 </select><br />
-days displayed:<br /><select name="days">
+days displayed:<br /><select name="nmNumberDays">
 <option value="0">2</option>
 <option value="1">3</option>
 <option value="2">4</option>
@@ -48,32 +48,32 @@ days displayed:<br /><select name="days">
 <option value="29">31</option>
 </select>
 
-<br />maximum walking:<br /><select name="Walk">
+<br />maximum walking:<br /><select name="nmMaxWalking">
 <option value=".25"> 0.25 mi</option>
 <option value=".50" selected="selected"> 0.50 mi</option>
 <option value=".75"> 0.75 mi</option>
 <option value="1.0"> 1.00 mi</option>
 </select>
 
-<br />most important:<br /><select name="Min">
+<br />most important:<br /><select name="nmMostImportant">
 <option value="T" selected="selected">fastest way</option>
 <option value="X">fewest transfers</option>
 <option value="W">minimal walking</option>
 </select>
 
-<br />accessable trip:<br /><select name="atrpull">
+<br />accessable trip:<br /><select name="nmAccessablePull">
 <option value="N" selected="selected">no</option>
 <option value="Y">yes</option>
 </select>
-<br /><br /><input type="button" onclick="saveprefs();" value="save trip defaults"></form>
-<div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
+<br /><br /><input type="button" onclick="fnSavePrefs();" value="save trip defaults"></form>
+<div style="float: right;"><a href="javascript:;" onclick="fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><hr />
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
 </div>
-<div id="prefsuccess" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idPrefSuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
 trip defaults saved<br /><br />
-<input type="button" value="okay" class="modalokay" onClick="ShowHide('prefsuccess')">
+<input type="button" value="okay" class="modalokay" onClick="fnShowHide('idPrefSuccessModal')">
 <br /> <br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('prefsuccess');switchpage('menu');"> 
+<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idPrefSuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>

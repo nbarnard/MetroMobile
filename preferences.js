@@ -1,51 +1,51 @@
-var curload = 'menu';
-var locloc = new Array();
-var locname = new Array();
+var gvCurrentlyLoaded = 'idPrefMenu';
+var gvLocAddress = new Array();
+var gvLocName= new Array();
 
 function 
-saveCookieArrays()
+fnSaveCookieArray()
 {
 	var temp;
 
-	temp = locloc.join('`');
-	createCookie('locloc', temp);
+	temp = gvLocAddress.join('`');
+	fnCreateCookie('CkLocAddresses', temp);
 
-	temp = locname.join('`');
-	createCookie('locname', temp);
+	temp = gvLocName.join('`');
+	fnCreateCookie('CkLocName', temp);
 
 }
 function 
-getCookieArrays()
+fnLoadCookieArray()
 {
 	var temp;
 
 	//get location array
-		temp = readCookie('locloc');
+		temp = fnReadCookie('CkLocAddresses');
 
 	if (!temp) {
 		return false;
 	}
-	locloc = temp.split('`');
+	gvLocAddress = temp.split('`');
 
 	//get locname array
-		temp = readCookie('locname');
+		temp = fnReadCookie('CkLocName');
 
 	if (!temp) {
 		return false;
 	}
-	locname = temp.split('`');
+	gvLocName= temp.split('`');
 
 	return true;
 }
 
 function 
-createCookie(name, value)
+fnCreateCookie(name, value)
 {
 	document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
 }
 
 function 
-readCookie(name)
+fnReadCookie(name)
 {
 	var nameEQ = name + "=";
 	var ca = document.cookie.split(';');
@@ -60,61 +60,61 @@ readCookie(name)
 }
 
 function 
-loadmodifyloc()
+fnLoadModifyLoc()
 {
-	document.modifylocform.locname.value = locname[document.modifyform.list.selectedIndex];
-	document.modifylocform.locloc.value = locloc[document.modifyform.list.selectedIndex];
+	document.nmModifyLocForm.nmLocName.value = gvLocName[document.nmModifyForm.nmLocList.selectedIndex];
+	document.nmModifyLocForm.nmLocAddress.value = gvLocAddress[document.nmModifyForm.nmLocList.selectedIndex];
 
-	switchpage('modifyloc');
+	fnSwitchPage('idModifyLoc');
 }
 
 function 
-addloc()
+fnAddLoc()
 {
 	var nextentry;
 
-	if ((document.add.locloc.value == "") && (document.add.locname.value == "")) {
-		loadgenericmodal('please enter a name and location');
+	if ((document.nmAddForm.nmLocAddress.value == "") && (document.nmAddForm.nmLocName.value == "")) {
+		fnLoadModal('please enter a name and location');
 		return false;
 	}
-	if (document.add.locloc.value == "") {
-		loadgenericmodal('please enter a location');
+	if (document.nmAddForm.nmLocAddress.value == "") {
+		fnLoadModal('please enter a location');
 		return false;
 	}
-	if (document.add.locname.value == "") {
-		loadgenericmodal('please enter a name');
+	if (document.nmAddForm.nmLocName.value == "") {
+		fnLoadModal('please enter a name');
 		return false;
 	}
-	if ((document.add.locname.value.indexOf('`') !== -1) || (document.add.locloc.value.indexOf('`') !== -1)) {
-		loadgenericmodal('sorry but the location and name cannot contain the ` character');
+	if ((document.nmAddForm.nmLocName.value.indexOf('`') !== -1) || (document.nmAddForm.nmLocAddress.value.indexOf('`') !== -1)) {
+		fnLoadModal('sorry but the location and name cannot contain the ` character');
 		return false;
 	}
 	//make sure we have the newest cookie
-		if (!(getCookieArrays())) {
+		if (!(fnLoadCookieArray())) {
 		nextentry = 0;
 	} else {
-		nextentry = locloc.length;
+		nextentry = gvLocAddress.length;
 	}
-	locloc[nextentry] = document.add.locloc.value;
-	locname[nextentry] = document.add.locname.value;
+	gvLocAddress[nextentry] = document.nmAddForm.nmLocAddress.value;
+	gvLocName[nextentry] = document.nmAddForm.nmLocName.value;
 
-	saveCookieArrays();
+	fnSaveCookieArray();
 
-	document.getElementById('addsuccessitem').innerHTML = document.add.locname.value;
+	document.getElementById('idAddSuccessItem').innerHTML = document.nmAddForm.nmLocName.value;
 
-	ShowHide('addsuccess');
+	fnShowHide('idAddSuccessModal');
 }
 
 function 
-saveprefs()
+fnSavePrefs()
 {
-	createCookie('arrdep', document.prefs.Arr.value);
-	createCookie('numdays', document.prefs.days.value);
-	createCookie('walk', document.prefs.Walk.value);
-	createCookie('mimp', document.prefs.Min.value);
-	createCookie('atr', document.prefs.atrpull.value);
-	createCookie('minterval', document.prefs.minterval.value);
-	ShowHide('prefsuccess');
+	fnCreateCookie('CkArrDept', document.nmPrefsForm.nmArriveDepart.value);
+	fnCreateCookie('CkDaystoDisplay', document.nmPrefsForm.nmNumberDays.value);
+	fnCreateCookie('CkMaximumWalking', document.nmPrefsForm.nmMaxWalking.value);
+	fnCreateCookie('CkMostImportant', document.nmPrefsForm.nmMostImportant.value);
+	fnCreateCookie('CkAccessability', document.nmPrefsForm.nmAccessablePull.value);
+	fnCreateCookie('CkMinuteInterval', document.nmPrefsForm.nmMinuteInterval.value);
+	fnShowHide('idPrefSuccessModal');
 	return true;
 }
 
@@ -124,7 +124,7 @@ saveprefs()
  * http://scripts.franciscocharrua.com/
  */
 function 
-Select_Value_Set(SelectName, Value)
+fnSetSelect(SelectName, Value)
 {
 	eval('SelectObject = document.' + SelectName + ';');
 	for (index = 0; index < SelectObject.length; index++) {
@@ -135,39 +135,39 @@ Select_Value_Set(SelectName, Value)
 }
 
 function 
-updatepage()
+fnUpdatePage()
 {
-	Select_Value_Set('prefs.Arr', readCookie('arrdep'));
-	Select_Value_Set('prefs.Walk', readCookie('walk'));
-	Select_Value_Set('prefs.days', readCookie('numdays'));
-	Select_Value_Set('prefs.Min', readCookie('mimp'));
-	Select_Value_Set('prefs.atrpull', readCookie('atr'));
-	Select_Value_Set('prefs.minterval', readCookie('minterval'));
+	fnSetSelect('nmPrefsForm.nmArriveDepart', fnReadCookie('CkArrDept'));
+	fnSetSelect('nmPrefsForm.nmMaxWalking', fnReadCookie('CkMaximumWalking'));
+	fnSetSelect('nmPrefsForm.nmNumberDays', fnReadCookie('CkDaystoDisplay'));
+	fnSetSelect('nmPrefsForm.nmMostImportant', fnReadCookie('CkMostImportant'));
+	fnSetSelect('nmPrefsForm.nmAccessablePull', fnReadCookie('CkAccessability'));
+	fnSetSelect('nmPrefsForm.nmMinuteInterval', fnReadCookie('CkMinuteInterval'));
 	setTimeout("window.scroll(0,1)", 5);
 }
 
 function 
-switchpage(loadpage)
+fnSwitchPage(loadpage)
 {
-	document.getElementById(curload).style.display = 'none';
+	document.getElementById(gvCurrentlyLoaded).style.display = 'none';
 	document.getElementById(loadpage).style.display = 'block';
-	curload = loadpage;
+	gvCurrentlyLoaded = loadpage;
 
 	switch (loadpage) {
-	case 'menu':
+	case 'idPrefMenu':
 		document.title = "metro mobile: preferences";
 		break;
-	case 'tripdefaults':
+	case 'idTripDefaults':
 		document.title = "metro mobile: trip defaults";
 		break;
-	case 'add':
+	case 'idAddMain':
 		document.title = "metro mobile: add location";
 		break;
-	case 'delete':
+	case 'idDeleteMain':
 		document.title = "metro mobile: delete location";
 		break;
-	case 'modify':
-	case 'modifyloc':
+	case 'idModifyMain':
+	case 'idModifyLoc':
 		document.title = "metro mobile: edit location";
 		break;
 	}
@@ -175,7 +175,7 @@ switchpage(loadpage)
 }
 
 function 
-ShowHide(divId)
+fnShowHide(divId)
 {
 	if (document.getElementById(divId).style.display == 'none') {
 		document.getElementById(divId).style.display = 'block';
@@ -185,113 +185,113 @@ ShowHide(divId)
 }
 
 function 
-modifyloc()
+fnModifyLoc()
 {
-	locname[document.modifyform.list.selectedIndex] = document.modifylocform.locname.value;
-	locloc[document.modifyform.list.selectedIndex] = document.modifylocform.locloc.value;
+	gvLocName[document.nmModifyForm.nmLocList.selectedIndex] = document.nmModifyLocForm.nmLocName.value;
+	gvLocAddress[document.nmModifyForm.nmLocList.selectedIndex] = document.nmModifyLocForm.nmLocAddress.value;
 
-	saveCookieArrays();
+	fnSaveCookieArray();
 
-	document.getElementById('modifysuccessitem').innerHTML = document.modifylocform.locname.value;
+	document.getElementById('idModifySuccessItem').innerHTML = document.nmModifyLocForm.nmLocName.value;
 
-	ShowHide('modifysuccess');
+	fnShowHide('idModifySuccessModal');
 
 }
 
 function 
-loadmodify()
-{
-	var len;
-	var i;
-
-	//make sure we have the newest cookie
-		if (!(getCookieArrays())) {
-		loadgenericmodal('there are no locations to edit');
-		return false;
-	}
-	len = locname.length;
-
-	document.modifyform.list.options.length = 0;
-
-
-	for (i = 0; i < len; i++) {
-		document.modifyform.list.options[i] = new Option(locname[i]);
-	}
-
-	switchpage('modify');
-
-}
-
-function 
-loaddelete()
+fnLoadModify()
 {
 	var len;
 	var i;
 
 	//make sure we have the newest cookie
-		if (!(getCookieArrays())) {
-		loadgenericmodal('there are no locations to delete');
+		if (!(fnLoadCookieArray())) {
+		fnLoadModal('there are no locations to edit');
 		return false;
 	}
-	len = locname.length;
+	len = gvLocName.length;
 
-	document.deleteform.list.options.length = 0;
+	document.nmModifyForm.nmLocList.options.length = 0;
 
 
 	for (i = 0; i < len; i++) {
-		document.deleteform.list.options[i] = new Option(locname[i]);
+		document.nmModifyForm.nmLocList.options[i] = new Option(gvLocName[i]);
 	}
 
-	switchpage('delete');
+	fnSwitchPage('idModifyMain');
 
 }
 
 function 
-deleteverify()
+fnLoadDelete()
 {
-	document.getElementById('deleteconfirmitem').innerHTML = locname[document.deleteform.list.selectedIndex];
-	ShowHide('deleteverify');
+	var len;
+	var i;
+
+	//make sure we have the newest cookie
+		if (!(fnLoadCookieArray())) {
+		fnLoadModal('there are no locations to delete');
+		return false;
+	}
+	len = gvLocName.length;
+
+	document.nmDeleteForm.nmLocList.options.length = 0;
+
+
+	for (i = 0; i < len; i++) {
+		document.nmDeleteForm.nmLocList.options[i] = new Option(gvLocName[i]);
+	}
+
+	fnSwitchPage('idDeleteMain');
+
 }
 
 function 
-deleteloc()
+fnDeleteVerify()
+{
+	document.getElementById('idDeleteConfirmItem').innerHTML = gvLocName[document.nmDeleteForm.nmLocList.selectedIndex];
+	fnShowHide('idDeleteConfirmModal');
+}
+
+function 
+fnDeleteLoc()
 {
 	var deleteditem;
 
-	deleteditem = locname[document.deleteform.list.selectedIndex];
+	deleteditem = gvLocName[document.nmDeleteForm.nmLocList.selectedIndex];
 
-	locname.splice(document.deleteform.list.selectedIndex, 1);
-	locloc.splice(document.deleteform.list.selectedIndex, 1);
+	gvLocName.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
+	gvLocAddress.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
 
-	saveCookieArrays();
+	fnSaveCookieArray();
 
-	ShowHide('deleteverify');
+	fnShowHide('idDeleteConfirmModal');
 
 	//different modals if we deleted the last item.
-			if (locname.length == 0) {
-			document.getElementById('deletesuccesslastitem').innerHTML = deleteditem;
-			ShowHide('deletesuccesslast');
+			if (gvLocName.length == 0) {
+			document.getElementById('idDeleteSuccessLastItem').innerHTML = deleteditem;
+			fnShowHide('idDeleteSuccessLastModal');
 		} else {
-			document.getElementById('deletesuccessitem').innerHTML = deleteditem;
-			ShowHide('deletesuccess');
+			document.getElementById('idDeleteSuccessItem').innerHTML = deleteditem;
+			fnShowHide('idDeleteSuccessModal');
 		}
 }
 
-function deleteall(){
-locname.length=0;
-locloc.length=0;
+function fnDeleteAll(){
+gvLocName.length=0;
+gvLocAddress.length=0;
 
-saveCookieArrays();
-
-ShowHide('deleteallverifyconfirm');
-ShowHide('deleteallsuccess');
+fnSaveCookieArray();
+	
+fnShowHide('idDeleteAllFinalConfirmModal');
+fnShowHide('idDeleteAllSuccessModal');
 
 }
 
 function 
-loadgenericmodal(modalmessage)
+fnLoadModal(modalmessage)
 {
-	document.getElementById('generictext').innerHTML = modalmessage;
-	ShowHide('genericmodal');
+	document.getElementById('idGenericModalText').innerHTML =modalmessage;
+	fnShowHide('idGenericModal');
 
 }

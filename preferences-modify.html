@@ -1,38 +1,38 @@
-<div id="modify" style="DISPLAY: none; z-index: 2;">
+<div id="idModifyMain" style="DISPLAY: none; z-index: 2;">
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: edit location</div>
 <div style="margin: 0 10px 0 8px;">
-<form name="modifyform" action="javascript:loadmodifyloc();">
+<form name="nmModifyForm" action="javascript:fnLoadModifyLoc();">
 location to edit:<br />
-<select name="list">
+<select name="nmLocList">
 </select>
 <br />
 <br />
-<input type="button" value="edit location" onClick="loadmodifyloc();">
+<input type="button" value="edit location" onClick="fnLoadModifyLoc();">
 </form>
-<div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
+<div style="float: right;"><a href="javascript:;" onclick="fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 
 </div>
 </div>
-<div id="modifyloc" style="DISPLAY: none; z-index: 2;">
+<div id="idModifyLoc" style="DISPLAY: none; z-index: 2;">
 <div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: edit location</div>
 <div style="margin: 0 10px 0 8px;">
-<form name="modifylocform" action="javascript:modifyloc();">
+<form name="nmModifyLocForm" action="javascript:fnModifyLoc();">
 name:<br />
-<input name="locname" size="25" maxlength="80" /><br />
+<input name="nmLocName" size="25" maxlength="80" /><br />
 location:<br />
-<input name="locloc" size="25" maxlength="80" /><br /><br />
-<input type="button" value="edit location" onclick="modifyloc();" />
+<input name="nmLocAddress" size="25" maxlength="80" /><br /><br />
+<input type="button" value="edit location" onclick="fnModifyLoc();" />
 </form>
-<div style="float: right;"><a href="javascript:;" onclick="switchpage('menu');">preferences</a></div>
+<div style="float: right;"><a href="javascript:;" onclick="fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
 <div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
 </div>
 </div>
-<div id="modifysuccess" class="modalpage" style="display: none;"><div class="modalpopup">
-location &quot;<span id="modifysuccessitem"></span>&quot; modified<br /><br /><input type="button" value="edit another location" class="modalokay" onClick="ShowHide('modifysuccess');loadmodify();" style="width: 200px;height: 50px;white-space: normal;"><br /> <br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="ShowHide('modifysuccess');switchpage('menu');"> 
+<div id="idModifySuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
+location &quot;<span id="idModifySuccessItem"></span>&quot; modified<br /><br /><input type="button" value="edit another location" class="modalokay" onClick="fnShowHide('idModifySuccessModal');fnLoadModify();" style="width: 200px;height: 50px;white-space: normal;"><br /> <br /> 
+<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idModifySuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>

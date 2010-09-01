@@ -254,7 +254,7 @@ fnFillLoc()
 
 	document.write('<option value="blank"></option>');
 
-	if(geo_position_js.init()){
+	if(navigator.geolocation){
 	document.write('<option value="curloc">Current Location</option>');
 	}
 

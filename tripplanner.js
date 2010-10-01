@@ -10,12 +10,7 @@ var gvLocName = new Array();
 
 function fnPreSubmit()
 {
-	var myDate = new Date();
-	var selectedday;
-	var date;
-	var month;
-	var year;
-	var dwkday;
+        var myDate;
 
 	if ((document.FormName.nmOriginationCustomText.value == "") && (document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'blank') && (document.FormName.nmDestinationCustomText.value == "") && (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'blank')) {
 		fnLoadModal('please select or enter starting and ending addresses');
@@ -45,20 +40,18 @@ function fnPreSubmit()
 		document.FormName.Dest.value = document.FormName.nmDestinationCustomText.value;
 	}
 
-	//lets convert today / tomorrow to actual useful stuff for metro
-		date = myDate.getDate();
-	month = myDate.getMonth();
-	year = myDate.getFullYear() - 2000;
-
+	//convert the date to something proper for metro!
+	    myDate = new Date();
 	switch (document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value) {
 	case 't':
-		document.FormName.Date.value = (month + 1) + '/' + date + '/' + year;
-		break;
+	    document.FormName.Date.value = (myDate.getMonth()+1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
+	    break;
 	case 'm':
-		document.FormName.Date.value = (month + 1) + '/' + (date + 1) + '/' + year;
-		break;
-	default:
-		document.FormName.Date.value = document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value;
+	    myDate.setDate(myDate.getDate() + 1);
+	    document.FormName.Date.value = (myDate.getMonth()+1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
+	    break;
+        default:
+ 		document.FormName.Date.value = document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value;
 		break;
 	}
 

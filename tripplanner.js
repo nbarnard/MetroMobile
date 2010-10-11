@@ -239,7 +239,7 @@ fnFillLoc()
 	var i;
 
 	if (!fnLoadCookieArray()) {
-		gvLocAddress =["customloc","Aurora Village Transit Center ","Bellevue Transit Center","Seattle Central Library","Green Lake Park","Northgate Transit Center","Overlake Transit Center","Renton Transit Center","700 Broadway E","Seattle Center South","E Pine St & Broadway","SeaTac Airport","University of Wasington","West Seattle Library","Westlake Tunnel Station"];
+		gvLocAddress =["customloc","Aurora Village Transit Center ","Bellevue Transit Center","Seattle Central Library","Green Lake Park","Northgate Transit Center","Overlake Transit Center","Renton Transit Center","700 Broadway E","Seattle Center South","E Pine St & Broadway","SeaTac Airport","University of Washington","West Seattle Library","Westlake Tunnel Station"];
 		gvLocName =["Customize Locations...","Aurora Transit Ctr","Bellevue Transit Ctr","Downtown Library","Green Lake Park","Northgate Transit Ctr","Overlake Transit Ctr","Renton Transit Ctr","Roy Street Coffee","Seattle Center","Seattle Central College","Sea-Tac Airport","Univ of Washington","West Seattle Library","Westlake Tunnel"];
 
 	}

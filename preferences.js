@@ -149,27 +149,33 @@ fnUpdatePage()
 function 
 fnSwitchPage(loadpage)
 {
+    var mm;
+    var loc;
 	document.getElementById(gvCurrentlyLoaded).style.display = 'none';
 	document.getElementById(loadpage).style.display = 'block';
 	gvCurrentlyLoaded = loadpage;
 
+        mm='metro mobile: ';
+	loc = ' location';
 	switch (loadpage) {
 	case 'idPrefMenu':
-		document.title = "metro mobile: preferences";
+		document.title = mm + 'preferences';
 		break;
 	case 'idTripDefaults':
-		document.title = "metro mobile: trip defaults";
+		document.title = mm + 'trip defaults';
 		break;
 	case 'idAddMain':
-		document.title = "metro mobile: add location";
+	    document.title = mm + 'add' + loc;
 		break;
 	case 'idDeleteMain':
-		document.title = "metro mobile: delete location";
+		document.title = mm + 'delete' + loc;
 		break;
 	case 'idModifyMain':
 	case 'idModifyLoc':
-		document.title = "metro mobile: edit location";
+		document.title = mm + 'edit' + loc;
 		break;
+	case 'idReorderMain':
+	    document.title = mm + 'reorder' + loc + 's';
 	}
 	setTimeout("window.scroll(0,1)", 5);
 }

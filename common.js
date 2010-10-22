@@ -1,31 +1,23 @@
-function fnLoadCookieArray()
-{
-	var temp;
-
-	//get location array
-		temp = fnReadCookie('CkLocAddresses');
-
-	if (!temp) {
-		return false;
-	}
-	gvLocAddress = temp.split('`');
-
-	//get locname array
-		temp = fnReadCookie('CkLocName');
-
-	if (!temp) {
-		return false;
-	}
-	gvLocName= temp.split('`');
-
-	return true;
+function fnLoadCookieArray() {
+   var temp;
+   //get location array
+   temp = fnReadCookie('CkLocAddresses');
+   if (!temp) {
+      return false;
+   }
+   gvLocAddress = temp.split('`');
+   //get locname array
+   temp = fnReadCookie('CkLocName');
+   if (!temp) {
+      return false;
+   }
+   gvLocName = temp.split('`');
+   return true;
 }
-
 function fnReadCookie(name) {
    var nameEQ = name + "=";
    var ca = document.cookie.split(';');
- 
-  for (var i = 0; i < ca.length; i++) {
+   for (var i = 0; i < ca.length; i++) {
       var c = ca[i];
       while (c.charAt(0) == ' ')
       c = c.substring(1, c.length);
@@ -33,7 +25,6 @@ function fnReadCookie(name) {
    }
    return null;
 }
-
 /*
  * This script is adapted from a script available at The JavaScript Source ::
  * http://javascript.internet.com Created by: Francis Cocharrua ::
@@ -61,4 +52,3 @@ function fnShowHide(divId) {
       document.getElementById(divId).style.display = 'none';
    }
 }
-

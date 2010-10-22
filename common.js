@@ -52,3 +52,7 @@ function fnShowHide(divId) {
       document.getElementById(divId).style.display = 'none';
    }
 }
+
+function fnEvalWrapper(code) {
+    return eval(code);
+}

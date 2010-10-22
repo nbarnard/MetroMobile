@@ -93,21 +93,42 @@ function fnPreSubmit() {
 //the page loading functions
 
 function fnUpdatePage() {
-   var now = new Date();
-   var hour = now.getHours();
-   var minute = now.getMinutes();
-   var hint = 60 / gvMinuteInterval;
+    var now;
+    var hour;
+    var minute;
+    var hint;
    var arrdep;
+   var dminute;
+   var dindex;
+
    //figure out what time it is and set the time pull down correctly
+   now = new Date();
+   hour = now.getHours();
+   minute = now.getMinutes();
+   hint = 60 / gvMinuteInterval;
+
    arrdep = fnReadCookie('CkArrDept');
    if (arrdep == null) {
       arrdep = 'A';
    }
    if (arrdep == 'A') {
-      document.FormName.nmTimePull.selectedIndex = hour * hint + Math.ceil(minute / gvMinuteInterval);
+      dminute=Math.ceil(minute / gvMinuteInterval);
    } else {
-      document.FormName.nmTimePull.selectedIndex = hour * hint + Math.floor(minute / gvMinuteInterval);
+      dminute=Math.floor(minute / gvMinuteInterval);
    }
+
+   dindex=(hour * hint) + dminute;
+
+   //adjust if we're selecting the next day
+   if(document.FormName.nmTimePull.length==dindex){
+       // set date to tomorrow
+       document.FormName.nmDayPull.selectedIndex = 1;
+       // set time to the first entry -- 12:00 midnight
+       dindex=0;
+   }
+
+      document.FormName.nmTimePull.selectedIndex = dindex;
+
    //set the preferences
    fnSetSelect('FormName.Arr', fnReadCookie('CkArrDept'));
    fnSetSelect('FormName.Walk', fnReadCookie('CkMaximumWalking'));
@@ -366,10 +387,6 @@ fnShowHide('idProgressModal');
 
 Number.prototype.ordinal = function () {
    return this + ((this % 10 == 1 && this % 100 != 11) ? 'st' : (this % 10 == 2 && this % 100 != 12) ? 'nd' : (this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th');
-}
-
-function fnEvalWrapper(code) {
-   return eval(code);
 }
 
 function fnProgressModal(modalmessage) {   

@@ -106,7 +106,6 @@ function fnPreSubmit() {
     }
 
     //submit the form
-    document.FormName.submit();
     return true;
 }
 
@@ -267,10 +266,12 @@ function fnFindLoc() {
    }
 
    function loctimeout() {
+       // set the timeoutid to -1 so gotloc knows we've timed out
+       gvTimeoutID = -1;
       if (bestacc < 400) {
          calloba();
       } else {
-         alert('unable to get proper resolution');
+	  fnLoadModal('unable to determine location with sufficent accuracy');
       }
    }
 
@@ -299,12 +300,26 @@ function fnFindLoc() {
 
    function handleError(error) {
       clearTimeout(gvTimeoutID);
-      alert('in error');
+
+      switch(error.code) 
+	  {
+	  case error.TIMEOUT:
+	      fnLoadModal('timed out while obtaining location');break;
+	  case error.POSITION_UNAVAILABLE:
+	      fnLoadModal('Position not available');
+	      break;
+	  case error.PERMISSION_DENIED:
+	      fnLoadModal('Location Permission denied');
+	      break;
+	  case error.UNKNOWN_ERROR:
+	      fnLoadModal('Unknown error obtaining location');
+	      break;
+	  }
    }
 
    function obatimeout() {
       gvTimeoutID = -1;
-      alert('oba timeout');
+      fnLoadModal('unable to obtain list of stops');
    }
 
 // the root of the location finding function
@@ -334,7 +349,7 @@ function fnGotStop(locdata) {
    bestlocdiff = 200;
 
    if(stoploc.data.outOfRange){
-   alert('outside of metros area');
+       fnLoadModal('location is outside of trip planner's range'); 
    return;
    }
 

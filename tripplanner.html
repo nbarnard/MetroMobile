@@ -7,6 +7,7 @@
 </style>
 <script type="text/javascript" language="Javascript">
 <!--#include virtual="tripplanner.js" -->
+<!--#include virtual="common.js" -->
 </script>
 <link rel="apple-touch-icon" href="logo.png" />
 </head><body onLoad="fnUpdatePage();">
@@ -68,7 +69,6 @@ fnFillTime();
 </select>
 <br /><input type="submit" name="Submit" value="plan trip" style="font-size:medium">
 
-
 <br /><br />
 
 <div id="idNoOpt" style="DISPLAY: block;"><div style="float: left;"><a onclick ="fnShowAdditional();" href="javascript:;" >additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr /></div>
@@ -100,6 +100,14 @@ maximum walking:
 <span id="idGenericModalText"></span>
 <br /><br /><input type="button" value="okay" class="modalokay" onClick="fnShowHide('idGenericModal');" />
 </div>
+</div>
+<div id="idProgressModal" class="modalpage" style="display: none;"><div class="modalpopup">
+<img src="<!--#include virtual="loadimg-data.txt" -->" /><br /><br / >
+<span id="idProgressModalText"></span>
+<br /><br /><input id="idProgressButton" type="button" value="cancel" class="modalokay" onClick="fnCancelLoc();"/>
+</div>
+</div>
+
 </body>
 </html>
 

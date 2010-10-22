@@ -1,9 +1,14 @@
 // global variable for the minute integers
 var gvMinuteInterval;
 
-//global ariables for location arrays
+//global ariables for location arrays - multiple functions use this.
 var gvLocAddress = new Array();
 var gvLocName = new Array();
+
+// need to be globals due to callback
+var gvBestLatAbs;
+var gvBestLonAbs;
+var gvTimeoutID;
 
 //post processing to update the form
 
@@ -25,6 +30,38 @@ function fnPreSubmit() {
     DestCust = document.FormName.nmDestinationCustomText.value;
     DestSelected = document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value;
     SelectedDate = document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value;
+
+
+
+    //convert the date to something proper for metro!
+    myDate = new Date();
+    switch (SelectedDate) {
+    case 't':
+	FinalDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
+	break;
+    case 'm':
+	myDate.setDate(myDate.getDate() + 1);
+	FinalDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
+	break;
+    default:
+	FinalDate = SelectedDate;
+	break;
+    }
+
+    document.FormName.Date.value = FinalDate;
+
+    //split the time up
+    myTimeSplit = document.FormName.nmTimePull.value.split(" ");
+    document.FormName.hour_time.value = myTimeSplit[0];
+    document.FormName.minute_time.value = myTimeSplit[1];
+    document.FormName.ampm_time.value = myTimeSplit[2];
+
+    //handle the accessibility pulldown
+    if (document.FormName.nmAccessablePull.value == "Y") {
+    document.FormName.Atr.checked = true;
+     } else {
+    document.FormName.Atr.checked = false;
+    }
 
     if ((OrigCust == "") && (OrigSelected == 'blank') && (DestCust == "") && (DestSelected == 'blank')) {
 	fnLoadModal('please select or enter starting and ending addresses');
@@ -53,71 +90,25 @@ function fnPreSubmit() {
 	DestFinal = DestCust;
     }
 
+    if(OrigFinal == DestFinal){
+    fnLoadModal('starting and ending addresses are the same');
+    return false;
+    }
+
     // set the locations in the form to be submitted
     document.FormName.Orig.value = OrigFinal;
     document.FormName.Dest.value = DestFinal;
 
-    //convert the date to something proper for metro!
-    myDate = new Date();
-    switch (SelectedDate) {
-    case 't':
-	FinalDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
-	break;
-    case 'm':
-	myDate.setDate(myDate.getDate() + 1);
-	SelectedDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
-	break;
-    default:
-	SelectedDate = SelectedDate;
-	break;
+    // If one of the locations is current location, fire off to find the stop.
+    if((OrigFinal == 'curloc') || (DestFinal == 'curloc')){
+    fnFindLoc();
+    return false;
     }
 
-    document.FormName.Date.value = FinalDate;
-
-    //split the time up
-    myTimeSplit = document.FormName.nmTimePull.value.split(" ");
-    document.FormName.hour_time.value = myTimeSplit[0];
-    document.FormName.minute_time.value = myTimeSplit[1];
-    document.FormName.ampm_time.value = myTimeSplit[2];
-
-    //handle the accessibility pulldown
-    if (document.FormName.nmAccessablePull.value == "Y") {
-	document.FormName.atr.checked = true;
-    } else {
-	document.FormName.atr.checked = false;
-    }
     //submit the form
-    document.Formname.submit();
+    document.FormName.submit();
     return true;
 }
-
-function fnReadCookie(name) {
-   var nameEQ = name + "=";
-   var ca = document.cookie.split(';');
-   for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ')
-      c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-   }
-   return null;
-}
-
-/*
- * This script is adapted from a script available at The JavaScript Source ::
- * http://javascript.internet.com Created by: Francis Cocharrua ::
- * http://scripts.franciscocharrua.com/
- */
-
-function fnSetSelect(SelectName, Value) {
-   eval('SelectObject = document.' + SelectName + ';');
-   for (index = 0; index < SelectObject.length; index++) {
-      if (SelectObject[index].value == Value) {
-         SelectObject.selectedIndex = index;
-      }
-   }
-}
-
 
 //the page loading functions
 
@@ -150,35 +141,6 @@ function fnUpdatePage() {
    return true;
 }
 
-
-//Show hide function for extended options
-
-function fnShowHide(divId) {
-   if (document.getElementById(divId).style.display == 'none') {
-      document.getElementById(divId).style.display = 'block';
-   } else {
-      document.getElementById(divId).style.display = 'none';
-   }
-}
-
-function fnShowAdditional() {
-   fnShowHide('idAddtlOpt');
-   fnShowHide('idNoOpt');
-   setTimeout("window.scroll(0,150)", 5);
-}
-
-function fnHideAdditional() {
-   fnShowHide('idAddtlOpt');
-   fnShowHide('idNoOpt');
-   setTimeout("window.scroll(0,150)", 5);
-}
-
-//for formating integers with leading zeros
-
-function fnFormatInteger(num, length) {
-   return (num / Math.pow(10, length)).toFixed(length).substr(2);
-}
-
 function fnFillTime() {
    //lets fill out the form with the times
    var m;
@@ -208,34 +170,6 @@ function fnFillTime() {
    }
 }
 
-function fnLoadModal(modalmessage) {
-   document.getElementById('idGenericModalText').innerHTML = modalmessage;
-   fnShowHide('idGenericModal');
-
-}
-
-function fnLoadCookieArray() {
-   var temp;
-
-   //get location array
-   temp = fnReadCookie('CkLocAddresses');
-
-   if (!temp) {
-      return false;
-   }
-   gvLocAddress = temp.split('`');
-
-   //get locname array
-   temp = fnReadCookie('CkLocName');
-
-   if (!temp) {
-      return false;
-   }
-   gvLocName = temp.split('`');
-
-   return true;
-}
-
 function fnFillLoc() {
    var len;
    var i;
@@ -252,7 +186,6 @@ function fnFillLoc() {
    if (navigator.geolocation) {
       document.write('<option value="curloc">Current Location</option>');
    }
-
 
    for (i = 0; i < len; i++) {
       document.write('<option value="' + gvLocAddress[i] + '">' + gvLocName[i] + '</option>');
@@ -290,9 +223,181 @@ function fnFillDay() {
 }
 
 
+function fnFindLoc() {
+   var bestlat;
+   var bestlon;
+   var bestacc;
+   var dupaccx;
+
+   function gotLoc(position) {
+      var accuracy;
+
+      // assigning accuracy to it own variable so we can compress further.
+      accuracy = position.coords.accuracy;
+
+      // check to see if user pressed cancel or we bailed out in another way
+      if (gvTimeoutID == -1) {
+         return false;
+      }
+
+      // count the number of times we get duplicate accuracies
+      if (accuracy == bestacc) {
+         dupaccx++;
+      } else {
+         // set the duplicate accuracy to 0 if we just got a different resolution
+         dupaccx = 0;
+      }
+
+      // using less than or equal to to adjust for scenarios where accuracy is 65,500,65,65,65 so that we get the last set of coords, not the first one.
+      if (accuracy <= bestacc) {
+         bestlat = position.coords.latitude;
+         bestlon = position.coords.longitude;
+         bestacc = accuracy;
+      }
+
+      // if we get the same accuracy three times in a row and we're at less than 200m, call it good and use it.
+      if ((dupaccx == 3) && (accuracy < 200)) {
+         clearTimeout(gvTimeoutID);
+         fnProgressModal('Locating Nearest Stop');
+         calloba();
+         return false;
+      }
+
+      navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
+   }
+
+   function loctimeout() {
+      if (bestacc < 400) {
+         calloba();
+      } else {
+         alert('unable to get proper resolution');
+      }
+   }
+
+   function calloba() {
+      var script_id;
+      var script;
+
+      script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon);
+      script.setAttribute('id', 'script_id');
+
+      script_id = document.getElementById('script_id');
+      if (script_id) {
+         document.getElementsByTagName('head')[0].removeChild(script_id);
+      }
+
+      gvBestLatAbs = Math.abs(bestlat);
+      gvBestLonAbs = Math.abs(bestlon);
+
+      // set timeout for oba
+      gvTimeoutID = setTimeout(obatimeout, 30000);
+      // Insert <script> into DOM
+      document.getElementsByTagName('head')[0].appendChild(script);
+   }
+
+   function handleError(error) {
+      clearTimeout(gvTimeoutID);
+      alert('in error');
+   }
+
+   function obatimeout() {
+      gvTimeoutID = -1;
+      alert('oba timeout');
+   }
+
+// the root of the location finding function
+   gvTimeoutID = setTimeout(loctimeout, 30000);
+   bestacc = 100000;
+   dupaccx = 0;
+   fnProgressModal('Finding Location');
+   navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
+}
+
+function fnGotStop(locdata) {
+   var stoploc;
+   var x;
+   var bestlocdiff;
+   var bestlocname;
+   var diff;
+
+   // check to see if user pressed cancel or we bailed out in some other way
+   if (gvTimeoutID == -1) {
+      return false;
+   }
+
+   clearTimeout(gvTimeoutID);
+
+   //we're wrapping eval in its own function so this function will be compressed
+   stoploc = fnEvalWrapper(locdata);
+   bestlocdiff = 200;
+
+   if(stoploc.data.outOfRange){
+   alert('outside of metros area');
+   return;
+   }
+
+   //lets cycle through all the locations and figure out which is closest.
+   for (x = 0; x < stoploc.data.list.length; x++) {
+      // get the diff from the actual location
+      diff = Math.abs(Math.abs(stoploc.data.list[x].lon) - gvBestLonAbs) + Math.abs((Math.abs(stoploc.data.list[x].lat) - gvBestLatAbs));
+      // document.mooreport.oba.value = document.mooreport.oba.value + '\n' + stoploc.data.list[x].name + ',' + stoploc.data.list[x].lon + ',' + stoploc.data.list[x].lat + ',' + diff; 
+      if (diff < bestlocdiff) {
+         bestlocdiff = diff;
+         bestlocname = stoploc.data.list[x].name;
+      }
+   }
+   // Clear modal
+    fnShowHide('idProgressModal');  
+
+   // set best location and submit
+   if(document.FormName.Orig.value == 'curloc'){
+      document.FormName.Orig.value = bestlocname;
+   } else {
+      document.FormName.Dest.value = bestlocname;
+   }
+    document.FormName.submit();
+}
+
+function fnCancelLoc(){
+// clear the timeout
+clearTimeout(gvTimeoutID);
+// let other functions know we cleared the timeout
+gvTimeoutID=-1;
+//pull down the progress modal
+fnShowHide('idProgressModal');
+}
+
 
 Number.prototype.ordinal = function () {
    return this + ((this % 10 == 1 && this % 100 != 11) ? 'st' : (this % 10 == 2 && this % 100 != 12) ? 'nd' : (this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th');
+}
+
+function fnEvalWrapper(code) {
+   return eval(code);
+}
+
+function fnProgressModal(modalmessage) {   
+document.getElementById('idProgressModalText').innerHTML = modalmessage;
+document.getElementById('idProgressModal').style.display = 'block';
+}
+
+function fnShowAdditional() {
+   fnShowHide('idAddtlOpt');
+   fnShowHide('idNoOpt');
+   setTimeout("window.scroll(0,150)", 5);
+}
+
+function fnHideAdditional() {
+   fnShowHide('idAddtlOpt');
+   fnShowHide('idNoOpt');
+   setTimeout("window.scroll(0,150)", 5);
+}
+
+//for formating integers with leading zeros
+function fnFormatInteger(num, length) {
+   return (num / Math.pow(10, length)).toFixed(length).substr(2);
 }
 
 function fnLocSelect() {

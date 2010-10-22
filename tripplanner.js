@@ -4,8 +4,6 @@ var gvMinuteInterval;
 var gvLocAddress = new Array();
 var gvLocName = new Array();
 // need to be globals due to callback
-var gvBestLatAbs;
-var gvBestLonAbs;
 var gvTimeoutID;
 //post processing to update the form
 
@@ -217,99 +215,127 @@ function fnFindLoc() {
       // if we get the same accuracy three times in a row and we're at less than 200m, call it good and use it.
       if ((dupaccx == 3) && (accuracy < 200)) {
          clearTimeout(gvTimeoutID);
-         fnProgressModal('Locating Nearest Stop');
-         calloba();
+         fnProgressModal('locating nearest stop');
+         fnCallOBA(403,bestlat,bestlon);
          return false;
       }
-      navigator.geolocation.getCurrentPosition(gotLoc, handleError, {
-         enableHighAccuracy: true
-      });
+      navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy:true});
    }
 
    function loctimeout() {
       // set the timeoutid to -1 so gotloc knows we've timed out
       gvTimeoutID = -1;
+      // Clear modal
+      fnShowHide('idProgressModal');
       if (bestacc < 400) {
-         calloba();
+	  fnCallOBA(403,bestlat,bestlon);
       } else {
          fnLoadModal('unable to determine location with sufficent accuracy');
       }
    }
 
-   function calloba() {
-      var script_id;
-      var script;
-      script = document.createElement('script');
-      script.setAttribute('type', 'text/javascript');
-      script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon);
-      script.setAttribute('id', 'script_id');
-      script_id = document.getElementById('script_id');
-      if (script_id) {
-         document.getElementsByTagName('head')[0].removeChild(script_id);
-      }
-      gvBestLatAbs = Math.abs(bestlat);
-      gvBestLonAbs = Math.abs(bestlon);
-      // set timeout for oba
-      gvTimeoutID = setTimeout(obatimeout, 30000);
-      // Insert <script> into DOM
-      document.getElementsByTagName('head')[0].appendChild(script);
-   }
-
    function handleError(error) {
       clearTimeout(gvTimeoutID);
+      // Clear modal
+      fnShowHide('idProgressModal');
       switch (error.code) {
       case error.TIMEOUT:
          fnLoadModal('timed out while obtaining location');
          break;
       case error.POSITION_UNAVAILABLE:
-         fnLoadModal('Position not available');
+         fnLoadModal('position not available');
          break;
       case error.PERMISSION_DENIED:
-         fnLoadModal('Location Permission denied');
+         fnLoadModal('location permission denied');
          break;
       default:
-         fnLoadModal('Unknown error obtaining location');
+         fnLoadModal('unknown error obtaining location');
          break;
       }
    }
 
-   function obatimeout() {
-      gvTimeoutID = -1;
-      fnLoadModal('unable to obtain list of stops');
-   }
    // the root of the location finding function
    gvTimeoutID = setTimeout(loctimeout, 30000);
    bestacc = 100000;
    dupaccx = 0;
-   fnProgressModal('Finding Location');
-   navigator.geolocation.getCurrentPosition(gotLoc, handleError, {
-      enableHighAccuracy: true
-   });
+   fnProgressModal('finding location');
+   navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
 }
+
+function fnCallOBA(radius,bestlat,bestlon) {
+      var script_id;
+      var script;
+      script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon + '&radius' + radius);
+      script.setAttribute('id', 'script_id');
+      script_id = document.getElementById('script_id');
+      if (script_id) {
+         document.getElementsByTagName('head')[0].removeChild(script_id);
+      }
+      // set timeout for oba
+      gvTimeoutID = setTimeout(fnOBATimeout, 30000);
+      // Insert <script> into DOM
+      document.getElementsByTagName('head')[0].appendChild(script);
+   }
+
+   function fnOBATimeout() {
+      gvTimeoutID = -1;
+      // clear modal
+      fnShowHide('idProgressModal');
+      fnLoadModal('unable to obtain list of stops');
+   }
+
+
 
 function fnGotStop(locdata) {
    var stoploc;
    var x;
+   var lat;
+   var lon;
    var bestlocdiff;
    var bestlocname;
    var diff;
+   var script_id;
+   var qs;
+   var radius;
+
    // check to see if user pressed cancel or we bailed out in some other way
    if (gvTimeoutID == -1) {
       return false;
    }
    clearTimeout(gvTimeoutID);
+
    //we're wrapping eval in its own function so this function will be compressed
    stoploc = fnEvalWrapper(locdata);
+   script_id = document.getElementById('script_id');
+   var qs = new Querystring(script_id.src);
+
+   lat=qs.get('lat');
+   lon=qs.get('lon');
+
+   // settingthe best difference to 200, since we're on earth and the maximum longitude can be 180 (okay there are exceptions, we'll be fine setting this to 200 since we're dealing with fractions of degrees
    bestlocdiff = 200;
+
    if (stoploc.data.outOfRange) {
       fnLoadModal('location is outside of trip planner\'s range '); 
-   return;
+   return false;
+   }
+
+   if(stoploc.data.list.length==0){
+       alert('here');
+       radius=qs.get('radius');
+       if(radius==(document.FormName.Walk*1612)){
+	   fnLoadModal('no stops within walking distance');
+	   return false;
+       }
+       fnCallOBA(radius+403,bestlat,bestlon);
    }
 
    //lets cycle through all the locations and figure out which is closest.
    for (x = 0; x < stoploc.data.list.length; x++) {
       // get the diff from the actual location
-      diff = Math.abs(Math.abs(stoploc.data.list[x].lon) - gvBestLonAbs) + Math.abs((Math.abs(stoploc.data.list[x].lat) - gvBestLatAbs));
+       diff = Math.abs(Math.abs(stoploc.data.list[x].lon) - Math.abs(lon)) + Math.abs((Math.abs(stoploc.data.list[x].lat) - Math.abs(lat)));
       // document.mooreport.oba.value = document.mooreport.oba.value + '\n ' + stoploc.data.list[x].name + ', ' + stoploc.data.list[x].lon + ', ' + stoploc.data.list[x].lat + ', ' + diff; 
       if (diff < bestlocdiff) {
          bestlocdiff = diff;
@@ -348,7 +374,7 @@ function fnEvalWrapper(code) {
 
 function fnProgressModal(modalmessage) {   
 document.getElementById('idProgressModalText').innerHTML = modalmessage;
-document.getElementById('idProgressModal ').style.display = 'block';
+document.getElementById('idProgressModal').style.display = 'block';
 }
 
 function fnShowAdditional() {
@@ -369,7 +395,51 @@ function fnFormatInteger(num, length) {
 }
 
 function fnLocSelect() {
+    var button;
    if ((document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'customloc') || (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'customloc')) {
+       button= document.getElementById('idProgressButton');
+       button.onclick=function(){document.getElementById('idProgressModalText').innerHTML = 'cancelling';location.href = '/mm/';};
+       fnProgressModal('loading customize locations');
       location.href = 'preferences.html';
    }
+}
+/* Client-side access to querystring name=value pairs
+	Version 1.3
+	28 May 2008
+	
+	License (Simplified BSD):
+	http://adamv.com/dev/javascript/qslicense.txt
+*/
+function Querystring(qs) { // optionally pass a querystring to parse
+	this.params = {};
+	
+	if (qs == null) qs = location.search.substring(1, location.search.length);
+	if (qs.length == 0) return;
+
+// Turn <plus> back to <space>
+// See: http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.4.1
+	qs = qs.replace(/\+/g, ' ');
+	var args = qs.split('&'); // parse out name/value pairs separated via &
+	
+// split out each name=value pair
+	for (var i = 0; i < args.length; i++) {
+		var pair = args[i].split('=');
+		var name = decodeURIComponent(pair[0]);
+		
+		var value = (pair.length==2)
+			? decodeURIComponent(pair[1])
+			: name;
+		
+		this.params[name] = value;
+	}
+}
+
+Querystring.prototype.get = function(key, default_) {
+	var value = this.params[key];
+	return (value != null) ? value : default_;
+}
+
+Querystring.prototype.contains = function(key) {
+	var value = this.params[key];
+	return (value != null);
 }

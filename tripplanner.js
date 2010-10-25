@@ -167,15 +167,19 @@ function fnFillTime() {
 function fnFillLoc() {
    var len;
    var i;
-   if (!fnLoadCookieArray()) {
-      gvLocAddress = ["customloc", "Aurora Village Transit Center ", "Bellevue Transit Center", "Seattle Central Library", "Green Lake Park", "Northgate Transit Center", "Overlake Transit Center", "Renton Transit Center", "700 Broadway E", "Seattle Center South", "E Pine St & Broadway", "SeaTac Airport", "University of Washington", "West Seattle Library", "Westlake Tunnel Station"];
-      gvLocName = ["Customize Locations...", "Aurora Transit Ctr", "Bellevue Transit Ctr", "Downtown Library", "Green Lake Park", "Northgate Transit Ctr", "Overlake Transit Ctr", "Renton Transit Ctr", "Roy Street Coffee", "Seattle Center", "Seattle Central College", "Sea-Tac Airport", "Univ of Washington", "West Seattle Library", "Westlake Tunnel"];
-   }
-   len = gvLocName.length;
+   
    document.write('<option value="blank"></option>');
    if (navigator.geolocation) {
       document.write('<option value="curloc">Current Location</option>');
    }
+   // pull the cookies out, if its returning the stock list use customize locations
+   if(!fnLoadCookieArray()){
+   document.write('<option value="customloc">Customize Locations...</option>');
+   }
+   len = gvLocName.length;
+
+
+
    for (i = 0; i < len; i++) {
       document.write('<option value="' + gvLocAddress[i] + '">' + gvLocName[i] + '</option>');
    }
@@ -344,7 +348,6 @@ function fnGotStop(locdata) {
    }
 
    if(stoploc.data.list.length==0){
-       alert('here');
        radius=qs.get('radius');
        if(radius==(document.FormName.Walk*1612)){
 	   fnLoadModal('no stops within walking distance');
@@ -357,7 +360,6 @@ function fnGotStop(locdata) {
    for (x = 0; x < stoploc.data.list.length; x++) {
       // get the diff from the actual location
        diff = Math.abs(Math.abs(stoploc.data.list[x].lon) - Math.abs(lon)) + Math.abs((Math.abs(stoploc.data.list[x].lat) - Math.abs(lat)));
-      // document.mooreport.oba.value = document.mooreport.oba.value + '\n ' + stoploc.data.list[x].name + ', ' + stoploc.data.list[x].lon + ', ' + stoploc.data.list[x].lat + ', ' + diff; 
       if (diff < bestlocdiff) {
          bestlocdiff = diff;
          bestlocname = stoploc.data.list[x].name;

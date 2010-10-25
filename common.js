@@ -1,18 +1,20 @@
 function fnLoadCookieArray() {
-   var temp;
+   var addresses;
+   var names;
+
    //get location array
-   temp = fnReadCookie('CkLocAddresses');
-   if (!temp) {
-      return false;
-   }
-   gvLocAddress = temp.split('`');
+   addresses = fnReadCookie('CkLocAddresses');
    //get locname array
-   temp = fnReadCookie('CkLocName');
-   if (!temp) {
-      return false;
-   }
-   gvLocName = temp.split('`');
+   names = fnReadCookie('CkLocName');
+   if (!addresses || !names) {
+       gvLocName=["Bellevue College","Gene Coulon Park","Green Lake Park","Marymoor Park","Northgate Library","Roy St Coffee & Tea","SeaTac Airport","Seattle Center","Shoreline College","Univ of Washington","West Seattle Library"];
+       gvLocAddress=["Bellevue College","Gene Coulon Memorial Beach Park","Green Lake Park","Marymoor Park","Northgate Library","700 Broadway E","SeaTac Airport","Seattle Center South","Shoreline Community College","University of Washington","West Seattle Library"];
+       return false;
+   } else {
+   gvLocAddress = addresses.split('`');
+   gvLocName = names.split('`');
    return true;
+   }
 }
 function fnReadCookie(name) {
    var nameEQ = name + "=";

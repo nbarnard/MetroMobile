@@ -11,9 +11,9 @@ function fnLoadCookieArray() {
        gvLocAddress=["Bellevue College","Gene Coulon Memorial Beach Park","Green Lake Park","Marymoor Park","Northgate Library","700 Broadway E","SeaTac Airport","Seattle Center South","Shoreline Community College","University of Washington","West Seattle Library"];
        return false;
    } else {
-   gvLocAddress = addresses.split('`');
-   gvLocName = names.split('`');
-   return true;
+       gvLocAddress = addresses.split('`');
+       gvLocName = names.split('`');
+       return true;
    }
 }
 function fnReadCookie(name) {

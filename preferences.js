@@ -40,7 +40,11 @@ function fnAddLoc() {
    }
    //make sure we have the newest cookie
    fnLoadCookieArray();
+   if(fnEmptyCookieArray()){
+       nextentry = 0;
+   } else {
    nextentry = gvLocAddress.length;
+   }
 
    gvLocAddress[nextentry] = document.nmAddForm.nmLocAddress.value;
    gvLocName[nextentry] = document.nmAddForm.nmLocName.value;
@@ -114,6 +118,11 @@ function fnLoadModify() {
    var i;
    //make sure we have the newest cookie
    fnLoadCookieArray();
+   if(fnEmptyCookieArray()){
+       fnLoadModal('there are no locations to edit');
+       return false;
+   }
+
 
    len = gvLocName.length;
    document.nmModifyForm.nmLocList.options.length = 0;
@@ -128,6 +137,10 @@ function fnLoadDelete() {
    var i;
    //make sure we have the newest cookie
    fnLoadCookieArray();
+   if(fnEmptyCookieArray()){
+       fnLoadModal('there are no locations to delete');
+       return false;
+   }
 
    len = gvLocName.length;
    document.nmDeleteForm.nmLocList.options.length = 0;
@@ -162,7 +175,10 @@ function fnDeleteLoc() {
 function fnDeleteAll() {
    gvLocName.length = 0;
    gvLocAddress.length = 0;
-   fnSaveCookieArray();
+   fnCreateCookie('CkLocAddresses', '`');
+   fnCreateCookie('CkLocName', '`');
+
+   //   fnSaveCookieArray();
    fnShowHide('idDeleteAllFinalConfirmModal');
    fnShowHide('idDeleteAllSuccessModal');
 }
@@ -208,7 +224,14 @@ function fnLoadReorder() {
 
 
    // start of the root function
+
    fnLoadCookieArray();
+
+   if(fnEmptyCookieArray()){
+       fnLoadModal('there are no locations to reorder');
+       return false;
+   }
+
    len = gvLocName.length;
 
    for (x = 0; x < len; x = x + 1) {
@@ -278,4 +301,14 @@ function fnMoveItem(item, dir) {
    gvLocAddress[newitem]=xaddr;
    gvLocName[newitem]=xname;
 
+}
+
+function fnEmptyCookieArray(){
+    if((gvLocAddress.length==0 && gvLocName==0)||(gvLocAddress[0]=='' && gvLocAddress[1]=='' && gvLocName[0]=='' && gvLocName[1]=='' && gvLocAddress.length==2 && gvLocName.length==2)){
+	gvLocAddress.length=0;
+	gvLocName.length=0;
+	return true;
+    } else {
+	return false;
+    }
 }

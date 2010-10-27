@@ -157,8 +157,7 @@ function fnDeleteVerify() {
 
 function fnDeleteLoc() {
    var deleteditem;
-   deleteditem = gvLocName[document.nmDeleteForm.nmLocList.selectedIndex];
-   gvLocName.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
+   deleteditem = gvLocName.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
    gvLocAddress.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
    fnSaveCookieArray();
    fnShowHide('idDeleteConfirmModal');
@@ -190,7 +189,7 @@ function fnUnloadReorder(){
 
     len = gvLocName.length;
 
-    for (x = 0; x < len; x = x + 1) {
+    for (x = 0; x < len; x++) {
 	row	= document.getElementById('idReorderRow' + x);
     document.getElementById('idReorderList').removeChild(row);
     }
@@ -234,7 +233,7 @@ function fnLoadReorder() {
 
    len = gvLocName.length;
 
-   for (x = 0; x < len; x = x + 1) {
+   for (x = 0; x < len; x++) {
       row = document.createElement("tr");
 
       if (x % 2) {
@@ -312,3 +311,62 @@ function fnEmptyCookieArray(){
 	return false;
     }
 }
+
+function fnAddStockLoc(){
+    //make sure we have the newest cookie
+    fnLoadCookieArray();
+
+    if(fnEmptyCookieArray()){
+	gvLocAddress=gvStockLocAddress;
+	gvLocName=gvStockLocName;    
+    } else {
+    gvLocAddress=gvLocAddress.concat(gvStockLocAddress);
+    gvLocName=gvLocName.concat(gvStockLocName);
+    }
+
+
+    fnSaveCookieArray();
+    fnLoadModal('stock locations added');
+
+}
+
+function fnDeleteStockLoc(){
+    function combinearrays(arrayx,arrayy,arrayz){
+	var x;
+
+	for(x=0;x<arrayx.length;x++){
+	    arrayz[x]=arrayx[x]+ '`' + arrayy[x];
+	}
+	user.length=arrayx.length;
+    }
+    var stock=new Array();
+    var user=new Array();
+    var x;
+    var match;
+
+    //make sure we have the newest cookie
+    fnLoadCookieArray();
+
+    // combine the arrays so we don't have to deal with a double comparison
+    combinearrays(gvStockLocName, gvStockLocAddress,stock);
+    combinearrays(gvLocName, gvLocAddress, user);
+
+	            for(x=0;x<stock.length;x++){
+	match=user.indexOf(stock[x]);
+       	while(match!=-1){
+	//  remove the offending entry from the actual arrays
+            gvLocAddress.splice(match,1);
+	    gvLocName.splice(match,1);
+   //     recombine the user array so we've got the most current addresses
+	    combinearrays(gvLocName, gvLocAddress,user);
+	    match=user.indexOf(stock[x]);
+	    }
+        }
+    fnSaveCookieArray();
+    fnLoadModal('stock locations removed');
+    // reload the delete page so we get the right items in the pulldown
+    fnLoadDelete();
+}
+       
+
+	

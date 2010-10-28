@@ -64,14 +64,14 @@ function fnSavePrefs() {
    return true;
 }
 
-function fnUpdatePage() {
+function fnLoadTripDefaults() {
    fnSetSelect('nmPrefsForm.nmArriveDepart', fnReadCookie('CkArrDept'));
    fnSetSelect('nmPrefsForm.nmMaxWalking', fnReadCookie('CkMaximumWalking'));
    fnSetSelect('nmPrefsForm.nmNumberDays', fnReadCookie('CkDaystoDisplay'));
    fnSetSelect('nmPrefsForm.nmMostImportant', fnReadCookie('CkMostImportant'));
    fnSetSelect('nmPrefsForm.nmAccessablePull', fnReadCookie('CkAccessability'));
    fnSetSelect('nmPrefsForm.nmMinuteInterval', fnReadCookie('CkMinuteInterval'));
-   setTimeout("window.scroll(0,1)", 5);
+   fnSwitchPage('idTripDefaults');
 }
 
 function fnSwitchPage(loadpage) {

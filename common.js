@@ -1,5 +1,5 @@
-       gvStockLocAddress=["Bellevue College","Gene Coulon Park","Green Lake Park","Marymoor Park","Northgate Library","Roy St Coffee & Tea","SeaTac Airport","Seattle Center","Shoreline College","Univ of Washington","West Seattle Library"];
-       gvStockLocName=["Bellevue College","Gene Coulon Memorial Beach Park","Green Lake Park","Marymoor Park","Northgate Library","700 Broadway E","SeaTac Airport","Seattle Center South","Shoreline Community College","University of Washington","West Seattle Library"];
+       gvStockLocAddress=["Bellevue College","Gene Coulon Memorial Beach Park","Green Lake Park","Marymoor Park","Northgate Library","700 Broadway E","SeaTac Airport","Seattle Center South","Shoreline Community College","University of Washington","West Seattle Library"];
+       gvStockLocName=["Bellevue College","Gene Coulon Park","Green Lake Park","Marymoor Park","Northgate Library","Roy St Coffee & Tea","SeaTac Airport","Seattle Center","Shoreline College","Univ of Washington","West Seattle Library"];
 
 
 function fnLoadCookieArray() {
@@ -11,8 +11,8 @@ function fnLoadCookieArray() {
    //get locname array
    names = fnReadCookie('CkLocName');
    if (!addresses || !names) {
-       gvLocName=gvStockLocAddress;
-       gvLocAddress=gvStockLocName;
+       gvLocName=gvStockLocName;
+       gvLocAddress=gvStockLocAddress;
        return false;
    } else {
        gvLocAddress = addresses.split('`');

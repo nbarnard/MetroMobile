@@ -63,3 +63,11 @@ z-index:2;
 -webkit-transform: scaleY(-1);
 transform: scaleY(-1);
 }
+.logoimg
+{
+height:57px;
+width:57px;
+margin-bottom: -20px; 
+padding-bottom: 0px;
+border-bottom:0px;
+}

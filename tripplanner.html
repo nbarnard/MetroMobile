@@ -5,7 +5,7 @@
 <style type="text/css">
 <!--#include virtual="tripplanner.css" -->
 </style>
-<script type="text/javascript" language="Javascript">
+<script>
 <!--#include virtual="tripplanner.js" -->
 <!--#include virtual="common.js" -->
 </script>
@@ -38,7 +38,7 @@
 
 <div style="float: left;">start:</div><div style="float: right;">about</div><br />
 <select name="nmOriginationPull" onchange="fnLocSelect();">
-<script type="text/javascript" language="Javascript">
+<script>
 fnFillLoc();
 </script>
 </select> <br />
@@ -46,7 +46,7 @@ fnFillLoc();
 
 end:<br />
 <select name="nmDestinationPull" onchange="fnLocSelect();">
-<script type="text/javascript" language="Javascript">
+<script>
 fnFillLoc();
 </script>
 </select><br />
@@ -59,11 +59,11 @@ fnFillLoc();
 <select name="nmDayPull">
 <option value="t" selected="selected">today</option>
 <option value="m">tomorrow</option>
-<script type="text/javascript" language="Javascript">
+<script>
 fnFillDay();
 </script>
 </select><select name="nmTimePull">
-<script type="text/javascript" language="Javascript">
+<script>
 fnFillTime();
 </script>
 </select>

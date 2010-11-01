@@ -218,8 +218,15 @@ function fnFindLoc() {
 
    function gotLoc(position) {
       var accuracy;
-      // assigning accuracy to it own variable so we can compress further.
+      var lat;
+      var lon;
+
+      // assigning accuracy and lat lon to it own variable so we can compress further.
       accuracy = position.coords.accuracy;
+      lat=position.coords.latitude;
+      lon=position.coords.longitude;
+
+      fnRecordDebugInfo('1A'+lat+'N'+lon+'A'+accuracy);
       // check to see if user pressed cancel or we bailed out in another way
       if (gvTimeoutID == -1) {
          return false;
@@ -233,8 +240,8 @@ function fnFindLoc() {
       }
       // using less than or equal to to adjust for scenarios where accuracy is 65,500,65,65,65 so that we get the last set of coords, not the first one.
       if (accuracy <= bestacc) {
-         bestlat = position.coords.latitude;
-         bestlon = position.coords.longitude;
+	  bestlat = lat;
+	  bestlon = lon;
          bestacc = accuracy;
       }
       // if we get the same accuracy three times in a row and we're at less than 200m, call it good and use it.
@@ -252,6 +259,7 @@ function fnFindLoc() {
       gvTimeoutID = -1;
       // Clear modal
       fnShowHide('idProgressModal');
+      fnRecordDebugInfo('2');
       if (bestacc < 400) {
 	  fnCallOBA(403,bestlat,bestlon);
       } else {
@@ -260,23 +268,30 @@ function fnFindLoc() {
    }
 
    function handleError(error) {
+       var errorid;
+
       clearTimeout(gvTimeoutID);
       // Clear modal
       fnShowHide('idProgressModal');
       switch (error.code) {
       case error.TIMEOUT:
          fnLoadModal('timed out while obtaining location');
+	 errorid=1;
          break;
       case error.POSITION_UNAVAILABLE:
          fnLoadModal('position not available');
+	 errorid=2;
          break;
       case error.PERMISSION_DENIED:
          fnLoadModal('location permission denied');
-         break;
+	 errorid=3; 
+        break;
       default:
          fnLoadModal('unknown error obtaining location');
+	 errorid=4;
          break;
       }
+      fnRecordDebugInfo('3C'+errorid);
    }
 
    // the root of the location finding function
@@ -284,12 +299,15 @@ function fnFindLoc() {
    bestacc = 100000;
    dupaccx = 0;
    fnProgressModal('finding location');
+   fnRecordDebugInfo('0');
    navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
 }
 
 function fnCallOBA(radius,bestlat,bestlon) {
       var script_id;
       var script;
+
+      fnRecordDebugInfo('4A'+bestlat+'N'+bestlon+'D'+radius);
       script = document.createElement('script');
       script.setAttribute('type', 'text/javascript');
       script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon + '&radius' + radius);
@@ -309,6 +327,7 @@ function fnCallOBA(radius,bestlat,bestlon) {
       // clear modal
       fnShowHide('idProgressModal');
       fnLoadModal('unable to obtain list of stops');
+      fnRecordDebugInfo('5');
    }
 
 
@@ -327,6 +346,7 @@ function fnGotStop(locdata) {
 
    // check to see if user pressed cancel or we bailed out in some other way
    if (gvTimeoutID == -1) {
+       fnRecordDebugInfo('6');
       return false;
    }
    clearTimeout(gvTimeoutID);
@@ -344,11 +364,13 @@ function fnGotStop(locdata) {
 
    if (stoploc.data.outOfRange) {
       fnLoadModal('location is outside of trip planner\'s range '); 
+      fnRecordDebugInfo('7');
    return false;
    }
 
    if(stoploc.data.list.length==0){
        radius=qs.get('radius');
+       fnRecordDebugInfo('8');
        if(radius==(document.FormName.Walk*1612)){
 	   fnLoadModal('no stops within walking distance');
 	   return false;
@@ -364,6 +386,7 @@ function fnGotStop(locdata) {
          bestlocdiff = diff;
          bestlocname = stoploc.data.list[x].name;
       }
+      fnRecordDebugInfo('9A'+lat+'N'+lon+'D'+diff+'I'+stoploc.data.list[x].id);
    }
    // Clear modal
     fnShowHide('idProgressModal');  
@@ -427,6 +450,18 @@ function fnDebugTrackSelect(){
     if (navigator.geolocation) {
 	document.write('<br />save location debug info: <select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="no">no</option></select>');
         fnSetSelect('FormName.nmDebugTrackPull', fnReadCookie('CkDebugTrackPull'));
+    }
+}
+
+function fnRecordDebugInfo(data) {
+    var now;
+
+    // this wraps the whole of the function, if the index doesn't equal zero  we don't save anything..
+    if (document.FormName.nmDebugTrackPull.selectedIndex == 0) {
+
+	now = new Date();
+	fnCreateCookie('CkDebugInfo', fnReadCookie('CkDebugInfo') + ':' + now.getFullYear() + fnFormatInteger(now.getMonth() + 1, 2) + fnFormatInteger(now.getDate(), 2) + fnFormatInteger(now.getHours(), 2) + fnFormatInteger(now.getMinutes(), 2) + fnFormatInteger(now.getSeconds(), 2) + 'R' + data);
+
     }
 }
 

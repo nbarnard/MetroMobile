@@ -3,7 +3,7 @@
 <title>metro mobile</title>
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <style type="text/css">
-<!--#include virtual="tripplanner.css" -->
+<!--#include virtual="common.css" -->
 </style>
 <script>
 <!--#include virtual="tripplanner.js" -->
@@ -11,8 +11,8 @@
 </script>
 <link rel="apple-touch-icon" href="logo.png" />
 </head><body onLoad="fnUpdatePage();">
-<div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile</div>
-<div style="margin: 0 10px 0 8px;">
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile</div>
+<div class="CsMainBody">
 <form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Post" onsubmit="return fnPreSubmit();">
 <input type="hidden" name="action" value="entry">
 <input type="hidden" name="resptype" value="U">
@@ -36,7 +36,7 @@
 <input type="checkbox" style="display: none;" value="Y" name="Atr" />
 
 
-<div style="float: left;">start:</div><div style="float: right;">about</div><br />
+<div style="float: left;">start:</div><div class="CsRightLink">about</div><br />
 <select name="nmOriginationPull" onchange="fnLocSelect();">
 <script>
 fnFillLoc();
@@ -71,9 +71,9 @@ fnFillTime();
 
 <br /><br />
 
-<div id="idNoOpt" style="DISPLAY: block;"><div style="float: left;"><a href="javascript:fnShowAdditional();">additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr /></div>
+<div id="idNoOpt" style="DISPLAY: block;"><div style="float: left;"><a href="javascript:fnShowAdditional();">additional options</a></div><div class="CsRightLink"><a href="preferences.html">preferences</a></div><br /><hr /></div>
 <div id="idAddtlOpt" style="DISPLAY: none;">
-<div style="float: left;"><a href="javascript:fnHideAdditional();">hide additional options</a></div><div style="float: right;"><a href="preferences.html">preferences</a></div><br /><hr />
+<div style="float: left;"><a href="javascript:fnHideAdditional();">hide additional options</a></div><div class="CsRightLink"><a href="preferences.html">preferences</a></div><br /><hr />
 
 maximum walking: 
 <select name="Walk">
@@ -92,19 +92,24 @@ maximum walking:
 <br />accessable trip: <select name="nmAccessablePull">
 <option value="N" selected="selected">no</option>
 <option value="Y">yes</option>
-</select></div>
+</select>
+<script>
+fnDebugTrackSelect();
+</script>
+</div>
+
 </form>
-<div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
+<div class="CsCopyrightFooter">copyright 2010 nicholas barnard</div>
 </div>
-<div id="idGenericModal" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idGenericModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
 <span id="idGenericModalText"></span>
-<br /><br /><input type="button" value="okay" class="modalokay" onClick="fnShowHide('idGenericModal');" />
+<br /><br /><input type="button" value="okay" class="CSModalButton" onClick="fnShowHide('idGenericModal');" />
 </div>
 </div>
-<div id="idProgressModal" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idProgressModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
 <img src="<!--#include virtual="loadimg-data.txt" -->" /><br /><br / >
 <span id="idProgressModalText"></span>
-<br /><br /><input id="idProgressButton" type="button" value="cancel" class="modalokay" onClick="fnCancelLoc();"/>
+<br /><br /><input id="idProgressButton" type="button" value="cancel" class="CSModalButton" onClick="fnCancelLoc();"/>
 </div>
 </div>
 

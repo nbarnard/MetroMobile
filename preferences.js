@@ -1,6 +1,7 @@
 var gvCurrentlyLoaded = 'idPrefMenu';
 var gvLocAddress = new Array();
 var gvLocName = new Array();
+var gvPageLoadId;
 
 function fnSaveCookieArray() {
    var temp;
@@ -8,10 +9,6 @@ function fnSaveCookieArray() {
    fnCreateCookie('CkLocAddresses', temp);
    temp = gvLocName.join('`');
    fnCreateCookie('CkLocName', temp);
-}
-
-function fnCreateCookie(name, value) {
-   document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
 }
 
 function fnLoadModifyLoc() {
@@ -60,7 +57,11 @@ function fnSavePrefs() {
    fnCreateCookie('CkMostImportant', document.nmPrefsForm.nmMostImportant.value);
    fnCreateCookie('CkAccessability', document.nmPrefsForm.nmAccessablePull.value);
    fnCreateCookie('CkMinuteInterval', document.nmPrefsForm.nmMinuteInterval.value);
+   if (navigator.geolocation) {
+       fnCreateCookie('CkDebugTrackPull', document.nmPrefsForm.nmDebugTrackPull.value);
+   }
    fnShowHide('idPrefSuccessModal');
+ 
    return true;
 }
 
@@ -74,11 +75,18 @@ function fnLoadTripDefaults() {
    fnSwitchPage('idTripDefaults');
 }
 
+function fnDebugTrackSelect(){
+    if (navigator.geolocation) {
+        document.write('<br />save location debug info:<br /><select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="no">no</option></select>');
+        fnSetSelect('nmPrefsForm.nmDebugTrackPull', fnReadCookie('CkDebugTrackPull'));
+    }
+}
+
 function fnLoadLogo(loadpage){
   var image;
    image=document.getElementById(gvCurrentlyLoaded+'idLogo')
        image.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAMAAAC7xnO3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMBQTFRF/50A/////yoTkl4C1NDOeEkH/6QAHh8gjJCXD2tkbG9zsa2r/6sAE29nIUhIR01S14oAISMk6efnFx0jqCciHCEkUWBsdXuDIyUn/7IAHCYsBmVdV15SERccwsjMZDsU8vLzgYiSNDI0CxEY4+TmIywy+PT0Ix8g2t3i7e3uP0FFtsLMlEZAtHAAMCAU9fHvHiArnaKm3NjWH2Fd+vn59/f4IiIiGFdQg4GCIT9ANyQnJyotraejmZSVp56Zwbm43gklfwAABDFJREFUeNqslg97ojgQxou6xD9YSdNozJp2K7oou7bUKusVvf3+3+pmJgQRvdV7nnsFHgz8eCfJZODu7n+T/59v9+ng43ZsveExge/7uLujf3bu+xcd/bD55ZqeCzXDCuevXqPIWAkjig2UCi1gS+0uqc28OhTiCF8NEzLj8ANxUiYzbJAcN9g17Hg1U+a5JINVBNzN4iL0XbBfInZ2mRfe5J/RwUmsgoIMmpdILhkoq+BObBX4NGW+3zQnJGNCMDWdJkkyzTkMiuSqgnIgiwwAT1G2S8Gmg+6h11o/vH1/W65bvUN38MkEwhZUAj3t2JbRchVPR79nXk2bRa+bC6UUxq5yWUQLY9s0sgD5ZA13zn5U9fRjCW2tSaqs5khSqiKJnhAM627Qo2uE1inMfkpzH43IeCJyxZXSeYqk9VxFdjhV3qLoFr1C+94e9PeaWp/SOXmWJI6Q4ZQwWbL1/l3LqbbR6tW49DR2stkEnjy8qO7C2yQpTg6SQY3MGHRoKFIm4Mdwp43Oox1ckkTmunkkMW2hTRy8bQIh1XKGchXCGRlHVqK1ZPzbm80JzHgtG1my8drCRqsqnjGsKWhTLe9Ja35pgcj5g9cTGu+aSyCDarQqnc68nqkkaDHidJ7CU1O0VDptBkHhGQqGi0om3722qVhWT03Pm+XSji2SAZJ+yKifbICjcDFYzs3B+5ZYMrX9BDoIDU2n6cLIG1UfV1tf8OJAYKeAhLEN7tA4pGCV2eGkpBIqDgSBG/1kBi3STDCf0VO7aAPwZJLbgLZDnoNwQcFGihmLWcpxMYxMVs0EJGOaeyC9h/WpWqXeaBDQs4w2GIe23CD5R5Enz4tZgcPYema3kdRPGlvy5Ld6Zsd+EhlTpt5AYpJqUSGl7Wfb87btl9kFZjFqfwMywrxSlAnFCGF68pjt8GI0PC8M20GExWhHVQc8x4HzLNJkB+se1sq56QxqWeJ5L0RmOCtB4PpZ5JC3M9Fkcx7tMMKiYEmJno5UZCrg4nZ/WF7o59t+D89rW09HjsfFfCozujK2hxNyDGhIFUSJa+S7fYsAOUay9IQKf5WkNQf1FmQ9PxWtlWtkL+JUWFbkOUHllENs0G7j8LyP6nrBKW53cWXDh0L2swG6+wr6VSx9aeQCX0juO8VEuMEvxQcOIqPsG+/xSCpXNdSaXmUnlZYzkSM5KZsf65542xNOe/2rgQl8YOKKGy/IztfOkRSTxfL9rIBl0WTx8OIs+aslO0iq4+PzqYjPCic3ei6ka+aO7HQ+VPXD5OLnExPHc904kvn1Dy9VVnz56ch+v39/lYQ66sYnfbZkn3Svsriikz/UAKTWWkqplQXB06Ifv+6d/rJHEB2s7u+fHws1GlXPE3X6nYpw2lA/G6dynhXuFPtw9BlZcyNHRxdnH7T/maz59jvlQ87JfwQYADEHIEiouojIAAAAAElFTkSuQmCC';
-   image.className='logoimg';
+   image.className='CSLogoImg';
 
 }
 
@@ -229,7 +237,7 @@ function fnLoadReorder() {
       img.width = 15;
       img.border = 0;
       if (dir == -1) {
-         img.className = 'flippedimg';
+         img.className = 'CSFlippedImg';
       }
       link.appendChild(img);
       cell.appendChild(link);
@@ -316,16 +324,6 @@ function fnMoveItem(item, dir) {
 
 }
 
-function fnEmptyCookieArray(){
-    if((gvLocAddress.length==0 && gvLocName==0)||(gvLocAddress[0]=='' && gvLocAddress[1]=='' && gvLocName[0]=='' && gvLocName[1]=='' && gvLocAddress.length==2 && gvLocName.length==2)){
-	gvLocAddress.length=0;
-	gvLocName.length=0;
-	return true;
-    } else {
-	return false;
-    }
-}
-
 function fnAddStockLoc(){
     //make sure we have the newest cookie
     fnLoadCookieArray();
@@ -382,15 +380,40 @@ function fnDeleteStockLoc(){
     fnLoadDelete();
 }
 
-function fnHashChange(){
-    var newloc;
+function fnRandomHash(){
 
+    var x;
+    var random;
+
+    gvPageLoadId='';
+    for(x=0;x<9;x++){
+	random=Math.floor(Math.random()*63);
+
+	random=random+48;
+	if(random>57){
+	    random=random+6;
+	}
+
+	if(random>90){
+	    random=random+6;
+	}
+
+	gvPageLoadId=gvPageLoadId+String.fromCharCode(random);
+    }
+
+}
+
+
+function fnHashChange() {
+    var newloc;
     newloc=location.hash;
- 
-    if(newloc==''){
+
+    if ((gvPageLoadId != newloc.substr(1, 9)) || newloc == '') {
+	// if this is a new hash and/or there isn't one, switch to the main page.
 	fnSwitchPage('idPrefMenu');
-    }else{
-    fnSwitchPage(newloc.substr(1,newloc.length-1));
+    } else {
+	// load the location which is everything after the 10th character 
+	fnSwitchPage(newloc.substr(10));
     }
 }
        

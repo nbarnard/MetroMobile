@@ -3,7 +3,8 @@
 <title>metro mobile: preferences</title>
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <style type="text/css">
-<!--#include virtual="tripplanner.css" -->
+<!--#include virtual="preferences.css" -->
+<!--#include virtual="common.css" -->
 </style>
 <script>
 <!--#include virtual="preferences.js" -->
@@ -11,16 +12,16 @@
 </script>
 <link rel="apple-touch-icon" href="logo.png" />
 </head>
-<body onload="fnLoadLogo('idPrefMenu');">
+<body onload="fnLoadLogo('idPrefMenu');fnRandomHash();" onunload="fnRandomHash();">
 <!--#include virtual="preferences-menu.html" -->
 <!--#include virtual="preferences-add.html" -->
 <!--#include virtual="preferences-delete.html" -->
 <!--#include virtual="preferences-modify.html" -->
 <!--#include virtual="preferences-reorder.html" -->
 <!--#include virtual="preferences-tripdefaults.html" -->
-<div id="idGenericModal" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idGenericModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
 <span id="idGenericModalText"></span>
-<br /><br /><input type="button" value="okay" class="modalokay" onClick="fnShowHide('idGenericModal');" />
+<br /><br /><input type="button" value="okay" class="CSModalButton" onClick="fnShowHide('idGenericModal');" />
 </div></div>
 </body>
 </html>

@@ -1,0 +1,62 @@
+body {
+z-index:200;
+font-size:medium;
+font-family:Arial, Helvetica, sans-serif;
+margin:0;
+}
+
+select {
+font-size:medium;
+}
+
+input {
+font-size:small;
+}
+
+.CsRightLink {
+float:right;
+}
+
+.CsMainBody {
+margin:0 10px 0 8px;
+}
+
+.CsMainHeader {
+background:#FF9D00;
+border-bottom:15px solid #FF2A13;
+color:#000;
+font-size:18px;
+margin:0;
+padding:0;
+}
+
+.CsCopyrightFooter {
+font-size:x-small;
+}
+
+.CSModalPopup {
+z-index:1;
+border:4px solid #184F4C;
+background-color:#FF9D00;
+-webkit-border-radius:10px;
+width:220px;
+left:30px;
+top:150px;
+position:absolute;
+opacity:0.9;
+text-align:center;
+padding:5px 10px px 10px 10px px;
+}
+
+.CSModalButton {
+font-size:large;
+}
+
+.CSModalPage {
+z-index:2;
+position:absolute;
+width:100%;
+height:200%;
+top:0;
+left:0;
+}

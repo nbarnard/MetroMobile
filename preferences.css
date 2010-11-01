@@ -1,0 +1,39 @@
+ul {
+list-style-type:none;
+margin:0;
+}
+
+li {
+padding-top:5px;
+padding-bottom:5px;
+margin-left:-20px;
+font-size:x-large;
+}
+
+tr {
+font-size:x-large;
+height:60px;
+}
+
+td {
+text-align:center;
+}
+
+.CSFlippedImg {
+-moz-transform:scaleY(-1);
+-webkit-transform:scaleY(-1);
+transform:scaleY(-1);
+}
+
+.CSLogoImg {
+height:57px;
+width:57px;
+margin-bottom:-20px;
+padding-bottom:0;
+border-bottom:0;
+}
+
+.CSPrefMain {
+display:none;
+z-index:2;
+}

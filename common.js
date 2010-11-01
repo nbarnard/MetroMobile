@@ -20,6 +20,11 @@ function fnLoadCookieArray() {
        return true;
    }
 }
+
+function fnCreateCookie(name, value) {
+    document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
+}
+
 function fnReadCookie(name) {
    var nameEQ = name + "=";
    var ca = document.cookie.split(';');
@@ -61,4 +66,14 @@ function fnShowHide(divId) {
 
 function fnEvalWrapper(code) {
     return eval(code);
+}
+
+function fnEmptyCookieArray(){
+    if((gvLocAddress.length==0 && gvLocName==0)||(gvLocAddress[0]=='' && gvLocAddress[1]=='' && gvLocName[0]=='' && gvLocName[1]=='' && gvLocAddress.length==2 && gvLocName.length==2)){
+        gvLocAddress.length=0;
+        gvLocName.length=0;
+        return true;
+    } else {
+        return false;
+    }
 }

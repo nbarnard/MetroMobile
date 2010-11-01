@@ -1,6 +1,6 @@
-<div id="idModifyMain" style="DISPLAY: none; z-index: 2;">
-<div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img id="idModifyMainidLogo" />metro mobile: edit location</div>
-<div style="margin: 0 10px 0 8px;">
+<div id="idModifyMain" class="CSPrefMain">
+<div class="CsMainHeader"><img id="idModifyMainidLogo" />metro mobile: edit location</div>
+<div class="CsMainBody">
 <form name="nmModifyForm" action="javascript:fnLoadModifyLoc();">
 location to edit:<br />
 <select name="nmLocList">
@@ -9,16 +9,16 @@ location to edit:<br />
 <br />
 <input type="button" value="edit location" onClick="fnLoadModifyLoc();">
 </form>
-<div style="float: right;"><a href="javascript:fnSwitchPage('idPrefMenu');">preferences</a></div>
+<div class="CsRightLink"><a href="javascript:fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
-<div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
+<div class="CsCopyrightFooter">copyright 2010 nicholas barnard</div>
 
 </div>
 </div>
-<div id="idModifyLoc" style="DISPLAY: none; z-index: 2;">
-<div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img src="logo.png" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;"/>metro mobile: edit location</div>
-<div style="margin: 0 10px 0 8px;">
+<div id="idModifyLoc" class="CSPrefMain">
+<div class="CsMainHeader"><img id="idModifyLocidLogo" />metro mobile: edit location</div>
+<div class="CsMainBody">
 <form name="nmModifyLocForm" action="javascript:fnModifyLoc();">
 name:<br />
 <input name="nmLocName" size="25" maxlength="80" /><br />
@@ -26,13 +26,13 @@ location:<br />
 <input name="nmLocAddress" size="25" maxlength="80" /><br /><br />
 <input type="button" value="edit location" onclick="fnModifyLoc();" />
 </form>
-<div style="float: right;"><a href="javascript:fnSwitchPage('idPrefMenu');">preferences</a></div>
+<div class="CsRightLink"><a href="javascript:fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
 
-<div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
+<div class="CsCopyrightFooter">copyright 2010 nicholas barnard</div>
 </div>
 </div>
-<div id="idModifySuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
-location &quot;<span id="idModifySuccessItem"></span>&quot; modified<br /><br /><input type="button" value="edit another location" class="modalokay" onClick="fnShowHide('idModifySuccessModal');fnLoadModify();" style="width: 200px;height: 50px;white-space: normal;"><br /> <br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idModifySuccessModal');fnSwitchPage('idPrefMenu');"> 
+<div id="idModifySuccessModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
+location &quot;<span id="idModifySuccessItem"></span>&quot; modified<br /><br /><input type="button" value="edit another location" class="CSModalButton" onClick="fnShowHide('idModifySuccessModal');fnLoadModify();" style="width: 200px;height: 50px;white-space: normal;"><br /> <br /> 
+<input type="button" value="back to preferences" class="CSModalButton" onClick="fnShowHide('idModifySuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>

@@ -178,10 +178,10 @@ function fnFillLoc() {
    }
    len = gvLocName.length;
 
-
-
+   if(!fnEmptyCookieArray()){
    for (i = 0; i < len; i++) {
       document.write('<option value="' + gvLocAddress[i] + '">' + gvLocName[i] + '</option>');
+   }
    }
 }
 
@@ -334,12 +334,12 @@ function fnGotStop(locdata) {
    //we're wrapping eval in its own function so this function will be compressed
    stoploc = fnEvalWrapper(locdata);
    script_id = document.getElementById('script_id');
-   var qs = new Querystring(script_id.src);
+   qs = new Querystring(script_id.src);
 
    lat=qs.get('lat');
    lon=qs.get('lon');
 
-   // settingthe best difference to 200, since we're on earth and the maximum longitude can be 180 (okay there are exceptions, we'll be fine setting this to 200 since we're dealing with fractions of degrees
+   // setting the best difference to 200, since we're on earth and the maximum longitude can be 180 (okay there are exceptions)  we'll be fine setting this to 200 since we're dealing with fractions of degrees
    bestlocdiff = 200;
 
    if (stoploc.data.outOfRange) {
@@ -422,6 +422,14 @@ function fnLocSelect() {
       location.href = 'preferences.html';
    }
 }
+
+function fnDebugTrackSelect(){
+    if (navigator.geolocation) {
+	document.write('<br />save location debug info: <select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="no">no</option></select>');
+        fnSetSelect('FormName.nmDebugTrackPull', fnReadCookie('CkDebugTrackPull'));
+    }
+}
+
 /* Client-side access to querystring name=value pairs
 	Version 1.3
 	28 May 2008

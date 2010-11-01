@@ -1,6 +1,6 @@
 <div id="idTripDefaults" style="DISPLAY: none;z-index: 2;">
-<div style="background: #FF9D00; margin: 0 0 0 0; padding: 0px 0px 0px 0px; font-size: 16px; border-bottom: 15px solid #FF2A13; color: #000000;font-size: 18px;"><img id="idTripDefaultsidLogo" />metro mobile: trip defaults</div>
-<div style="margin: 0 10px 0 8px;">
+<div class="CsMainHeader"><img id="idTripDefaultsidLogo" />metro mobile: trip defaults</div>
+<div class="CsMainBody">
 <form name="nmPrefsForm" action="javascript:fnSavePrefs();">
 time:<br /><select name="nmArriveDepart">
 <option value="A" selected="selected">arrive</option>
@@ -65,15 +65,19 @@ days displayed:<br /><select name="nmNumberDays">
 <option value="N" selected="selected">no</option>
 <option value="Y">yes</option>
 </select>
+<script>
+fnDebugTrackSelect();
+</script>
+
 <br /><br /><input type="button" onclick="fnSavePrefs();" value="save trip defaults"></form>
-<div style="float: right;"><a href="javascript:fnSwitchPage('idPrefMenu');">preferences</a></div>
+<div class="CsRightLink"><a href="javascript:fnSwitchPage('idPrefMenu');">preferences</a></div>
 <br /><br /><hr />
-<div style="font-size: x-small;">copyright 2010 nicholas barnard</div>
+<div class="CsCopyrightFooter">copyright 2010 nicholas barnard</div>
 </div>
 </div>
-<div id="idPrefSuccessModal" class="modalpage" style="display: none;"><div class="modalpopup">
+<div id="idPrefSuccessModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
 trip defaults saved<br /><br />
-<input type="button" value="okay" class="modalokay" onClick="fnShowHide('idPrefSuccessModal')">
+<input type="button" value="okay" class="CSModalButton" onClick="fnShowHide('idPrefSuccessModal')">
 <br /> <br /> 
-<input type="button" value="back to preferences" class="modalokay" onClick="fnShowHide('idPrefSuccessModal');fnSwitchPage('idPrefMenu');"> 
+<input type="button" value="back to preferences" class="CSModalButton" onClick="fnShowHide('idPrefSuccessModal');fnSwitchPage('idPrefMenu');"> 
 </div></div>

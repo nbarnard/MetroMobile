@@ -46,8 +46,8 @@ function fnAddLoc() {
    gvLocAddress[nextentry] = document.nmAddForm.nmLocAddress.value;
    gvLocName[nextentry] = document.nmAddForm.nmLocName.value;
    fnSaveCookieArray();
-   document.getElementById('idAddSuccessItem').innerHTML = document.nmAddForm.nmLocName.value;
-   fnShowHide('idAddSuccessModal');
+
+   fnLoadBackPrefModal('location "' + document.nmAddForm.nmLocName.value + '" added','add another location',function(){document.nmAddForm.nmLocAddress.value='';document.nmAddForm.nmLocName.value='';fnShowHide('idGenericModal');});
 }
 
 function fnSavePrefs() {
@@ -60,7 +60,7 @@ function fnSavePrefs() {
    if (navigator.geolocation) {
        fnCreateCookie('CkDebugTrackPull', document.nmPrefsForm.nmDebugTrackPull.value);
    }
-   fnShowHide('idPrefSuccessModal');
+   fnLoadBackPrefModal('trip defaults saved');
  
    return true;
 }
@@ -124,7 +124,7 @@ function fnSwitchPage(loadpage) {
    }
 
    if ('onhashchange' in window && loadpage!='idPrefMenu') {
-       location.hash = '#' + loadpage;
+       location.hash = '#' + gvPageLoadId + loadpage;
    }
 
    setTimeout("window.scroll(0,1)", 5);
@@ -134,8 +134,7 @@ function fnModifyLoc() {
    gvLocName[document.nmModifyForm.nmLocList.selectedIndex] = document.nmModifyLocForm.nmLocName.value;
    gvLocAddress[document.nmModifyForm.nmLocList.selectedIndex] = document.nmModifyLocForm.nmLocAddress.value;
    fnSaveCookieArray();
-   document.getElementById('idModifySuccessItem').innerHTML = document.nmModifyLocForm.nmLocName.value;
-   fnShowHide('idModifySuccessModal');
+   fnLoadBackPrefModal('location "' + document.nmModifyLocForm.nmLocName.value + '" modified','edit another location',function(){fnShowHide('idGenericModal');fnLoadModify();});
 }
 
 function fnLoadModify() {
@@ -176,32 +175,39 @@ function fnLoadDelete() {
 }
 
 function fnDeleteVerify() {
-   document.getElementById('idDeleteConfirmItem').innerHTML = gvLocName[document.nmDeleteForm.nmLocList.selectedIndex];
-   fnShowHide('idDeleteConfirmModal');
+    fnCustomModal('delete location ' + gvLocName[document.nmDeleteForm.nmLocList.selectedIndex] + '"?','delete',fnDeleteLoc,'cancel',function(){fnShowHide('idGenericModal');});
 }
 
 function fnDeleteLoc() {
    var deleteditem;
+
+   // clear the modal
+   fnShowHide('idGenericModal');
+
    deleteditem = gvLocName.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
    gvLocAddress.splice(document.nmDeleteForm.nmLocList.selectedIndex, 1);
+
    fnSaveCookieArray();
-   fnShowHide('idDeleteConfirmModal');
-   //different modals if we deleted the last item.
+
+   //different modals if we deleted the last item, and properly handle deleting the last item
    if (gvLocName.length == 0) {
-      document.getElementById('idDeleteSuccessLastItem').innerHTML = deleteditem;
-      fnShowHide('idDeleteSuccessLastModal');
+       // create cookies with just the dilemeters                                                         
+       fnCreateCookie('CkLocAddresses', '`');
+       fnCreateCookie('CkLocName', '`');
+
+       fnLoadBackPrefModal('location "' +  deleteditem + '" deleted','delete another',function(){fnLoadDelete();fnShowHide('idGenericModal');});
    } else {
-      document.getElementById('idDeleteSuccessItem').innerHTML = deleteditem;
-      fnShowHide('idDeleteSuccessModal');
+       fnLoadBackPrefModal('location "' +  deleteditem + '" deleted','delete another',function(){LoadDelete();fnShowHide('idGenericModal');});
    }
+
 }
 
 function fnDeleteAll() {
    // create cookies with just the dilemeters 
    fnCreateCookie('CkLocAddresses', '`');
    fnCreateCookie('CkLocName', '`');
-   fnShowHide('idDeleteAllFinalConfirmModal');
-   fnShowHide('idDeleteAllSuccessModal');
+   fnShowHide('idGenericModal');
+   fnLoadBackPrefModal('all locations deleted');
 }
 
 function fnUnloadReorder(){
@@ -375,7 +381,7 @@ function fnDeleteStockLoc(){
 	    }
         }
     fnSaveCookieArray();
-    fnLoadModal('starter locations removed');
+    fnLoadModal('starter locations deleted');
     // reload the delete page so we get the right items in the pulldown
     fnLoadDelete();
 }
@@ -391,7 +397,7 @@ function fnRandomHash(){
 
 	random=random+48;
 	if(random>57){
-	    random=random+6;
+	    random=random+7;
 	}
 
 	if(random>90){

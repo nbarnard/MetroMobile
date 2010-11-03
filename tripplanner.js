@@ -391,6 +391,15 @@ function fnGotStop(locdata) {
    // Clear modal
     fnShowHide('idProgressModal');  
 
+    // see if it ends in - Bay x, if so remove it because metro does better without it
+    baycheck = bestlocname.indexOf('- Bay ');
+    if (baycheck != -1) {
+	bestlocname = bestlocname.substr(0, baycheck);
+
+    }
+    // record what the best location name as submitted was
+    fnRecordDebugInfo('SM' + bestlocname);
+
    // set best location and submit
    if(document.FormName.Orig.value == 'curloc'){
       document.FormName.Orig.value = bestlocname;

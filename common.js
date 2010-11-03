@@ -51,9 +51,61 @@ function fnSetSelect(SelectName, Value) {
    }
 }
 
+function fnCustomModal(msg, btn1txt, btn1fn, btn2txt, btn2fn) {
+    function createbutton(btntxt, btnfn, btnid) {
+	var btn;
+
+	btn = document.createElement('input');
+	btn.setAttribute('type', 'button');
+	btn.setAttribute('value', btntxt);
+	btn.setAttribute('id', btnid);
+	btn.onclick = btnfn;
+	btn.className = 'CSModalButton';
+	deletebutton(btnid);
+        parent.appendChild(btn);
+    }
+    function deletebutton(btnid){
+	var btnelement;
+	btnelement = document.getElementById(btnid);
+	if (btnelement) {
+	    parent.removeChild(btnelement);
+	}
+    }
+
+    // core of the root function
+    var parent;
+
+    //set the text
+    document.getElementById('idGenericModalText').innerHTML = msg;
+
+    // set what the parent of the buttons is
+    parent = document.getElementById('idGenericModalButtons');
+
+
+    // set up the first button
+    createbutton(btn1txt, btn1fn, 'idGenericBtnOne');
+
+    // if there is a second button, set it!
+    if (btn2txt != undefined) {
+	createbutton(btn2txt, btn2fn, 'idGenericBtnTwo');
+    } else {
+	deletebutton('idGenericBtnTwo');
+    }
+
+    fnShowHide('idGenericModal');
+
+}
+
 function fnLoadModal(modalmessage) {
-   document.getElementById('idGenericModalText').innerHTML = modalmessage;
-   fnShowHide('idGenericModal')
+    fnCustomModal(modalmessage,'okay',function(){fnShowHide('idGenericModal');});
+}
+
+function fnLoadBackPrefModal(msg, btn1txt, btn1fn){
+    if(btn1txt==undefined){
+	fnCustomModal(msg,'back to preferences',function(){fnShowHide('idGenericModal');fnSwitchPage('idPrefMenu');});
+    }else{
+	fnCustomModal(msg,btn1txt,btn1fn,'back to preferences',function(){fnShowHide('idGenericModal');fnSwitchPage('idPrefMenu');});
+    }
 }
 
 function fnShowHide(divId) {

@@ -21,6 +21,9 @@ tools/prephtml *.html
 # finish the HTML files (retrieve to take care of the SSIs and compress
 tools/finishhtml
 
-# copy the logo over
-/bin/cp logo.png releasestage
-/bin/chmod 644 releasestage/logo.png
+# copy the logos over
+/bin/cp apple-touch-icon.png releasestage
+/bin/chmod 644 releasestage/apple-touch-icon.png
+/bin/cp favicon.ico releasestage
+/bin/chmod 644 releasestage/favicon.ico
+

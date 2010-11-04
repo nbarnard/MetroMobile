@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Loop until all the args are processed
+
+while [ $# -ge 1 ]
+do
+
+/usr/bin/sed -f /users/nickb/corp-web/mmdev/tools/reduce.sed $1 > /users/nickb/corp-web/mmdev/compressed/$1
+# | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html 
+
+
+/bin/chmod 644 /users/nickb/corp-web/mmdev/compressed/$1
+
+# Shift the processed file off the arg list
+shift
+done

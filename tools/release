@@ -1,0 +1,26 @@
+#!/bin/sh
+
+cd /users/nickb/corp-web/mmdev
+
+#clean up the directories for our future use.
+/bin/rm releasestage/*
+/bin/rm compressed/*
+
+# Compress the JS/CSS/HTML
+
+tools/prepjs *.js
+tools/prepcss *.css
+tools/prephtml *.html
+
+# Move over the images as txt files
+/bin/cp loadimg-data.txt compressed
+/bin/cp logo-data.txt compressed
+/bin/chmod 744 compressed/loadimg-data.txt
+/bin/chmod 644 compressed/logo-data.txt
+
+# finish the HTML files (retrieve to take care of the SSIs and compress
+tools/finishhtml
+
+# copy the logo over
+/bin/cp logo.png releasestage
+/bin/chmod 644 releasestage/logo.png

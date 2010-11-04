@@ -1,0 +1,795 @@
+<html>
+<head>
+<title>metro mobile</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<style type="text/css">
+body {
+z-index:200;
+font-size:medium;
+font-family:Arial, Helvetica, sans-serif;
+margin:0;
+}
+
+select {
+font-size:medium;
+}
+
+input {
+font-size:small;
+}
+
+.CsRightLink {
+float:right;
+}
+
+.CsMainBody {
+margin:0 10px 0 8px;
+}
+
+.CsMainHeader {
+background:#FF9D00;
+border-bottom:15px solid #FF2A13;
+color:#000;
+font-size:18px;
+margin:0;
+padding:0;
+}
+
+.CsCopyrightFooter {
+font-size:x-small;
+}
+
+.CSModalPopup {
+z-index:1;
+border:4px solid #184F4C;
+background-color:#FF9D00;
+-webkit-border-radius:10px;
+width:220px;
+left:30px;
+top:150px;
+position:absolute;
+opacity:0.9;
+text-align:center;
+padding:5px 10px px 10px 10px px;
+}
+
+.CSModalButton {
+font-size:large;
+}
+
+.CSModalPage {
+z-index:2;
+position:absolute;
+width:100%;
+height:200%;
+top:0;
+left:0;
+}
+
+</style>
+<script>
+// global variable for the minute integers
+var gvMinuteInterval;
+//global ariables for location arrays - multiple functions use this.
+var gvLocAddress = new Array();
+var gvLocName = new Array();
+// need to be globals due to callback
+var gvTimeoutID;
+//post processing to update the form
+
+function fnPreSubmit() {
+   var myDate;
+   var myTimeSplit;
+   var OrigCust;
+   var OrigSelected;
+   var DestCust;
+   var DestSelected;
+   var OrigFinal;
+   var DestFinal;
+   var SelectedDate;
+   var FinalDate;
+   // setting these as variables so they compress better
+   OrigCust = document.FormName.nmOriginationCustomText.value;
+   OrigSelected = document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value;
+   DestCust = document.FormName.nmDestinationCustomText.value;
+   DestSelected = document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value;
+   SelectedDate = document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value;
+   //convert the date to something proper for metro!
+   myDate = new Date();
+   switch (SelectedDate) {
+   case 't':
+      FinalDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
+      break;
+   case 'm':
+      myDate.setDate(myDate.getDate() + 1);
+      FinalDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + (myDate.getFullYear() - 2000);
+      break;
+   default:
+      FinalDate = SelectedDate;
+      break;
+   }
+   document.FormName.Date.value = FinalDate;
+   //split the time up
+   myTimeSplit = document.FormName.nmTimePull.value.split(" ");
+   document.FormName.hour_time.value = myTimeSplit[0];
+   document.FormName.minute_time.value = myTimeSplit[1];
+   document.FormName.ampm_time.value = myTimeSplit[2];
+   //handle the accessibility pulldown
+   if (document.FormName.nmAccessablePull.value == "Y") {
+      document.FormName.Atr.checked = true;
+   } else {
+      document.FormName.Atr.checked = false;
+   }
+   if ((OrigCust == "") && (OrigSelected == 'blank') && (DestCust == "") && (DestSelected == 'blank')) {
+      fnLoadModal('please select or enter starting and ending addresses');
+      return false;
+   }
+   //check the addresses then set them
+   if (OrigCust == "") {
+      if (OrigSelected == 'blank') {
+         fnLoadModal('please select or enter a starting address');
+         return false;
+      } else {
+         OrigFinal = OrigSelected;
+      }
+   } else {
+      OrigFinal = OrigCust;
+   }
+   if (DestCust == "") {
+      if (DestSelected == 'blank') {
+         fnLoadModal('please select or enter an ending address');
+         return false;
+      } else {
+         DestFinal = DestSelected;
+      }
+   } else {
+      DestFinal = DestCust;
+   }
+   if (OrigFinal == DestFinal) {
+      fnLoadModal('starting and ending addresses are the same');
+      return false;
+   }
+   // set the locations in the form to be submitted
+   document.FormName.Orig.value = OrigFinal;
+   document.FormName.Dest.value = DestFinal;
+   // If one of the locations is current location, fire off to find the stop.
+   if ((OrigFinal == 'curloc') || (DestFinal == 'curloc')) {
+      fnFindLoc();
+      return false;
+   }
+   //submit the form
+   return true;
+}
+//the page loading functions
+
+function fnUpdatePage() {
+    var now;
+    var hour;
+    var minute;
+    var hint;
+   var arrdep;
+   var dminute;
+   var dindex;
+
+   //figure out what time it is and set the time pull down correctly
+   now = new Date();
+   hour = now.getHours();
+   minute = now.getMinutes();
+   hint = 60 / gvMinuteInterval;
+
+   arrdep = fnReadCookie('CkArrDept');
+   if (arrdep == null) {
+      arrdep = 'A';
+   }
+   if (arrdep == 'A') {
+      dminute=Math.ceil(minute / gvMinuteInterval);
+   } else {
+      dminute=Math.floor(minute / gvMinuteInterval);
+   }
+
+   dindex=(hour * hint) + dminute;
+
+   //adjust if we're selecting the next day
+   if(document.FormName.nmTimePull.length==dindex){
+       // set date to tomorrow
+       document.FormName.nmDayPull.selectedIndex = 1;
+       // set time to the first entry -- 12:00 midnight
+       dindex=0;
+   }
+
+      document.FormName.nmTimePull.selectedIndex = dindex;
+
+   //set the preferences
+   fnSetSelect('FormName.Arr', fnReadCookie('CkArrDept'));
+   fnSetSelect('FormName.Walk', fnReadCookie('CkMaximumWalking'));
+   fnSetSelect('FormName.Min', fnReadCookie('CkMostImportant'));
+   fnSetSelect('FormName.nmAccessablePull', fnReadCookie('CkAccessability'));
+   setTimeout("window.scroll(0,1)", 5);
+   return true;
+}
+
+function fnFillTime() {
+   //lets fill out the form with the times
+   var m;
+   var h;
+   var merid;
+   var ampm = new Array();
+   ampm[0] = "am";
+   ampm[1] = "pm";
+   if (fnReadCookie('CkMinuteInterval') == null) {
+      gvMinuteInterval = 15;
+   } else {
+      gvMinuteInterval = Number(fnReadCookie('CkMinuteInterval'));
+   }
+   for (merid = 0; merid < 2; merid = merid + 1) {
+      for (h = 0; h < 12; h = h + 1) {
+         for (m = 0; m < 60; m = m + gvMinuteInterval) {
+            if (h == 0) {
+               document.write('<option value="12 ' + fnFormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + fnFormatInteger(m, 2) + ampm[merid] + '</option>');
+            } else {
+               document.write('<option value="' + fnFormatInteger(h, 2) + ' ' + fnFormatInteger(m, 2) + ' ' + ampm[merid] + '">' + h + ':' + fnFormatInteger(m, 2) + ampm[merid] + '</option>');
+            }
+         }
+      }
+   }
+}
+
+function fnFillLoc() {
+   var len;
+   var i;
+   
+   document.write('<option value="blank"></option>');
+   if (navigator.geolocation) {
+      document.write('<option value="curloc">Current Location</option>');
+   }
+   // pull the cookies out, if its returning the stock list use customize locations
+   if(!fnLoadCookieArray()){
+   document.write('<option value="customloc">Customize Locations...</option>');
+   }
+   len = gvLocName.length;
+
+   if(!fnEmptyCookieArray()){
+   for (i = 0; i < len; i++) {
+      document.write('<option value="' + gvLocAddress[i] + '">' + gvLocName[i] + '</option>');
+   }
+   }
+}
+
+function fnFillDay() {
+   var myDate = new Date();
+   var day;
+   var month;
+   var date;
+   var year;
+   var i;
+   var listlen;
+   var daynames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+   var monthnames = ['jan', 'feb', 'mar', 'apr', 'nay', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+   listlen = fnReadCookie('CkDaystoDisplay');
+   if (listlen == null) {
+      listlen = 5;
+   }
+   myDate.setDate(myDate.getDate() + 2);
+   for (i = 0; i < listlen; i++) {
+      month = myDate.getMonth();
+      date = myDate.getDate();
+      day = myDate.getDay();
+      year = myDate.getFullYear() - 2000;
+      document.write('<option value="' + (month + 1) + '/' + date + '/' + year + '">' + daynames[day] + ' ' + monthnames[month] + ' ' + date.ordinal() + '</option>');
+      myDate.setDate(myDate.getDate() + 1);
+   }
+}
+
+function fnFindLoc() {
+   var bestlat;
+   var bestlon;
+   var bestacc;
+   var dupaccx;
+
+   function gotLoc(position) {
+      var accuracy;
+      var lat;
+      var lon;
+
+      // assigning accuracy and lat lon to it own variable so we can compress further.
+      accuracy = position.coords.accuracy;
+      lat=position.coords.latitude;
+      lon=position.coords.longitude;
+
+      fnRecordDebugInfo('1A'+lat+'N'+lon+'A'+accuracy);
+      // check to see if user pressed cancel or we bailed out in another way
+      if (gvTimeoutID == -1) {
+         return false;
+      }
+      // count the number of times we get duplicate accuracies
+      if (accuracy == bestacc) {
+         dupaccx++;
+      } else {
+         // set the duplicate accuracy to 0 if we just got a different resolution
+         dupaccx = 0;
+      }
+      // using less than or equal to to adjust for scenarios where accuracy is 65,500,65,65,65 so that we get the last set of coords, not the first one.
+      if (accuracy <= bestacc) {
+	  bestlat = lat;
+	  bestlon = lon;
+         bestacc = accuracy;
+      }
+      // if we get the same accuracy three times in a row and we're at less than 200m, call it good and use it.
+      if ((dupaccx == 3) && (accuracy < 200)) {
+         clearTimeout(gvTimeoutID);
+         fnProgressModal('locating nearest stop');
+         fnCallOBA(403,bestlat,bestlon);
+         return false;
+      }
+      navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy:true});
+   }
+
+   function loctimeout() {
+      // set the timeoutid to -1 so gotloc knows we've timed out
+      gvTimeoutID = -1;
+      // Clear modal
+      fnShowHide('idProgressModal');
+      fnRecordDebugInfo('2');
+      if (bestacc < 400) {
+	  fnCallOBA(403,bestlat,bestlon);
+      } else {
+         fnLoadModal('unable to determine location with sufficent accuracy');
+      }
+   }
+
+   function handleError(error) {
+       var errorid;
+
+      clearTimeout(gvTimeoutID);
+      // Clear modal
+      fnShowHide('idProgressModal');
+      switch (error.code) {
+      case error.TIMEOUT:
+         fnLoadModal('timed out while obtaining location');
+	 errorid=1;
+         break;
+      case error.POSITION_UNAVAILABLE:
+         fnLoadModal('position not available');
+	 errorid=2;
+         break;
+      case error.PERMISSION_DENIED:
+         fnLoadModal('location permission denied');
+	 errorid=3; 
+        break;
+      default:
+         fnLoadModal('unknown error obtaining location');
+	 errorid=4;
+         break;
+      }
+      fnRecordDebugInfo('3C'+errorid);
+   }
+
+   // the root of the location finding function
+   gvTimeoutID = setTimeout(loctimeout, 30000);
+   bestacc = 100000;
+   dupaccx = 0;
+   fnProgressModal('finding location');
+   fnRecordDebugInfo('0');
+   navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
+}
+
+function fnCallOBA(radius,bestlat,bestlon) {
+      var script_id;
+      var script;
+
+      fnRecordDebugInfo('4A'+bestlat+'N'+bestlon+'D'+radius);
+      script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon + '&radius' + radius);
+      script.setAttribute('id', 'script_id');
+      script_id = document.getElementById('script_id');
+      if (script_id) {
+         document.getElementsByTagName('head')[0].removeChild(script_id);
+      }
+      // set timeout for oba
+      gvTimeoutID = setTimeout(fnOBATimeout, 30000);
+      // Insert <script> into DOM
+      document.getElementsByTagName('head')[0].appendChild(script);
+   }
+
+   function fnOBATimeout() {
+      gvTimeoutID = -1;
+      // clear modal
+      fnShowHide('idProgressModal');
+      fnLoadModal('unable to obtain list of stops');
+      fnRecordDebugInfo('5');
+   }
+
+
+
+function fnGotStop(locdata) {
+   var stoploc;
+   var x;
+   var lat;
+   var lon;
+   var bestlocdiff;
+   var bestlocname;
+   var diff;
+   var script_id;
+   var qs;
+   var radius;
+   var baycheck;
+
+   // check to see if user pressed cancel or we bailed out in some other way
+   if (gvTimeoutID == -1) {
+       fnRecordDebugInfo('6');
+      return false;
+   }
+   clearTimeout(gvTimeoutID);
+
+   //we're wrapping eval in its own function so this function will be compressed
+   stoploc = fnEvalWrapper(locdata);
+   script_id = document.getElementById('script_id');
+   qs = new Querystring(script_id.src);
+
+   lat=qs.get('lat');
+   lon=qs.get('lon');
+
+   // setting the best difference to 200, since we're on earth and the maximum longitude can be 180 (okay there are exceptions)  we'll be fine setting this to 200 since we're dealing with fractions of degrees
+   bestlocdiff = 200;
+
+   if (stoploc.data.outOfRange) {
+      fnLoadModal('location is outside of trip planner\'s range '); 
+      fnRecordDebugInfo('7');
+   return false;
+   }
+
+   if(stoploc.data.list.length==0){
+       radius=qs.get('radius');
+       fnRecordDebugInfo('8');
+       if(radius==(document.FormName.Walk*1612)){
+	   fnLoadModal('no stops within walking distance');
+	   return false;
+       }
+       fnCallOBA(radius+403,bestlat,bestlon);
+   }
+
+   //lets cycle through all the locations and figure out which is closest.
+   for (x = 0; x < stoploc.data.list.length; x++) {
+      // get the diff from the actual location
+       diff = Math.abs(Math.abs(stoploc.data.list[x].lon) - Math.abs(lon)) + Math.abs((Math.abs(stoploc.data.list[x].lat) - Math.abs(lat)));
+      if (diff < bestlocdiff) {
+         bestlocdiff = diff;
+         bestlocname = stoploc.data.list[x].name;
+      }
+      fnRecordDebugInfo('9A'+lat+'N'+lon+'D'+diff+'I'+stoploc.data.list[x].id);
+   }
+   // Clear modal
+//    fnShowHide('idProgressModal');  
+
+// see if it ends in - Bay x, if so remove it because metro does better without it
+baycheck=bestlocname.indexOf('- Bay ');
+if(baycheck!=-1){
+bestlocname=bestlocname.substr(0,baycheck);
+}
+
+   // set best location and submit
+   if(document.FormName.Orig.value == 'curloc'){
+      document.FormName.Orig.value = bestlocname;
+   } else {
+      document.FormName.Dest.value = bestlocname;
+   }
+//    document.FormName.submit();
+}
+
+function fnCancelLoc(){
+// clear the timeout
+clearTimeout(gvTimeoutID);
+// let other functions know we cleared the timeout
+gvTimeoutID=-1;
+//pull down the progress modal
+fnShowHide('idProgressModal');
+}
+
+
+Number.prototype.ordinal = function () {
+   return this + ((this % 10 == 1 && this % 100 != 11) ? 'st' : (this % 10 == 2 && this % 100 != 12) ? 'nd' : (this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th');
+}
+
+function fnProgressModal(modalmessage) {   
+document.getElementById('idProgressModalText').innerHTML = modalmessage;
+document.getElementById('idProgressModal').style.display = 'block';
+}
+
+function fnShowAdditional() {
+   fnShowHide('idAddtlOpt');
+   fnShowHide('idNoOpt');
+   setTimeout("window.scroll(0,150)", 5);
+}
+
+function fnHideAdditional() {
+   fnShowHide('idAddtlOpt');
+   fnShowHide('idNoOpt');
+   setTimeout("window.scroll(0,150)", 5);
+}
+
+//for formating integers with leading zeros
+function fnFormatInteger(num, length) {
+   return (num / Math.pow(10, length)).toFixed(length).substr(2);
+}
+
+function fnLocSelect() {
+    var button;
+   if ((document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'customloc') || (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'customloc')) {
+       button= document.getElementById('idProgressButton');
+       button.onclick=function(){document.getElementById('idProgressModalText').innerHTML = 'cancelling';location.href = '/mm/';};
+       fnProgressModal('loading customize locations');
+      location.href = 'preferences.html';
+   }
+}
+
+function fnDebugTrackSelect(){
+    if (navigator.geolocation) {
+	document.write('<br />save location debug info: <select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="no">no</option></select>');
+        fnSetSelect('FormName.nmDebugTrackPull', fnReadCookie('CkDebugTrackPull'));
+    }
+}
+
+function fnRecordDebugInfo(data) {
+    var now;
+
+    // this wraps the whole of the function, if the index doesn't equal zero  we don't save anything..
+    if (document.FormName.nmDebugTrackPull.selectedIndex == 0) {
+
+	now = new Date();
+	fnCreateCookie('CkDebugInfo', fnReadCookie('CkDebugInfo') + ':' + now.getFullYear() + fnFormatInteger(now.getMonth() + 1, 2) + fnFormatInteger(now.getDate(), 2) + fnFormatInteger(now.getHours(), 2) + fnFormatInteger(now.getMinutes(), 2) + fnFormatInteger(now.getSeconds(), 2) + 'R' + data);
+
+    }
+}
+
+/* Client-side access to querystring name=value pairs
+	Version 1.3
+	28 May 2008
+	
+	License (Simplified BSD):
+	http://adamv.com/dev/javascript/qslicense.txt
+*/
+function Querystring(qs) { // optionally pass a querystring to parse
+	this.params = {};
+	
+	if (qs == null) qs = location.search.substring(1, location.search.length);
+	if (qs.length == 0) return;
+
+// Turn <plus> back to <space>
+// See: http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.4.1
+	qs = qs.replace(/\+/g, ' ');
+	var args = qs.split('&'); // parse out name/value pairs separated via &
+	
+// split out each name=value pair
+	for (var i = 0; i < args.length; i++) {
+		var pair = args[i].split('=');
+		var name = decodeURIComponent(pair[0]);
+		
+		var value = (pair.length==2)
+			? decodeURIComponent(pair[1])
+			: name;
+		
+		this.params[name] = value;
+	}
+}
+
+Querystring.prototype.get = function(key, default_) {
+	var value = this.params[key];
+	return (value != null) ? value : default_;
+}
+
+Querystring.prototype.contains = function(key) {
+	var value = this.params[key];
+	return (value != null);
+}
+
+       gvStockLocAddress=["Bellevue College","Gene Coulon Memorial Beach Park","Green Lake Park","Marymoor Park","Northgate Library","700 Broadway E","SeaTac Airport","Seattle Center South","Shoreline Community College","University of Washington","West Seattle Library"];
+       gvStockLocName=["Bellevue College","Gene Coulon Park","Green Lake Park","Marymoor Park","Northgate Library","Roy St Coffee & Tea","SeaTac Airport","Seattle Center","Shoreline College","Univ of Washington","West Seattle Library"];
+
+
+function fnLoadCookieArray() {
+   var addresses;
+   var names;
+
+   //get location array
+   addresses = fnReadCookie('CkLocAddresses');
+   //get locname array
+   names = fnReadCookie('CkLocName');
+   if (!addresses || !names) {
+       gvLocName=gvStockLocName;
+       gvLocAddress=gvStockLocAddress;
+       return false;
+   } else {
+       gvLocAddress = addresses.split('`');
+       gvLocName = names.split('`');
+       return true;
+   }
+}
+
+function fnCreateCookie(name, value) {
+    document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
+}
+
+function fnReadCookie(name) {
+   var nameEQ = name + "=";
+   var ca = document.cookie.split(';');
+   for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ')
+      c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+   }
+   return null;
+}
+/*
+ * This script is adapted from a script available at The JavaScript Source ::
+ * http://javascript.internet.com Created by: Francis Cocharrua ::
+ * http://scripts.franciscocharrua.com/
+ */
+
+function fnSetSelect(SelectName, Value) {
+   fnEvalWrapper('SelectObject = document.' + SelectName + ';');
+   for (index = 0; index < SelectObject.length; index++) {
+      if (SelectObject[index].value == Value) {
+         SelectObject.selectedIndex = index;
+      }
+   }
+}
+
+function fnLoadModal(modalmessage) {
+   document.getElementById('idGenericModalText').innerHTML = modalmessage;
+   fnShowHide('idGenericModal')
+}
+
+function fnShowHide(divId) {
+   if (document.getElementById(divId).style.display == 'none') {
+      document.getElementById(divId).style.display = 'block';
+   } else {
+      document.getElementById(divId).style.display = 'none';
+   }
+}
+
+function fnEvalWrapper(code) {
+    return eval(code);
+}
+
+function fnEmptyCookieArray(){
+    if((gvLocAddress.length==0 && gvLocName==0)||(gvLocAddress[0]=='' && gvLocAddress[1]=='' && gvLocName[0]=='' && gvLocName[1]=='' && gvLocAddress.length==2 && gvLocName.length==2)){
+        gvLocAddress.length=0;
+        gvLocName.length=0;
+        return true;
+    } else {
+        return false;
+    }
+}
+function funtime(){
+var radius;
+var bestlat;
+var bestlon;
+var foo;
+
+radius=403;
+
+foo=document.FormName.coords.value.split(',');
+bestlat=foo[0];
+bestlon=foo[1];
+
+fnCallOBA(radius,bestlat,bestlon)
+}
+
+</script>
+<link rel="apple-touch-icon" href="logo.png" />
+</head><body onLoad="fnUpdatePage();">
+<div class="CsMainHeader"><img alt="Bus Logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAMAAAC7xnO3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMBQTFRF/50A/////yoTkl4C1NDOeEkH/6QAHh8gjJCXD2tkbG9zsa2r/6sAE29nIUhIR01S14oAISMk6efnFx0jqCciHCEkUWBsdXuDIyUn/7IAHCYsBmVdV15SERccwsjMZDsU8vLzgYiSNDI0CxEY4+TmIywy+PT0Ix8g2t3i7e3uP0FFtsLMlEZAtHAAMCAU9fHvHiArnaKm3NjWH2Fd+vn59/f4IiIiGFdQg4GCIT9ANyQnJyotraejmZSVp56Zwbm43gklfwAABDFJREFUeNqslg97ojgQxou6xD9YSdNozJp2K7oou7bUKusVvf3+3+pmJgQRvdV7nnsFHgz8eCfJZODu7n+T/59v9+ng43ZsveExge/7uLujf3bu+xcd/bD55ZqeCzXDCuevXqPIWAkjig2UCi1gS+0uqc28OhTiCF8NEzLj8ANxUiYzbJAcN9g17Hg1U+a5JINVBNzN4iL0XbBfInZ2mRfe5J/RwUmsgoIMmpdILhkoq+BObBX4NGW+3zQnJGNCMDWdJkkyzTkMiuSqgnIgiwwAT1G2S8Gmg+6h11o/vH1/W65bvUN38MkEwhZUAj3t2JbRchVPR79nXk2bRa+bC6UUxq5yWUQLY9s0sgD5ZA13zn5U9fRjCW2tSaqs5khSqiKJnhAM627Qo2uE1inMfkpzH43IeCJyxZXSeYqk9VxFdjhV3qLoFr1C+94e9PeaWp/SOXmWJI6Q4ZQwWbL1/l3LqbbR6tW49DR2stkEnjy8qO7C2yQpTg6SQY3MGHRoKFIm4Mdwp43Oox1ckkTmunkkMW2hTRy8bQIh1XKGchXCGRlHVqK1ZPzbm80JzHgtG1my8drCRqsqnjGsKWhTLe9Ja35pgcj5g9cTGu+aSyCDarQqnc68nqkkaDHidJ7CU1O0VDptBkHhGQqGi0om3722qVhWT03Pm+XSji2SAZJ+yKifbICjcDFYzs3B+5ZYMrX9BDoIDU2n6cLIG1UfV1tf8OJAYKeAhLEN7tA4pGCV2eGkpBIqDgSBG/1kBi3STDCf0VO7aAPwZJLbgLZDnoNwQcFGihmLWcpxMYxMVs0EJGOaeyC9h/WpWqXeaBDQs4w2GIe23CD5R5Enz4tZgcPYema3kdRPGlvy5Ld6Zsd+EhlTpt5AYpJqUSGl7Wfb87btl9kFZjFqfwMywrxSlAnFCGF68pjt8GI0PC8M20GExWhHVQc8x4HzLNJkB+se1sq56QxqWeJ5L0RmOCtB4PpZ5JC3M9Fkcx7tMMKiYEmJno5UZCrg4nZ/WF7o59t+D89rW09HjsfFfCozujK2hxNyDGhIFUSJa+S7fYsAOUay9IQKf5WkNQf1FmQ9PxWtlWtkL+JUWFbkOUHllENs0G7j8LyP6nrBKW53cWXDh0L2swG6+wr6VSx9aeQCX0juO8VEuMEvxQcOIqPsG+/xSCpXNdSaXmUnlZYzkSM5KZsf65542xNOe/2rgQl8YOKKGy/IztfOkRSTxfL9rIBl0WTx8OIs+aslO0iq4+PzqYjPCic3ei6ka+aO7HQ+VPXD5OLnExPHc904kvn1Dy9VVnz56ch+v39/lYQ66sYnfbZkn3Svsriikz/UAKTWWkqplQXB06Ifv+6d/rJHEB2s7u+fHws1GlXPE3X6nYpw2lA/G6dynhXuFPtw9BlZcyNHRxdnH7T/maz59jvlQ87JfwQYADEHIEiouojIAAAAAElFTkSuQmCC
+" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile</div>
+<div class="CsMainBody">
+<form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Post" onsubmit="return fnPreSubmit();">
+<input type="hidden" name="action" value="entry">
+<input type="hidden" name="resptype" value="U">
+<input type="hidden" name="Time" value="">
+<input type="hidden" name="destx" value="">
+<input type="hidden" name="desty" value="">
+<input type="hidden" name="destloc" value="">
+<input type="hidden" name="destacode" value="">
+<input type="hidden" name="destlocid" value="0">
+<input type="hidden" name="origx" value="">
+<input type="hidden" name="origy" value="">
+<input type="hidden" name="origloc" value="">
+<input type="hidden" name="origacode" value="">
+<input type="hidden" name="origlocid" value="0">
+<input type="hidden" name="Date">
+<input type="hidden" name="hour_time">
+<input type="hidden" name="minute_time">
+<input type="hidden" name="ampm_time">
+<input type="input" name="Orig" value="">
+<input type="input" name="Dest" value="">
+<input type="input" name="coords" value="coords">
+<a href="javascript:funtime()">click me</a>
+
+<input type="checkbox" style="display: none;" value="Y" name="Atr" />
+
+
+<div style="float: left;">start:</div><div class="CsRightLink">about</div><br />
+<select name="nmOriginationPull" onchange="fnLocSelect();">
+<script>
+fnFillLoc();
+</script>
+</select> <br />
+<strong>or</strong> enter a starting address: <br /><input name="nmOriginationCustomText" size="25" maxlength="80" /><br />
+
+end:<br />
+<select name="nmDestinationPull" onchange="fnLocSelect();">
+<script>
+fnFillLoc();
+</script>
+</select><br />
+<strong>or</strong> enter an ending address: <br /><input name="nmDestinationCustomText" size="25" maxlength="80" /><br />
+
+<select name="Arr">
+<option value="A" selected="selected">arrive</option>
+<option value="D">depart</option>
+</select><br />
+<select name="nmDayPull">
+<option value="t" selected="selected">today</option>
+<option value="m">tomorrow</option>
+<script>
+fnFillDay();
+</script>
+</select><select name="nmTimePull">
+<script>
+fnFillTime();
+</script>
+</select>
+<br /><input type="submit" name="Submit" value="plan trip" style="font-size:medium">
+
+<br /><br />
+
+<div id="idNoOpt" style="DISPLAY: block;"><div style="float: left;"><a href="javascript:fnShowAdditional();">additional options</a></div><div class="CsRightLink"><a href="preferences.html">preferences</a></div><br /><hr /></div>
+<div id="idAddtlOpt" style="DISPLAY: none;">
+<div style="float: left;"><a href="javascript:fnHideAdditional();">hide additional options</a></div><div class="CsRightLink"><a href="preferences.html">preferences</a></div><br /><hr />
+
+maximum walking: 
+<select name="Walk">
+<option value=".25"> 0.25 mi</option>
+<option value=".50" selected="selected"> 0.50 mi</option>
+<option value=".75"> 0.75 mi</option>
+<option value="1.0"> 1.00 mi</option>
+</select>
+
+<br />most important: <select name="Min">
+<option value="T" selected="selected">fastest way</option>
+<option value="X">fewest transfers</option>
+<option value="W">minimal walking</option>
+</select>
+
+<br />accessable trip: <select name="nmAccessablePull">
+<option value="N" selected="selected">no</option>
+<option value="Y">yes</option>
+</select>
+<script>
+fnDebugTrackSelect();
+</script>
+</div>
+
+</form>
+<div class="CsCopyrightFooter">copyright 2010 nicholas barnard</div>
+</div>
+<div id="idGenericModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
+<span id="idGenericModalText"></span>
+<br /><br /><input type="button" value="okay" class="CSModalButton" onClick="fnShowHide('idGenericModal');" />
+</div>
+</div>
+<div id="idProgressModal" class="CSModalPage" style="display: none;"><div class="CSModalPopup">
+<img src="data:image/gif;base64,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
+" /><br /><br / >
+<span id="idProgressModalText"></span>
+<br /><br /><input id="idProgressButton" type="button" value="cancel" class="CSModalButton" onClick="fnCancelLoc();"/>
+</div>
+</div>
+
+</body>
+</html>
+
+
+
+

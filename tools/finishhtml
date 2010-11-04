@@ -1,0 +1,8 @@
+#!/bin/sh
+
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/ |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/releasestage/index.html
+
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/preferences.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/releasestage/pref.html
+
+/bin/chmod 644 /users/nickb/corp-web/mmdev/releasestage/index.html
+/bin/chmod 644 /users/nickb/corp-web/mmdev/releasestage/pref.html

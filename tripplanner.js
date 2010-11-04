@@ -186,6 +186,13 @@ function fnFillLoc() {
 }
 
 function fnFillDay() {
+Number.prototype.ordinal = function () {
+   return this + ((this % 10 == 1 && this % 100 != 11) ? 'st' : (this % 10 == 2 && this % 100 != 12) ? 'nd' : (this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th');
+}
+
+
+// root of the main function
+
    var myDate = new Date();
    var day;
    var month;
@@ -418,11 +425,6 @@ gvTimeoutID=-1;
 fnShowHide('idProgressModal');
 }
 
-
-Number.prototype.ordinal = function () {
-   return this + ((this % 10 == 1 && this % 100 != 11) ? 'st' : (this % 10 == 2 && this % 100 != 12) ? 'nd' : (this % 10 == 3 && this % 100 != 13) ? 'rd' : 'th');
-}
-
 function fnProgressModal(modalmessage) {   
 document.getElementById('idProgressModalText').innerHTML = modalmessage;
 document.getElementById('idProgressModal').style.display = 'block';
@@ -508,9 +510,4 @@ function Querystring(qs) { // optionally pass a querystring to parse
 Querystring.prototype.get = function(key, default_) {
 	var value = this.params[key];
 	return (value != null) ? value : default_;
-}
-
-Querystring.prototype.contains = function(key) {
-	var value = this.params[key];
-	return (value != null);
 }

@@ -191,13 +191,13 @@ function fnDeleteLoc() {
 
    //different modals if we deleted the last item, and properly handle deleting the last item
    if (gvLocName.length == 0) {
-       // create cookies with just the dilemeters                                                         
+       // create cookies with just the dilemeters 
        fnCreateCookie('CkLocAddresses', '`');
        fnCreateCookie('CkLocName', '`');
 
-       fnLoadBackPrefModal('location "' +  deleteditem + '" deleted','delete another',function(){fnLoadDelete();fnShowHide('idGenericModal');});
+       fnLoadBackPrefModal('last location "' +  deleteditem + '" deleted');
    } else {
-       fnLoadBackPrefModal('location "' +  deleteditem + '" deleted','delete another',function(){LoadDelete();fnShowHide('idGenericModal');});
+       fnLoadBackPrefModal('location "' +  deleteditem + '" deleted','delete another',function(){fnLoadDelete();fnShowHide('idGenericModal');});
    }
 
 }
@@ -344,8 +344,7 @@ function fnAddStockLoc(){
 
 
     fnSaveCookieArray();
-    fnLoadModal('starter locations added');
-
+   fnLoadBackPrefModal('starter locations added','add another location',function(){document.nmAddForm.nmLocAddress.value='';document.nmAddForm.nmLocName.value='';fnShowHide('idGenericModal');});
 }
 
 function fnDeleteStockLoc(){
@@ -381,9 +380,16 @@ function fnDeleteStockLoc(){
 	    }
         }
     fnSaveCookieArray();
-    fnLoadModal('starter locations deleted');
-    // reload the delete page so we get the right items in the pulldown
-    fnLoadDelete();
+
+    if (gvLocName.length == 0) {
+	// create cookies with just the dilemeters
+	fnCreateCookie('CkLocAddresses', '`');
+	fnCreateCookie('CkLocName', '`');
+	fnLoadBackPrefModal('starter locations, including last location deleted');
+   } else {
+       fnLoadBackPrefModal('starter locations deleted','delete another',function(){fnLoadDelete();fnShowHide('idGenericModal');});
+    }
+
 }
 
 function fnRandomHash(){

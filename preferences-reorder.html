@@ -3,12 +3,12 @@
 metro mobile: reorder locations</div>
 <div style="margin: 0;">
 <div class="CsRightLink"><input type="button" value="cancel" onclick="fnUnloadReorder();fnSwitchPage('idPrefMenu');"></div>
-<input type="button" value="save locations" onclick="fnUnloadReorder();fnSaveCookieArray();fnSwitchPage('idPrefMenu');" />
+<input type="button" value="save locations order" onclick="fnCustomModal('location order saved','back to preferences',function(){fnUnloadReorder();fnSaveCookieArray();fnShowHide('idGenericModal');fnSwitchPage('idPrefMenu');});" />
 <table id="idReorderList" style="width:100%;border-collapse:collapse;"></table>
 
 
 <br />
-<div class="CsCopyrightFooter">copyright 2010 nicholas barnard</div>
+<div class="CsCopyrightFooter"><a href="cr.html">copyright 2010</a> nicholas barnard</div>
 
 </div>
 </div>

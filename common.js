@@ -119,8 +119,8 @@ function fnShowHide(divId) {
    }
 }
 
-function fnEvalWrapper(code) {
-    return eval(code);
+function fnEvalWrapper(c) {
+    return eval(c);
 }
 
 function fnEmptyCookieArray(){

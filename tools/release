@@ -28,4 +28,4 @@ tools/finishhtml
 /bin/chmod 644 releasestage/favicon.ico
 
 # copy digital forest .htaccess
-/bip/cp digitalforest.htaccess releasestage
+/bin/cp digitalforest.htaccess releasestage

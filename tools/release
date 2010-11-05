@@ -15,7 +15,7 @@ tools/prephtml *.html
 # Move over the images as txt files
 /bin/cp loadimg-data.txt compressed
 /bin/cp logo-data.txt compressed
-/bin/chmod 744 compressed/loadimg-data.txt
+/bin/chmod 644 compressed/loadimg-data.txt
 /bin/chmod 644 compressed/logo-data.txt
 
 # finish the HTML files (retrieve to take care of the SSIs and compress
@@ -27,3 +27,5 @@ tools/finishhtml
 /bin/cp favicon.ico releasestage
 /bin/chmod 644 releasestage/favicon.ico
 
+# copy digital forest .htaccess
+/bip/cp digitalforest.htaccess releasestage

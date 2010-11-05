@@ -90,7 +90,6 @@ function fnPreSubmit() {
    //submit the form
    return true;
 }
-//the page loading functions
 
 function fnUpdatePage() {
     var now;

@@ -21,6 +21,9 @@ function fnLoadCookieArray() {
    }
 }
 
+
+/* Cookie functions adapted from http://www.quirksmode.org/js/cookies.html */
+
 function fnCreateCookie(name, value) {
     document.cookie = name + "=" + value + "; expires=Wed, 10 Nov 9999 21:47:44 UTC; path=/";
 }

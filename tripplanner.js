@@ -83,7 +83,7 @@ function fnPreSubmit() {
    document.FormName.Orig.value = OrigFinal;
    document.FormName.Dest.value = DestFinal;
    // If one of the locations is current location, fire off to find the stop.
-   if ((OrigFinal == 'curloc') || (DestFinal == 'curloc')) {
+   if ((OrigFinal == 'idCurrentLocation') || (DestFinal == 'idCurrentLocation')) {
       fnFindLoc();
       return false;
    }
@@ -169,11 +169,11 @@ function fnFillLoc() {
    
    document.write('<option value="blank"></option>');
    if (navigator.geolocation) {
-      document.write('<option value="curloc">Current Location</option>');
+      document.write('<option value="idCurrentLocation">Current Location</option>');
    }
    // pull the cookies out, if its returning the stock list use customize locations
    if(!fnLoadCookieArray()){
-   document.write('<option value="customloc">Customize Locations...</option>');
+   document.write('<option value="idCustomLocation">Customize Locations...</option>');
    }
    len = gvLocName.length;
 
@@ -200,7 +200,7 @@ Number.prototype.ordinal = function () {
    var i;
    var listlen;
    var daynames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-   var monthnames = ['jan', 'feb', 'mar', 'apr', 'nay', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+   var monthnames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
    listlen = fnReadCookie('CkDaystoDisplay');
    if (listlen == null) {
       listlen = 5;
@@ -317,8 +317,8 @@ function fnCallOBA(radius,bestlat,bestlon) {
       script = document.createElement('script');
       script.setAttribute('type', 'text/javascript');
       script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon + '&radius' + radius);
-      script.setAttribute('id', 'script_id');
-      script_id = document.getElementById('script_id');
+      script.setAttribute('id', 'idOBAScript');
+      script_id = document.getElementById('idOBAScript');
       if (script_id) {
          document.getElementsByTagName('head')[0].removeChild(script_id);
       }
@@ -349,6 +349,7 @@ function fnGotStop(locdata) {
    var script_id;
    var qs;
    var radius;
+   var baycheck;
 
    // check to see if user pressed cancel or we bailed out in some other way
    if (gvTimeoutID == -1) {
@@ -359,7 +360,7 @@ function fnGotStop(locdata) {
 
    //we're wrapping eval in its own function so this function will be compressed
    stoploc = fnEvalWrapper(locdata);
-   script_id = document.getElementById('script_id');
+   script_id = document.getElementById('idOBAScript');
    qs = new Querystring(script_id.src);
 
    lat=qs.get('lat');
@@ -407,7 +408,7 @@ function fnGotStop(locdata) {
     fnRecordDebugInfo('SM' + bestlocname);
 
    // set best location and submit
-   if(document.FormName.Orig.value == 'curloc'){
+   if(document.FormName.Orig.value == 'idCurrentLocation'){
       document.FormName.Orig.value = bestlocname;
    } else {
       document.FormName.Dest.value = bestlocname;
@@ -448,7 +449,7 @@ function fnFormatInteger(num, length) {
 
 function fnLocSelect() {
     var button;
-   if ((document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'customloc') || (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'customloc')) {
+   if ((document.FormName.nmOriginationPull.options[document.FormName.nmOriginationPull.selectedIndex].value == 'idCustomLocation') || (document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value == 'idCustomLocation')) {
        button= document.getElementById('idProgressButton');
        button.onclick=function(){document.getElementById('idProgressModalText').innerHTML = 'cancelling';location.href = '/mm/';};
        fnProgressModal('loading customize locations');

@@ -84,8 +84,8 @@ s/idNoOpt/ij/g
 s/idPrefMenu/ie/g
 s/idPrefSuccessModal/iI/g
 s/idProgressButton/in/g
-s/idProgressModal/il/g
 s/idProgressModalText/im/g
+s/idProgressModal/il/g
 s/idReorderRowItemLabel/ip/g
 s/idReorderRow/io/g
 s/idTripDefaults/ik/g
@@ -112,3 +112,10 @@ s/nmPrefsForm/nP/g
 s/nmTimePull/nz/g
 s/preferences.html/pref.html/g
 sfindex.htmlf/fg
+s/idGenericBtnOne/iq/g
+s/idGenericBtnTwo/ir/g
+s/idLogo/is/g
+s/idReorderMain/it/g
+s/idOBAScript/iu/g
+s/idCurrentLocation/iv/g
+s/idCustomLocation/iw/g

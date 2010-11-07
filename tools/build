@@ -3,7 +3,7 @@
 cd /users/nickb/corp-web/mmdev
 
 #clean up the directories for our future use.
-/bin/rm releasestage/*
+/bin/rm built/*
 /bin/rm compressed/*
 
 # Compress the JS/CSS/HTML
@@ -22,10 +22,13 @@ tools/prephtml *.html
 tools/finishhtml
 
 # copy the logos over
-/bin/cp apple-touch-icon.png releasestage
-/bin/chmod 644 releasestage/apple-touch-icon.png
-/bin/cp favicon.ico releasestage
-/bin/chmod 644 releasestage/favicon.ico
+/bin/cp apple-touch-icon.png built
+/bin/chmod 644 built/apple-touch-icon.png
+/bin/cp favicon.ico built
+/bin/chmod 644 built/favicon.ico
 
 # copy digital forest .htaccess
-/bin/cp digitalforest.htaccess releasestage
+/bin/cp digitalforest.htaccess built
+
+# copy the robots.txt file
+/bin/cp robots.txt built

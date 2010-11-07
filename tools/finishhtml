@@ -1,14 +1,14 @@
 #!/bin/sh
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/ |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/releasestage/index.html
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/ |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/index.html
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/preferences.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/releasestage/pref.html
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/preferences.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/pref.html
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/cr.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/releasestage/cr.html
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/cr.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/cr.html
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/artisticlicense.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/releasestage/artisticlicense.html 
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/artisticlicense.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/artisticlicense.html 
 
-/bin/chmod 644 /users/nickb/corp-web/mmdev/releasestage/index.html
-/bin/chmod 644 /users/nickb/corp-web/mmdev/releasestage/pref.html
-/bin/chmod 644 /users/nickb/corp-web/mmdev/releasestage/artisticlicense.html 
-/bin/chmod 644 /users/nickb/corp-web/mmdev/releasestage/cr.html
+/bin/chmod 644 /users/nickb/corp-web/mmdev/built/index.html
+/bin/chmod 644 /users/nickb/corp-web/mmdev/built/pref.html
+/bin/chmod 644 /users/nickb/corp-web/mmdev/built/artisticlicense.html 
+/bin/chmod 644 /users/nickb/corp-web/mmdev/built/cr.html

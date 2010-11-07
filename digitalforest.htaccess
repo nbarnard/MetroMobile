@@ -1,4 +1,5 @@
 ErrorDocument 404 /index.html
+AddCharset UTF-8 .html
 
 <Files *.html>
 SetOutputFilter DEFLATE

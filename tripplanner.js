@@ -133,7 +133,7 @@ function fnUpdatePage() {
    fnSetSelect('FormName.Walk', fnReadCookie('CkMaximumWalking'));
    fnSetSelect('FormName.Min', fnReadCookie('CkMostImportant'));
    fnSetSelect('FormName.nmAccessablePull', fnReadCookie('CkAccessability'));
-   setTimeout("window.scroll(0,1)", 5);
+   setTimeout('window.scroll(0,1)', 5);
    return true;
 }
 
@@ -433,13 +433,13 @@ document.getElementById('idProgressModal').style.display = 'block';
 function fnShowAdditional() {
    fnShowHide('idAddtlOpt');
    fnShowHide('idNoOpt');
-   setTimeout("window.scroll(0,150)", 5);
+   setTimeout('window.scroll(0,150)', 5);
 }
 
 function fnHideAdditional() {
    fnShowHide('idAddtlOpt');
    fnShowHide('idNoOpt');
-   setTimeout("window.scroll(0,150)", 5);
+   setTimeout('window.scroll(0,150)', 5);
 }
 
 //for formating integers with leading zeros

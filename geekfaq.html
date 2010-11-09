@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>metro mobile: geek faq</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<style type="text/css"><!--#include virtual="common.css" --></style>
+</head><body onload="setTimeout("window.scroll(0,1)", 5);">
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile: geek faq</div>
+<div class="CsMainBody">
+<div class="CsRightLink"><a href="index.html">main</a></div>
+<h4>What have you done to make metro mobile load fast?</h4>
+Most importantly metro mobile is presented to the browser is composed as a single HTML file with inline images (as data URIs), JavaScript, and CSS.  For development purposes the images, JavaScript, and CSS are separated into multiple files and are compiled into one file via server side includes.  I have done this because mobile networks have high latencies, and by presenting one single file the mobile browser can display the file with one single HTTP request, eliminating any additional HTTP roundtrip requests.
+
+<h4>What about compression of the files?</h4>
+I use several different types of compression.  The CSS and Javascript are compressed by <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>.  The HTML file is compressed by <a href="http://code.google.com/p/htmlcompressor/">htmlcompressor</a>.  The graphics are compressed by <a href="http://www.punypng.com/">PunyPNG</a>.  Finally, I have used a custom script to take all global HTML, CSS, and JavaScript objects and reduce them to a two character codes.  After this is all said and done this reduces the main metro mobile page by 40% from 29.5k to 17.5k.  Additionally, if the web browser supports HTTP gzip compression the transmitted file size will be reduced to 8k resulting in a net 72% compression ratio.
+
+<h4>Doesn't inlining all the images, JavaScript, and CSS prevent the browser from downloading resources in parallel?  As a result doesn't this mean the page takes longer to load?</h4>
+Yes, inlining the resources does mean that the browser doesn't download any resources in parallel.  However, mobile networks tend to be high latency, higher bandwidth internet connections.  Round trip ping times of 200 or 300 ms are common, and 600 ms latencies are not unheard of. If you assume two additional round trips to download resources, by inlining the images, it reduces the total time to load a page on a network with 600 ms latencies from almost two seconds, to below one second. Additionally the file size increase from BASE64 encoding which is required to inline the images is mitigated by gzip compression.  The net difference of the gzipped images versus the BASE64 encoded gzipped images is 17 bytes, or less than 1% of the file size of the images.  Finally, by inlining the CSS and JavaScript the gzip compression is greater than if the files were served separately.
+
+<h4>How does metro mobile determine the nearest stop?</h4>
+It obtains the nearest location using the <a href="http://dev.w3.org/geo/api/spec-source.html">HTML5 Geolocation API</a>, then uses this to obtain a list of the nearest stops via <a href="http://code.google.com/p/onebusaway/wiki/OneBusAwayRestApi">OneBusAwayAPI</a>.
+
+<h4>What development environment have you used?</h4>
+I have utilized GNU Emacs 22.3.1, and Safari 5.0's Web Inspector.  I've not used the <a href="http://xkcd.com/378/">C-x M-c M-butterfly command</a>, but I intend to utilize this in the version 42.42 of metro mobile.
+
+<h4>Where do I find the uncompressed version of metro mobile?</h4>
+The uncompressed version is provided at <a href="http://www.inmff.net/mm/">http://www.inmff.net/mm/</a>, additionally a version before the files have been combined via server side includes is available at <a href="http://www.inmff.net/mm/nossi">http://www.inmff.net/mm/nossi</a>.
+
+<h4>What is on the roadmap for metro mobile?</h4>
+I've got more ideas up my sleeves, but I can't tell you everything!
+
+<h4>I've got more questions!</h4>
+Send them along on the <a href="contact.html">contact</a> page.
+
+<div class="CsRightLink"><a href="index.html">main</a></div><br />
+<hr /><div class="CsCopyrightFooter"><a href="cr.html">copyright 2010</a> nicholas barnard</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+<!--  LocalWords:  DOCTYPE
+ -->

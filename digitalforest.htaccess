@@ -5,3 +5,6 @@ AddCharset UTF-8 .html
 SetOutputFilter DEFLATE
 </Files>
 
+<Files *.ico>
+SetOutputFilter DEFLATE
+</Files>

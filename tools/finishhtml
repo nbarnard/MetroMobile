@@ -14,8 +14,6 @@
 
 /usr/local/bin/curl http://www.inmff.net/mmdev/compressed/geekfaq.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/geekfaq.html
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/starter.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/starter.html
-
 /usr/local/bin/curl http://www.inmff.net/mmdev/compressed/thankyou.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/thankyou.html
 
 /usr/local/bin/curl http://www.inmff.net/mmdev/compressed/contact.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/contact.html

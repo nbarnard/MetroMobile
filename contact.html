@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>metro mobile: contact</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<style type="text/css"><!--#include virtual="common.css" --></styl<script><!--#include virtual="common.js" -->
+function checkreturn() {
+   if (document.Contact.email.value.indexOf('@') == -1) {
+      fnLoadModal('please enter an email address');
+      return false;
+   } 
+   return true;   
+}
+
+</script>
+</head><body onload="setTimeout("window.scroll(0,1)", 5);">
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile: contact</div>
+<div class="CsMainBody">
+<br />
+<form method="post" action="/cgi-bin/FormMail.pl" name="Contact" onsubmit="return checkreturn();">
+<label for="name">Your Name:</label> <input id="name" name="realname" /><br /> 
+<label for="email">Your E-Mail Address:</label> <input id="email" name="email" /><br />
+<label for="subject">Subject:</label> <input id="subject" name="subject" /><br />
+<input name="recipient" value="mmwebform@nickb.users.panix.com" type="hidden" />
+<input name="redirect" value="/mailrecv.html" type="hidden" />
+<input name="required" value="email" type="hidden" />
+<input name="env_report" value="REMOTE_HOST,HTTP_USER_AGENT,REMOTE_ADDR" type="hidden" />
+<input name="missing_fields_redirect" value="/mailmissing.html" type="hidden" />
+<label for="text">Text:</label><br />
+<textarea id="text" name="content" rows="10" cols="60"></textarea> <br />
+<input type="submit" value="Send Message" /> <input type="reset" value="Clear form" />
+</form>
+<hr /><div class="CsCopyrightFooter"><a href="cr.html">copyright 2010</a> nicholas barnard</div>
+</div>
+<!--#include virtual="genericmodal.html" -->
+</body>
+</html>
+
+
+
+

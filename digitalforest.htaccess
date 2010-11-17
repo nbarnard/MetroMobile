@@ -1,6 +1,9 @@
 ErrorDocument 404 /index.html
 AddCharset UTF-8 .html
 
+ExpiresActive On
+ExpiresDefault "access plus 1 days"
+
 <Files *.html>
 SetOutputFilter DEFLATE
 </Files>

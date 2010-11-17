@@ -405,7 +405,7 @@ function fnGotStop(locdata) {
 
     }
     // record what the best location name as submitted was
-    fnRecordDebugInfo('SM' + bestlocname);
+    fnRecordDebugInfo('L' + bestlocname);
 
    // set best location and submit
    if(document.FormName.Orig.value == 'idCurrentLocation'){

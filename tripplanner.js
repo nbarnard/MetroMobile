@@ -370,6 +370,7 @@ function fnGotStop(locdata) {
    bestlocdiff = 200;
 
    if (stoploc.data.outOfRange) {
+      fnShowHide('idProgressModal');
       fnLoadModal('location is outside of trip planner\'s range '); 
       fnRecordDebugInfo('7');
    return false;

@@ -239,8 +239,6 @@ function fnLoadReorder() {
       link.href = 'javascript:fnMoveItem(' + item + ',' + dir + ');';
       img = document.createElement("img");
       img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAEZ0FNQQAAsY58+1GTAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAKRJREFUeNpjYKAAMALxcSC2IEPvaSYgkQ7Ev8jQ3ADSfAmIN5OocQcQb2OCclKA+B2RGj8AcQaIwYQk0Eek5oVA/BBZMwi0AvF9AhpfAHEFjMOEJlkOxH/xaAZp/IFL82og3odD43GokxlwaQaBTBy2l6MLYNN8F4iXooktB+LDxGgGgWwgfg1lfwTiPGyKcGn+AsRNUPZsIH5DTtrfBcQcDLQAAAfKIBbPBlLWAAAAAElFTkSuQmCC';
-      img.height = 15;
-      img.width = 15;
       img.border = 0;
       if (dir == -1) {
          img.className = 'CSFlippedImg';

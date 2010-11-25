@@ -7,9 +7,9 @@
 <script><!--#include virtual="tripplanner.js" -->
 <!--#include virtual="common.js" --></script>
 </head><body onLoad="fnUpdatePage();">
-<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile</div>
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile</div>
 <div class="CsMainBody">
-<form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Post" onsubmit="return fnPreSubmit();">
+<form name="FormName" action="http://tripplanner.kingcounty.gov/cgi-bin/itin.pl" method="Get" onsubmit="return fnPreSubmit();">
 <input type="hidden" name="action" value="entry">
 <input type="hidden" name="resptype" value="U">
 <input type="hidden" name="Time" value="">
@@ -49,8 +49,8 @@ fnFillLoc();
 <strong>or</strong> enter an ending address: <br /><input name="nmDestinationCustomText" size="25" maxlength="80" /><br />
 
 <select name="Arr">
-<option value="A" selected="selected">arrive</option>
-<option value="D">depart</option>
+<option value="A">arrive</option>
+<option value="D" selected="selected">depart</option>
 </select><br />
 <select name="nmDayPull">
 <option value="t" selected="selected">today</option>

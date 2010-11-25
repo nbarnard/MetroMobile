@@ -14,12 +14,12 @@ function checkreturn() {
 
 </script>
 </head><body onload="setTimeout("window.scroll(0,1)", 5);">
-<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" height="57" width="57" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile: contact</div>
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile: contact</div>
 <div class="CsMainBody">
 <br />
 <form method="post" action="/cgi-bin/FormMail.pl" name="Contact" onsubmit="return checkreturn();">
-<label for="name">Your Name:</label> <input id="name" name="realname" /><br /> 
-<label for="email">Your E-Mail Address:</label> <input id="email" name="email" /><br />
+<label for="name">Name:</label> <input id="name" name="realname" /><br /> 
+<label for="email">E-Mail Address:</label> <input id="email" name="email" /><br />
 <label for="subject">Subject:</label> <input id="subject" name="subject" /><br />
 <input name="recipient" value="mmwebform@nickb.users.panix.com" type="hidden" />
 <input name="redirect" value="/mailrecv.html" type="hidden" />

@@ -18,7 +18,7 @@ tools/prephtml *.html
 /bin/chmod 644 compressed/loadimg-data.txt
 /bin/chmod 644 compressed/logo-data.txt
 
-# finish the HTML files (retrieve to take care of the SSIs and compress
+# finish the HTML files (retrieve to take care of the SSIs and compress)
 tools/finishhtml
 
 # copy the logos over

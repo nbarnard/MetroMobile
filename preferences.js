@@ -77,7 +77,7 @@ function fnLoadTripDefaults() {
 
 function fnDebugTrackSelect(){
     if (navigator.geolocation) {
-        document.write('<br />save location debug info:<br /><select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="no">no</option></select>');
+        document.write('<br />save location debug info:<br /><select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="selected">no</option></select>');
         fnSetSelect('nmPrefsForm.nmDebugTrackPull', fnReadCookie('CkDebugTrackPull'));
     }
 }

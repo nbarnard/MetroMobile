@@ -22,4 +22,9 @@
 
 /usr/local/bin/curl http://www.inmff.net/mmdev/compressed/mailrecv.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/mailrecv.html
 
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/locerror.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/locerror.html
+
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/locerrorrecev.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/locerrorrecev.html
+
+
 /bin/chmod 644 /users/nickb/corp-web/mmdev/built/*.html

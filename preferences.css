@@ -13,6 +13,9 @@ font-size:x-large;
 tr {
 font-size:x-large;
 height:60px;
+border-bottom:1px solid #000000;
+border-top:1px solid #000000;
+
 }
 
 td {

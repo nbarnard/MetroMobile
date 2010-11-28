@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>metro mobile: location error report</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<style type="text/css">
+<!--#include virtual="preferences.css" -->
+<!--#include virtual="common.css" -->
+.CSMidEntryHR{
+border:1px solid #000000;
+width:85%;
+height:0px;
+padding:0;
+}
+</style>
+<script>
+<!--#include virtual="common.js" -->
+<!--#include virtual="locerror.js" -->
+</script>
+</head>
+<body onload="setTimeout('window.scroll(0,1)', 5);debugdump();">
+<div id="idLocAttemptMain" class="CSPrefMain">
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile: location report</div>
+<div class="CsMainBody">
+<div class="CsRightLink"><a href="index.html">main</a></div>
+<br />
+Please select the location request for which you would like to submit a location error report.
+<br /><br />
+</div>
+<div style="margin: 0;">
+<table id="idLocAttempt" style="width:100%;border-collapse:collapse;"></table>
+</div>
+<div class="CsRightLink"><a href="index.html">main</a></div><br /><hr />
+<div class="CsCopyrightFooter"><a href="cr.html">copyright 2010</a> nicholas barnard</div><br /><br/>
+</div>
+<div id="idLocAttemptReport" class="CSPrefMain">
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0px;" />metro mobile: location report</div>
+<div class="CsMainBody">
+<br />
+<form method="post" action="http://metromobile.info/cgi-bin/FormMail.pl" name="idLocAttemptReportForm">
+<input name="recipient" value="mmwebform@nickb.users.panix.com" type="hidden" />
+<input name="redirect" value="/locerrorrecev.html" type="hidden" />
+<input name="debugdata" type="hidden" />
+<input name="env_report" value="REMOTE_HOST,HTTP_USER_AGENT,REMOTE_ADDR" type="hidden" />
+If you would like to receive a response to your report please provide the following information:
+<br/>
+<label for="name">Name:</label> <input id="name" name="realname" /><br /> 
+<label for="email">E-Mail Address:</label> <input id="email" name="email" /><br />
+<input name="subject" value="Location Error Report" type="hidden"><br />
+Please assist in providing the following information:<br />
+expected location: <input name="expectedloc" /><br />
+device type: <select name="devicetype">
+<option value="phone">phone</option>
+<option value="computer">computer</option>
+<option value="tablet">tablet</option>
+<option value="other">other</option>
+</select><br />
+device manufacturer: <input name="devicemanuf" /><br />
+
+<label for="text">additional problem report information:</label><br />
+<textarea id="text" name="content" rows="8" cols="60"></textarea> <br />
+<input type="submit" value="send location error report" />
+</form>
+<hr /><div class="CsCopyrightFooter"><a href="cr.html">copyright 2010</a> nicholas barnard</div>
+</div>
+</div>
+<div id="idLocAttemptFail" class="CSPrefMain">
+<div class="CsMainHeader"><img alt="Bus Logo" src="<!--#include virtual="logo-data.txt" -->" style="margin-bottom: -20px; padding-bottom: 0px;border-bottom:0
+px;" />metro mobile: location report</div>
+<div class="CsMainBody">
+<div class="CsRightLink"><a href="index.html">main</a></div>
+<br />
+There are no location requests saved for debugging.  If you would like to begin saving debugging information please turn on save location debug info below.
+
+<form name="nmPrefsForm">
+<select name="nmDebugTrackPull"><option value="Y">yes</option><option value="N" selected="selected">no</option></select>
+<br /><br />
+<input type="button" onclick="fnCreateCookie('CkDebugTrackPull', document.nmPrefsForm.nmDebugTrackPull.value);fnCustomModal('trip default saved','okay',function(){fnShowHide('idGenericModal');},'back to main',function(){location.href='index.html';});" value="save trip default"></form>
+
+<div class="CsRightLink"><a href="index.html">main</a></div>
+<br />
+<hr /><div class="CsCopyrightFooter"><a href="cr.html">copyright 2010</a> nicholas barnard</div>
+
+</div>
+</div>
+<!--#include virtual="genericmodal.html" -->
+</body>
+</html>
+
+

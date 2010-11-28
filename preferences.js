@@ -85,7 +85,7 @@ function fnDebugTrackSelect(){
 function fnLoadLogo(loadpage){
   var image;
    image=document.getElementById(gvCurrentlyLoaded+'idLogo')
-       image.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAMAAAC7xnO3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMBQTFRF/50A/////yoTkl4C1NDOeEkH/6QAHh8gjJCXD2tkbG9zsa2r/6sAE29nIUhIR01S14oAISMk6efnFx0jqCciHCEkUWBsdXuDIyUn/7IAHCYsBmVdV15SERccwsjMZDsU8vLzgYiSNDI0CxEY4+TmIywy+PT0Ix8g2t3i7e3uP0FFtsLMlEZAtHAAMCAU9fHvHiArnaKm3NjWH2Fd+vn59/f4IiIiGFdQg4GCIT9ANyQnJyotraejmZSVp56Zwbm43gklfwAABDFJREFUeNqslg97ojgQxou6xD9YSdNozJp2K7oou7bUKusVvf3+3+pmJgQRvdV7nnsFHgz8eCfJZODu7n+T/59v9+ng43ZsveExge/7uLujf3bu+xcd/bD55ZqeCzXDCuevXqPIWAkjig2UCi1gS+0uqc28OhTiCF8NEzLj8ANxUiYzbJAcN9g17Hg1U+a5JINVBNzN4iL0XbBfInZ2mRfe5J/RwUmsgoIMmpdILhkoq+BObBX4NGW+3zQnJGNCMDWdJkkyzTkMiuSqgnIgiwwAT1G2S8Gmg+6h11o/vH1/W65bvUN38MkEwhZUAj3t2JbRchVPR79nXk2bRa+bC6UUxq5yWUQLY9s0sgD5ZA13zn5U9fRjCW2tSaqs5khSqiKJnhAM627Qo2uE1inMfkpzH43IeCJyxZXSeYqk9VxFdjhV3qLoFr1C+94e9PeaWp/SOXmWJI6Q4ZQwWbL1/l3LqbbR6tW49DR2stkEnjy8qO7C2yQpTg6SQY3MGHRoKFIm4Mdwp43Oox1ckkTmunkkMW2hTRy8bQIh1XKGchXCGRlHVqK1ZPzbm80JzHgtG1my8drCRqsqnjGsKWhTLe9Ja35pgcj5g9cTGu+aSyCDarQqnc68nqkkaDHidJ7CU1O0VDptBkHhGQqGi0om3722qVhWT03Pm+XSji2SAZJ+yKifbICjcDFYzs3B+5ZYMrX9BDoIDU2n6cLIG1UfV1tf8OJAYKeAhLEN7tA4pGCV2eGkpBIqDgSBG/1kBi3STDCf0VO7aAPwZJLbgLZDnoNwQcFGihmLWcpxMYxMVs0EJGOaeyC9h/WpWqXeaBDQs4w2GIe23CD5R5Enz4tZgcPYema3kdRPGlvy5Ld6Zsd+EhlTpt5AYpJqUSGl7Wfb87btl9kFZjFqfwMywrxSlAnFCGF68pjt8GI0PC8M20GExWhHVQc8x4HzLNJkB+se1sq56QxqWeJ5L0RmOCtB4PpZ5JC3M9Fkcx7tMMKiYEmJno5UZCrg4nZ/WF7o59t+D89rW09HjsfFfCozujK2hxNyDGhIFUSJa+S7fYsAOUay9IQKf5WkNQf1FmQ9PxWtlWtkL+JUWFbkOUHllENs0G7j8LyP6nrBKW53cWXDh0L2swG6+wr6VSx9aeQCX0juO8VEuMEvxQcOIqPsG+/xSCpXNdSaXmUnlZYzkSM5KZsf65542xNOe/2rgQl8YOKKGy/IztfOkRSTxfL9rIBl0WTx8OIs+aslO0iq4+PzqYjPCic3ei6ka+aO7HQ+VPXD5OLnExPHc904kvn1Dy9VVnz56ch+v39/lYQ66sYnfbZkn3Svsriikz/UAKTWWkqplQXB06Ifv+6d/rJHEB2s7u+fHws1GlXPE3X6nYpw2lA/G6dynhXuFPtw9BlZcyNHRxdnH7T/maz59jvlQ87JfwQYADEHIEiouojIAAAAAElFTkSuQmCC';
+       image.src='<!--#include virtual="logo-data.txt" -->';
    image.className='CSLogoImg';
 
 }
@@ -238,7 +238,7 @@ function fnLoadReorder() {
       link = document.createElement("a");
       link.href = 'javascript:fnMoveItem(' + item + ',' + dir + ');';
       img = document.createElement("img");
-      img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAEZ0FNQQAAsY58+1GTAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAKRJREFUeNpjYKAAMALxcSC2IEPvaSYgkQ7Ev8jQ3ADSfAmIN5OocQcQb2OCclKA+B2RGj8AcQaIwYQk0Eek5oVA/BBZMwi0AvF9AhpfAHEFjMOEJlkOxH/xaAZp/IFL82og3odD43GokxlwaQaBTBy2l6MLYNN8F4iXooktB+LDxGgGgWwgfg1lfwTiPGyKcGn+AsRNUPZsIH5DTtrfBcQcDLQAAAfKIBbPBlLWAAAAAElFTkSuQmCC';
+      img.src = '<!--#include virtual="uparrowimg-data.txt" -->';
       img.border = 0;
       if (dir == -1) {
          img.className = 'CSFlippedImg';

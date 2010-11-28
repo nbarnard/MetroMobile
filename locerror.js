@@ -41,7 +41,7 @@ function debugdump()
     cell = document.createElement("td");
 
     cell.style.background = rowcolor;
-    cell.style.backgroundImage = 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAEZ0FNQQAAsY58+1GTAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAALFJREFUeNqVyy0KAlEUhuHLKIPJ4A4sYhpwA4JbcA/jT7FqUJgd2DWZZgcTFIMYxJ/mCmwKIyiIwSC+4YDhhnPvBw8HDrxGdkAErxXkztBBA2u8feIEAeroIsTGPf6vhBZi3HDWY3tltNHEHnc9tldFHzUs8VFiawEi9CQ+4cvTaxVMkcEUPeMn5pj4xikGyGFc4x2G2EKmx1eMsIBMjx8SjPGCcY1XiHGBTI+PSJDBeT9SjCLJSs153wAAAABJRU5ErkJggg==)';
+    cell.style.backgroundImage = 'url(<!--#include virtual="rightarrowimg-data.txt" -->)';
     cell.style.backgroundPosition = 'right center';
     cell.style.backgroundRepeat = 'no-repeat';
 

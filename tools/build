@@ -18,8 +18,15 @@ tools/prephtml *.html
 /bin/chmod 644 compressed/loadimg-data.txt
 /bin/chmod 644 compressed/logo-data.txt
 
+
+
 # finish the HTML files (retrieve to take care of the SSIs and compress)
-tools/finishhtml
+tools/finishhtml tripplanner.html preferences.html cr.html artisticlicense.html abt.html contact.html geekfaq.html thankyou.html contact.html mailmissing.html mailrecv.html locerror.html locerrorrecev.html
+
+# rename the two files that need to be renamed.
+/bin/mv built/tripplanner.html built/index.html
+/bin/mv built/preferences.html built/pref.html
+
 
 # copy the logos over
 /bin/cp apple-touch-icon.png built

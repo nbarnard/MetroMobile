@@ -1,0 +1,17 @@
+#!/bin/sh
+
+cd /users/nickb/corp-web/mmdev
+
+#clean up the directories for our future use.
+/bin/rm ../mm/*.html ../mm/*.css ../mm/*.js ../mm/*.txt ../mm/*.png
+/bin/rm ../mm/nossi/*
+
+#copy the files over
+/bin/cp abt.js common.js locerror.js preferences.js tripplanner.js loadimg-data.txt logo-data.txt rightarrowimg-data.txt uparrowimg-data.txt common.css preferences.css apple-touch-icon.png abt.html genericmodal.html preferences-add.html preferences-tripdefaults.html artisticlicense.html locerror.html preferences-delete.html preferences.html contact.html locerrorrecev.html preferences-menu.html starter.html cr.html mailmissing.html preferences-modify.html thankyou.html geekfaq.html mailrecv.html preferences-reorder.html tripplanner.html ../mm
+
+/bin/cp abt.js common.js locerror.js preferences.js tripplanner.js loadimg-data.txt logo-data.txt rightarrowimg-data.txt uparrowimg-data.txt common.css preferences.css apple-touch-icon.png abt.html genericmodal.html preferences-add.html preferences-tripdefaults.html artisticlicense.html locerror.html preferences-delete.html preferences.html contact.html locerrorrecev.html preferences-menu.html starter.html cr.html mailmissing.html preferences-modify.html thankyou.html geekfaq.html mailrecv.html preferences-reorder.html tripplanner.html ../mm/nossi
+
+/bin/chmod 644  ../mm/abt.js ../mm/common.js ../mm/locerror.js ../mm/preferences.js ../mm/tripplanner.js ../mm/loadimg-data.txt ../mm/logo-data.txt ../mm/rightarrowimg-data.txt ../mm/uparrowimg-data.txt ../mm/common.css ../mm/preferences.css ../mm/apple-touch-icon.png ../mm/abt.html ../mm/genericmodal.html ../mm/preferences-add.html ../mm/preferences-tripdefaults.html ../mm/artisticlicense.html ../mm/locerror.html ../mm/preferences-delete.html ../mm/preferences.html ../mm/contact.html ../mm/locerrorrecev.html ../mm/preferences-menu.html ../mm/starter.html ../mm/cr.html ../mm/mailmissing.html ../mm/preferences-modify.html ../mm/thankyou.html ../mm/geekfaq.html ../mm/mailrecv.html ../mm/preferences-reorder.html ../mm/tripplanner.html
+
+/bin/chmod 644  ../mm/nossi/abt.js ../mm/nossi/common.js ../mm/nossi/locerror.js ../mm/nossi/preferences.js ../mm/nossi/tripplanner.js ../mm/nossi/loadimg-data.txt ../mm/nossi/logo-data.txt ../mm/nossi/rightarrowimg-data.txt ../mm/nossi/uparrowimg-data.txt ../mm/nossi/common.css ../mm/nossi/preferences.css ../mm/nossi/apple-touch-icon.png ../mm/nossi/abt.html ../mm/nossi/genericmodal.html ../mm/nossi/preferences-add.html ../mm/nossi/preferences-tripdefaults.html ../mm/nossi/artisticlicense.html ../mm/nossi/locerror.html ../mm/nossi/preferences-delete.html ../mm/nossi/preferences.html ../mm/nossi/contact.html ../mm/nossi/locerrorrecev.html ../mm/nossi/preferences-menu.html ../mm/nossi/starter.html ../mm/nossi/cr.html ../mm/nossi/mailmissing.html ../mm/nossi/preferences-modify.html ../mm/nossi/thankyou.html ../mm/nossi/geekfaq.html ../mm/nossi/mailrecv.html ../mm/nossi/preferences-reorder.html ../mm/nossi/tripplanner.html
+

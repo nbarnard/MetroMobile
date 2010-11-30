@@ -1,4 +1,4 @@
-function debugdump()
+function fnDebugLoad()
 {
   var debugloc = new Array();
   Number.prototype.ordinal = function ()
@@ -14,15 +14,14 @@ function debugdump()
     var img;
     var hr;
     var rowcolor;
-    var createClickHandler =
-
-    function (element)
+    var createClickHandler =function (element)
     {
       return function ()
       {
         document.idLocAttemptReportForm.debugdata.value = element;
         fnShowHide('idLocAttemptMain');
         document.getElementById('idLocAttemptReport').style.display = 'block';
+	setTimeout('window.scroll(0,1)', 5);
       };
     };
 
@@ -96,6 +95,7 @@ function debugdump()
   {
     fnSetSelect('nmPrefsForm.nmDebugTrackPull', fnReadCookie('CkDebugTrackPull'));
     document.getElementById('idLocAttemptFail').style.display = 'block';
+    setTimeout('window.scroll(0,1)', 5);
     return;
   }
 
@@ -166,4 +166,5 @@ function debugdump()
     addrow(recordtime, recordcontent, 'no stop found');
   }
   document.getElementById('idLocAttemptMain').style.display = 'block';
+  setTimeout('window.scroll(0,1)', 5);
 }

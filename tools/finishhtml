@@ -1,30 +1,17 @@
 #!/bin/sh
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/ |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/index.html
+#!/bin/sh
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/preferences.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/pref.html
+# Loop until all the args are processed
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/cr.html |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/cr.html
+while [ $# -ge 1 ]
+do
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/$1 |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/$1
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/artisticlicense.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/artisticlicense.html 
+/bin/chmod 644 /users/nickb/corp-web/mmdev/built/$1
 
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/abt.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/abt.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/contact.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/contact.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/geekfaq.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/geekfaq.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/thankyou.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/thankyou.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/contact.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/contact.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/mailmissing.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/mailmissing.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/mailrecv.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/mailrecv.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/locerror.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/locerror.html
-
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/locerrorrecev.html | /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/locerrorrecev.html
+# Shift the processed file off the arg list
+shift
+done
 
 
-/bin/chmod 644 /users/nickb/corp-web/mmdev/built/*.html

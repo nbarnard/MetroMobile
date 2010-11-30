@@ -122,5 +122,9 @@ s/idOBAScript/iu/g
 s/idCurrentLocation/iv/g
 s/idCustomLocation/iw/g
 s/idGoogleModal/ix/g
-
 s/fnNumbersOnly/fV/g
+s/idLocAttemptMain/iy/g
+s/idLocAttemptReport/iz/g
+s/idLocAttemptFail/iA/g
+s/idLocAttempt/iB/g
+s/fnDebugLoad/fW/g

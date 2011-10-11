@@ -96,40 +96,53 @@ function fnUpdatePage() {
     var hour;
     var minute;
     var hint;
-   var arrdep;
-   var dminute;
-   var dindex;
+    var arrdep;
+    var dminute;
+    var dindex;
 
    //figure out what time it is and set the time pull down correctly
    now = new Date();
    hour = now.getHours();
    minute = now.getMinutes();
    hint = 60 / gvMinuteInterval;
-
+  
+   // See if arrive/depart is selected.  If not read the cookie and set it.
+   if(document.FormName.arr.selectedIndex==0){
    arrdep = fnReadCookie('CkArrDept');
    if (arrdep == null) {
       arrdep = 'A';
    }
+   fnSetSelect('FormName.Arr', arrdep);
+   }
+
+
    if (arrdep == 'A') {
       dminute=Math.ceil(minute / gvMinuteInterval);
    } else {
       dminute=Math.floor(minute / gvMinuteInterval);
    }
 
+   // set the date if it isn't set to something else.
+   if(document.FormName.nmDayPull.selectedIndex==0){
    dindex=(hour * hint) + dminute;
 
-   //adjust if we're selecting the next day
+   //adjust if we're selecting the next day, otherwise set to today
    if(document.FormName.nmTimePull.length==dindex){
        // set date to tomorrow
-       document.FormName.nmDayPull.selectedIndex = 1;
+       document.FormName.nmDayPull.selectedIndex = 2;
        // set time to the first entry -- 12:00 midnight
        dindex=0;
+   } else {
+       document.FormName.nmDayPull.selectedIndex = 1;
+   }
    }
 
-      document.FormName.nmTimePull.selectedIndex = dindex;
+   // set the time if it isn't set to something else.
+   if(document.FormName.nmTimePull.selectedIndex==0){
+   document.FormName.nmTimePull.selectedIndex = dindex;
+   }
 
-   //set the preferences
-   fnSetSelect('FormName.Arr', fnReadCookie('CkArrDept'));
+   //set the other preferences
    fnSetSelect('FormName.Walk', fnReadCookie('CkMaximumWalking'));
    fnSetSelect('FormName.Min', fnReadCookie('CkMostImportant'));
    fnSetSelect('FormName.nmAccessablePull', fnReadCookie('CkAccessability'));
@@ -141,18 +154,22 @@ function fnFillTime() {
    //lets fill out the form with the times
    var m;
    var h;
-   var merid;
+   var merid; //meridianid
    var ampm = new Array();
    ampm[0] = "am";
    ampm[1] = "pm";
+   // get the user selected interval, else set it to 15 minutes
    if (fnReadCookie('CkMinuteInterval') == null) {
       gvMinuteInterval = 15;
    } else {
       gvMinuteInterval = Number(fnReadCookie('CkMinuteInterval'));
    }
+
+   // loop through the whole day to give us the minute points.
    for (merid = 0; merid < 2; merid = merid + 1) {
       for (h = 0; h < 12; h = h + 1) {
          for (m = 0; m < 60; m = m + gvMinuteInterval) {
+	     // correct 0 to 12, since most people don't tell time counting from zero
             if (h == 0) {
                document.write('<option value="12 ' + fnFormatInteger(m, 2) + ' ' + ampm[merid] + '">12:' + fnFormatInteger(m, 2) + ampm[merid] + '</option>');
             } else {

@@ -46,7 +46,11 @@ function fnReadCookie(name) {
  */
 
 function fnSetSelect(SelectName, Value) {
+    if (Value == null){
+	return;
+    }
    fnEvalWrapper('SelectObject = document.' + SelectName + ';');
+
    for (index = 0; index < SelectObject.length; index++) {
       if (SelectObject[index].value == Value) {
          SelectObject.selectedIndex = index;

@@ -107,7 +107,7 @@ function fnUpdatePage() {
    hint = 60 / gvMinuteInterval;
   
    // See if arrive/depart is selected.  If not read the cookie and set it.
-   if(document.FormName.arr.selectedIndex==0){
+   if(document.FormName.Arr.selectedIndex==0){
    arrdep = fnReadCookie('CkArrDept');
    if (arrdep == null) {
       arrdep = 'A';

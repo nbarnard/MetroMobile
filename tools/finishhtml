@@ -6,7 +6,7 @@
 
 while [ $# -ge 1 ]
 do
-/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/$1 |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-0.9.3.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/$1
+/usr/local/bin/curl http://www.inmff.net/mmdev/compressed/$1 |  /users/nickb/bin/javane -jar /users/nickb/bin/htmlcompressor-1.5.2.jar --remove-intertag-spaces --type html > /users/nickb/corp-web/mmdev/built/$1
 
 /bin/chmod 644 /users/nickb/corp-web/mmdev/built/$1
 

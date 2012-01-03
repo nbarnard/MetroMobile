@@ -267,8 +267,8 @@ function fnFindLoc() {
 	  bestlon = lon;
          bestacc = accuracy;
       }
-      // if we get the same accuracy three times in a row and we're at less than 200m, call it good and use it.
-      if ((dupaccx == 3) && (accuracy < 200)) {
+      // if we get the same accuracy two times in a row and we're at less than 200m, call it good and use it.
+      if ((dupaccx == 2) && (accuracy < 200)) {
          clearTimeout(gvTimeoutID);
          fnProgressModal('locating nearest stop');
          fnCallOBA(403,bestlat,bestlon);

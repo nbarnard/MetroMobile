@@ -21,7 +21,7 @@ tools/prephtml *.html
 
 
 # finish the HTML files (retrieve to take care of the SSIs and compress)
-tools/finishhtml tripplanner.html preferences.html cr.html artisticlicense.html faq.html contact.html geekfaq.html thankyou.html contact.html mailmissing.html mailrecv.html locerror.html locerrorrecev.html
+tools/finishhtml tripplanner.html preferences.html cr.html artisticlicense.html faq.html contact.html geekfaq.html thankyou.html contact.html mailmissing.html mailrecv.html locerror.html locerrorrecev.html 
 
 # rename the two files that need to be renamed.
 /bin/mv built/tripplanner.html built/index.html
@@ -39,3 +39,6 @@ tools/finishhtml tripplanner.html preferences.html cr.html artisticlicense.html 
 
 # copy the robots.txt file
 /bin/cp robots.txt built
+
+# copy the googlesite token
+/bin/cp googled5b163efe1ed8afb.html built

@@ -5,7 +5,7 @@
 while [ $# -ge 1 ]
 do
 
-/usr/bin/sed -f /users/nickb/corp-web/mmdev/tools/reduce.sed $1 | /users/nickb/bin/javane -jar /users/nickb/bin/yuicompressor-2.4.2.jar --type css > /users/nickb/corp-web/mmdev/compressed/$1
+/usr/bin/sed -f /users/nickb/corp-web/mmdev/tools/reduce.sed $1 | /users/nickb/bin/javane -jar /users/nickb/bin/yuicompressor-2.4.7.jar --type css > /users/nickb/corp-web/mmdev/compressed/$1
 
 /bin/chmod 644 /users/nickb/corp-web/mmdev/compressed/$1
 

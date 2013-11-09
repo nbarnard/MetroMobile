@@ -24,6 +24,7 @@ function fnPreSubmit() {
    DestCust = document.FormName.nmDestinationCustomText.value;
    DestSelected = document.FormName.nmDestinationPull.options[document.FormName.nmDestinationPull.selectedIndex].value;
    SelectedDate = document.FormName.nmDayPull.options[document.FormName.nmDayPull.selectedIndex].value;
+
    //convert the date to something proper for metro!
    myDate = new Date();
    switch (SelectedDate) {
@@ -239,6 +240,14 @@ function fnFindLoc() {
    var bestacc;
    var dupaccx;
 
+   gvTimeoutID = setTimeout(loctimeout, 30000);
+   bestacc = 100000;
+   dupaccx = 0;
+   fnProgressModal('finding location');
+   fnRecordDebugInfo('0');
+   navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
+
+
    function gotLoc(position) {
       var accuracy;
       var lat;
@@ -316,14 +325,6 @@ function fnFindLoc() {
       }
       fnRecordDebugInfo('3C'+errorid);
    }
-
-   // the root of the location finding function
-   gvTimeoutID = setTimeout(loctimeout, 30000);
-   bestacc = 100000;
-   dupaccx = 0;
-   fnProgressModal('finding location');
-   fnRecordDebugInfo('0');
-   navigator.geolocation.getCurrentPosition(gotLoc, handleError, {enableHighAccuracy: true});
 }
 
 function fnCallOBA(radius,bestlat,bestlon) {
@@ -333,7 +334,7 @@ function fnCallOBA(radius,bestlat,bestlon) {
       fnRecordDebugInfo('4A'+bestlat+'N'+bestlon+'D'+radius);
       script = document.createElement('script');
       script.setAttribute('type', 'text/javascript');
-      script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon + '&radius' + radius);
+      script.setAttribute('src', 'http://api.onebusaway.org/api/where/stops-for-location.json?key=ad884e87-542e-4def-af8c-240583690870&version=2&callback=fnGotStop&includeReferences=false&lat=' + bestlat + '&lon=' + bestlon + '&radius=' + radius);
       script.setAttribute('id', 'idOBAScript');
       script_id = document.getElementById('idOBAScript');
       if (script_id) {

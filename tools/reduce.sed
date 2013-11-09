@@ -113,7 +113,6 @@ s/nmTimePull/nv/g
 s/nmPayPal/nw/g
 s/nmGoogleCheckout/nx/g
 s/preferences.html/pref.html/g
-sfindex.htmlf/fg
 s/idGenericBtnOne/iq/g
 s/idGenericBtnTwo/ir/g
 s/idLogo/is/g
